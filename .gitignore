@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+
+# expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# native
+android/
+ios/
+*.apk
+*.aab
+*.orig.*
+
+# env / secrets
+.env
+.env.local
+*.pem
+*.keystore
+
+# misc
+npm-debug.*
+yarn-error.*
+.DS_Store
+*.log

@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "My OneApp",
+    "slug": "mpesa-clone",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "scheme": "mpesa",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff",
+      "dark": { "image": "./assets/splash-icon-dark.png", "backgroundColor": "#121212" }
+    },
+    "ios": { "supportsTablet": false, "bundleIdentifier": "com.example.oneapp" },
+    "android": {
+      "icon": "./assets/icon.png",
+      "package": "com.example.oneapp",
+      "edgeToEdgeEnabled": false,
+      "allowBackup": false,
+      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE", "USE_BIOMETRIC", "VIBRATE"]
+    },
+    "web": { "favicon": "./assets/favicon.png", "bundler": "metro" },
+    "plugins": ["expo-router", "expo-secure-store", "expo-local-authentication"],
+    "extra": {
+      "router": {},
+      "apiBase": "https://mpesa.highpesa.com"
+    }
+  }
+}
