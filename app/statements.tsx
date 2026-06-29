@@ -1,63 +1,127 @@
-import { View, Text, ScrollView, StyleSheet } from "react-native";
-import { ScreenScaffold } from "@/components/ScreenScaffold";
-import { usePalette } from "@/theme/colors";
-import { sampleTransactions, formatDateHeader, type Transaction } from "@/data/mock";
+import React from "react";
+import {
+  SectionList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { router } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { MaterialIcons } from "@expo/vector-icons";
+import { STATEMENTS, Transaction } from "../src/data/mock";
+import { formatBalance } from "../src/lib/format";
+import { Colors, Fonts } from "../src/theme/colors";
 
-function fmt(n: number) {
-  return "Ksh " + Math.abs(n).toLocaleString("en-KE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+function formatDate(iso: string): string {
+  try {
+    const d = new Date(iso);
+    return new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "long", year: "numeric" }).format(d);
+  } catch {
+    return iso;
+  }
 }
 
-export default function Statements() {
-  const p = usePalette();
-
-  // Group by date (preserving order)
-  const groups: { header: string; items: Transaction[] }[] = [];
-  const seen = new Map<string, Transaction[]>();
-  for (const t of sampleTransactions) {
-    if (!seen.has(t.date)) { seen.set(t.date, []); }
-    seen.get(t.date)!.push(t);
+export default function StatementsScreen() {
+  // Group transactions by date (preserving the original order).
+  const groups: { title: string; data: Transaction[] }[] = [];
+  for (const t of STATEMENTS) {
+    const title = formatDate(t.date);
+    const last = groups[groups.length - 1];
+    if (last && last.title === title) last.data.push(t);
+    else groups.push({ title, data: [t] });
   }
-  seen.forEach((items, date) => groups.push({ header: formatDateHeader(date), items }));
 
   return (
-    <ScreenScaffold title="Statements">
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {groups.map(({ header, items }) => (
-          <View key={header}>
-            <Text style={[styles.dateHeader, { color: p.textMuted, backgroundColor: p.surfaceAlt }]}>{header}</Text>
-            {items.map((t) => (
-              <View key={t.id} style={[styles.row, { borderBottomColor: p.border }]}>
+    <SafeAreaView style={styles.safe} edges={["top", "bottom"]}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => router.back()} activeOpacity={0.6}>
+          <MaterialIcons name="chevron-left" size={28} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>M-PESA Statements</Text>
+        <TouchableOpacity activeOpacity={0.6}>
+          <MaterialIcons name="more-vert" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
 
-                <View style={[styles.avatar, { backgroundColor: t.avatarColor }]}>
+      <TouchableOpacity style={styles.optionsRow} activeOpacity={0.7}>
+        <MaterialIcons name="tune" size={20} color={Colors.primary} />
+        <Text style={styles.optionsText}>Statement Options</Text>
+      </TouchableOpacity>
 
-                  <Text style={styles.avatarText}>{t.initials}</Text>
-                </View>
-
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.name, { color: p.textPrimary }]}>{t.name}</Text>
-                  <Text style={[styles.meta, { color: p.textMuted }]}>{t.time} · {t.phone}</Text>
-                </View>
-
-                <Text style={[styles.amount, { color: t.amount < 0 ? "#E53935" : p.brand.green }]}>
-
-                  {t.amount < 0 ? "-" : "+"}{fmt(t.amount).replace("Ksh ", "")}
+      <SectionList
+        sections={groups}
+        keyExtractor={(item) => String(item.id)}
+        stickySectionHeadersEnabled={false}
+        contentContainerStyle={{ paddingBottom: 24 }}
+        renderSectionHeader={({ section }) => <Text style={styles.dateHeader}>{section.title}</Text>}
+        renderItem={({ item }) => {
+          const positive = item.amount >= 0;
+          return (
+            <View style={styles.row}>
+              <View style={[styles.avatar, { backgroundColor: item.avatarColor }]}>
+                <Text style={styles.avatarText}>{item.initials}</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.sub}>
+                  {item.phone} · {item.time}
                 </Text>
               </View>
-            ))}
-          </View>
-        ))}
-        <View style={{ height: 32 }} />
-      </ScrollView>
-    </ScreenScaffold>
+              <Text style={[styles.amount, { color: positive ? Colors.primary : Colors.danger }]}>
+                {positive ? "+" : "-"}Ksh {formatBalance(Math.abs(item.amount))}
+              </Text>
+            </View>
+          );
+        }}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  dateHeader: { paddingHorizontal: 16, paddingVertical: 8, fontSize: 12, fontWeight: "700", letterSpacing: 0.5, textTransform: "uppercase" },
-  row: { flexDirection: "row", alignItems: "center", paddingHorizontal: 16, paddingVertical: 14, borderBottomWidth: StyleSheet.hairlineWidth },
-  avatar: { width: 42, height: 42, borderRadius: 21, alignItems: "center", justifyContent: "center", marginRight: 12 },
-  avatarText: { fontWeight: "700", color: "#333", fontSize: 13 },
-  name: { fontSize: 15, fontWeight: "600" },
-  meta: { fontSize: 12, marginTop: 2 },
-  amount: { fontSize: 15, fontWeight: "700" },
+  safe: { flex: 1, backgroundColor: Colors.background },
+  header: {
+    backgroundColor: Colors.brandDeep,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 12,
+    paddingVertical: 14,
+  },
+  headerTitle: { fontSize: 18, fontFamily: Fonts.bold, color: "#fff" },
+  optionsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    backgroundColor: "#fff",
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+  },
+  optionsText: { fontSize: 14, fontFamily: Fonts.semiBold, color: Colors.textPrimary },
+  dateHeader: {
+    fontSize: 13,
+    fontFamily: Fonts.semiBold,
+    color: Colors.textSecondary,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 6,
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    backgroundColor: "#fff",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginHorizontal: 12,
+    marginBottom: 1,
+    borderRadius: 8,
+  },
+  avatar: { width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center" },
+  avatarText: { fontSize: 15, fontFamily: Fonts.bold, color: Colors.textPrimary },
+  name: { fontSize: 15, fontFamily: Fonts.semiBold, color: Colors.textPrimary },
+  sub: { fontSize: 12, fontFamily: Fonts.regular, color: Colors.textSecondary, marginTop: 2 },
+  amount: { fontSize: 14, fontFamily: Fonts.bold },
 });
+

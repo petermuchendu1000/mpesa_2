@@ -1,43 +1,40 @@
-// Theme palette reconstructed from the original bundle.
-// Primary brand green (#4CAF50) and the dark/light surface colors were taken
-// from the decompiled resource strings.
-import { useColorScheme } from "react-native";
+// Theme recovered verbatim from the original Mpesa.apk Hermes bundle (the `Colors`
+// and `Fonts` objects). Do not change these — they define the original look.
 
-export const Brand = {
-  green: "#4CAF50",
-  greenDark: "#1B3A20",
-  greenTintLight: "#E8F5E9",
-  red: "#E53935",
-  blue: "#2196F3",
-  orange: "#FF9800",
-};
-
-export const Light = {
-  background: "#FFFFFF",
-  surface: "#FAFAFA",
-  surfaceAlt: "#F7F7F7",
-  border: "#E0E0E0",
-  textPrimary: "#151718",
-  textSecondary: "#666666",
-  textMuted: "#AAAAAA",
+export const Colors = {
+  primary: "#4CAF50",
+  primaryDark: "#388E3C",
+  primaryLight: "#C8E6C9",
+  primaryMuted: "#E8F5E9",
+  danger: "#E53935",
+  dangerLight: "#FFEBEE",
+  warning: "#FF9800",
+  background: "#F5F5F5",
   card: "#FFFFFF",
-};
+  textPrimary: "#1A1A1A",
+  textSecondary: "#757575",
+  textMuted: "#BDBDBD",
+  border: "#E0E0E0",
+  avatarBg: "#C8E6C9",
+  blue: "#2196F3",
+  blueLight: "#E3F2FD",
+  purple: "#9C27B0",
+  purpleLight: "#F3E5F5",
+  orange: "#FF9800",
+  orangeLight: "#FFF3E0",
+  teal: "#009688",
+  tealLight: "#E0F2F1",
+  yellow: "#FFC107",
+  pink: "#E91E63",
+  overlay: "rgba(0,0,0,0.5)",
+  // Dark-green brand surface used by the auth headers / dark balance accents.
+  brandDeep: "#1B3A20",
+} as const;
 
-export const Dark = {
-  background: "#121212",
-  surface: "#1E1E1E",
-  surfaceAlt: "#2A2A2A",
-  border: "#333333",
-  textPrimary: "#FAFAFA",
-  textSecondary: "#BBBBBB",
-  textMuted: "#AAAAAA",
-  card: "#1E1E1E",
-};
+export const Fonts = {
+  regular: "Inter_400Regular",
+  medium: "Inter_500Medium",
+  semiBold: "Inter_600SemiBold",
+  bold: "Inter_700Bold",
+} as const;
 
-export type Palette = typeof Light;
-
-export function usePalette(): Palette & { brand: typeof Brand; isDark: boolean } {
-  const scheme = useColorScheme();
-  const isDark = scheme === "dark";
-  return { ...(isDark ? Dark : Light), brand: Brand, isDark };
-}

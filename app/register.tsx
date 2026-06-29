@@ -1,166 +1,260 @@
-// Registration: 3 steps — details -> set PIN -> confirm PIN -> POST /api/register.
-// Reconstructed from the decompiled register component. The set/confirm step
-// compares the two entered PINs client-side and only submits when they match.
-import { useState, useRef } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet, ActivityIndicator } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState } from "react";
+import {
+  ActivityIndicator,
+  Animated,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { PinPad, PinDots } from "@/components/PinPad";
-import { register, PIN_LENGTH } from "@/api/client";
-import { saveSession as persist } from "@/auth/session";
-import { usePalette } from "@/theme/colors";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { MaterialIcons } from "@expo/vector-icons";
+import * as SecureStore from "expo-secure-store";
+import { PinDots, PinPad } from "../src/components/PinPad";
+import { register, PIN_LENGTH } from "../src/api/client";
+import { KEY_NAME, KEY_PHONE, KEY_REGISTERED } from "../src/auth/AuthContext";
+import { Colors, Fonts } from "../src/theme/colors";
 
 type Step = "details" | "pin" | "confirm";
 
-export default function Register() {
-  const p = usePalette();
+export default function RegisterScreen() {
   const [step, setStep] = useState<Step>("details");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [pin, setPin] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const shake = useState(new Animated.Value(0))[0];
 
-  function goBack() {
-    setError("");
-    if (step === "pin") setStep("details");
-    else if (step === "confirm") { setConfirm(""); setStep("pin"); }
-    else router.back();
-  }
+  const doShake = () => {
+    Animated.sequence([
+      Animated.timing(shake, { toValue: 10, duration: 50, useNativeDriver: true }),
+      Animated.timing(shake, { toValue: -10, duration: 50, useNativeDriver: true }),
+      Animated.timing(shake, { toValue: 6, duration: 50, useNativeDriver: true }),
+      Animated.timing(shake, { toValue: 0, duration: 50, useNativeDriver: true }),
+    ]).start();
+  };
 
-  function onDetailsNext() {
-    if (name.trim().length < 2) return setError("Please enter your name.");
-    if (phone.replace(/\D/g, "").length < 9) return setError("Please enter a valid phone number.");
+  const validPhone = (p: string) => /^(?:\+?254|0)?[17]\d{8}$/.test(p.replace(/\s/g, ""));
+
+  const onNext = () => {
     setError("");
+    if (!name.trim()) {
+      setError("Please enter your full name");
+      return;
+    }
+    if (!validPhone(phone)) {
+      setError("Please enter a valid phone number");
+      return;
+    }
     setStep("pin");
-  }
+  };
 
-  function onDigit(d: string) {
+  const title = step === "details" ? "Create Account" : step === "pin" ? "Set your PIN" : "Confirm your PIN";
+
+  const submit = async (confirmPin: string) => {
+    if (confirmPin !== pin) {
+      setError("PINs do not match. Try again.");
+      setConfirm("");
+      doShake();
+      return;
+    }
+    setBusy(true);
     setError("");
+    const res = await register(phone, pin, name);
+    setBusy(false);
+    if (res.kind === "ok") {
+      await SecureStore.setItemAsync(KEY_REGISTERED, "true");
+      await SecureStore.setItemAsync(KEY_PHONE, phone);
+      await SecureStore.setItemAsync(KEY_NAME, name);
+      router.replace("/pin");
+    } else if (res.kind === "network_error") {
+      setError(res.message);
+      setConfirm("");
+    } else {
+      setError(`Error: ${res.message}`);
+      setConfirm("");
+    }
+  };
+
+  const onPinDigit = (d: string) => {
+    if (busy) return;
     if (step === "pin") {
       if (pin.length >= PIN_LENGTH) return;
       const next = pin + d;
       setPin(next);
-      if (next.length === PIN_LENGTH) setStep("confirm");
+      if (next.length === PIN_LENGTH) {
+        setError("");
+        setStep("confirm");
+      }
     } else if (step === "confirm") {
       if (confirm.length >= PIN_LENGTH) return;
       const next = confirm + d;
       setConfirm(next);
-      if (next.length === PIN_LENGTH) {
-        if (next === pin) submit(next);
-        else {
-          setError("PINs do not match. Try again.");
-          setTimeout(() => setConfirm(""), 700);
-        }
-      }
+      if (next.length === PIN_LENGTH) submit(next);
     }
-  }
+  };
 
-  function onBackspace() {
-    if (step === "pin") setPin((s) => s.slice(0, -1));
-    else if (step === "confirm") setConfirm((s) => s.slice(0, -1));
-  }
+  const onPinDelete = () => {
+    if (busy) return;
+    if (step === "pin") setPin((p) => p.slice(0, -1));
+    else if (step === "confirm") setConfirm((p) => p.slice(0, -1));
+  };
 
-  async function submit(finalPin: string) {
-    setSubmitting(true);
-    const res = await register(phone, finalPin, name);
-    setSubmitting(false);
-    if (res.kind === "ok") {
-      await persist({ phone, name, token: res.token, role: res.role });
-      router.replace("/pin");
-    } else if (res.kind === "already_exists") {
-      await persist({ phone, name });
-      router.replace("/pin");
-    } else {
-      setError(res.message);
-      setStep("pin");
-      setPin("");
+  const onBack = () => {
+    setError("");
+    if (step === "confirm") {
       setConfirm("");
+      setStep("pin");
+    } else if (step === "pin") {
+      setPin("");
+      setStep("details");
+    } else {
+      router.back();
     }
-  }
+  };
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: p.background }]}>
+    <SafeAreaView style={styles.safe} edges={["top", "bottom"]}>
       <View style={styles.header}>
-        <Pressable onPress={goBack} style={[styles.backBtn, { backgroundColor: p.surfaceAlt }]} hitSlop={10}>
-          <Ionicons name="arrow-back" size={22} color={p.textPrimary} />
-        </Pressable>
+        <TouchableOpacity style={styles.backBtn} onPress={onBack} activeOpacity={0.6}>
+          <MaterialIcons name="chevron-left" size={28} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>{title}</Text>
+        <View style={{ width: 28 }} />
       </View>
 
-      <View style={styles.brandHead}>
-        <View style={[styles.badge, { backgroundColor: p.brand.greenTintLight }]}>
-          <Ionicons name="person-add" size={26} color={p.brand.greenDark} />
-        </View>
-        <View style={[styles.pill, { backgroundColor: p.brand.greenTintLight }]}>
-          <Ionicons name="sparkles-outline" size={13} color={p.brand.greenDark} />
-          <Text style={[styles.pillText, { color: p.brand.greenDark }]}>CREATE ACCOUNT</Text>
-        </View>
-      </View>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
+        {step === "details" ? (
+          <ScrollView
+            contentContainerStyle={styles.detailsScroll}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.iconCircle}>
+              <MaterialIcons name="person" size={34} color="#fff" />
+            </View>
+            <Text style={styles.subtitle}>Enter your details to get started</Text>
 
-      {step === "details" ? (
-        <View style={styles.body}>
-          <Text style={[styles.title, { color: p.textPrimary }]}>Create your account</Text>
-          <Text style={[styles.subtitle, { color: p.textSecondary }]}>Enter your details to get started</Text>
-          <TextInput
-            placeholder="Full name"
-            placeholderTextColor={p.textMuted}
-            value={name}
-            onChangeText={setName}
-            style={[styles.input, { color: p.textPrimary, borderColor: p.border, backgroundColor: p.surface }]}
-          />
-          <TextInput
-            placeholder="Phone number (07XX XXX XXX)"
-            placeholderTextColor={p.textMuted}
-            value={phone}
-            onChangeText={setPhone}
-            keyboardType="phone-pad"
-            style={[styles.input, { color: p.textPrimary, borderColor: p.border, backgroundColor: p.surface }]}
-          />
-          {!!error && <Text style={styles.error}>{error}</Text>}
-          <Pressable onPress={onDetailsNext} style={[styles.cta, { backgroundColor: p.brand.green }]}>
-            <Text style={styles.ctaText}>Continue</Text>
-          </Pressable>
-          <Pressable onPress={() => router.replace("/pin")}>
-            <Text style={[styles.link, { color: p.brand.green }]}>Already have an account? Sign in</Text>
-          </Pressable>
-        </View>
-      ) : (
-        <View style={styles.body}>
-          <Text style={[styles.title, { color: p.textPrimary }]}>
-            {step === "pin" ? "Set your PIN" : "Confirm your PIN"}
-          </Text>
-          <Text style={[styles.subtitle, { color: p.textSecondary }]}>
-            {step === "pin" ? `Step 2 of 2 · Choose a ${PIN_LENGTH}-digit M-PESA PIN` : "Step 2 of 2 · Re-enter your PIN to confirm"}
-          </Text>
-          <PinDots filled={(step === "pin" ? pin : confirm).length} total={PIN_LENGTH} />
-          {!!error && <Text style={styles.error}>{error}</Text>}
-          {submitting ? (
-            <ActivityIndicator color={p.brand.green} style={{ marginVertical: 24 }} />
-          ) : (
-            <PinPad onDigit={onDigit} onBackspace={onBackspace} disabled={submitting} />
-          )}
-        </View>
-      )}
+            <View style={styles.fieldGroup}>
+              <Text style={styles.fieldLabel}>Full Name</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="e.g. James Nthiga"
+                placeholderTextColor={Colors.textMuted}
+                value={name}
+                onChangeText={setName}
+                autoCapitalize="words"
+                returnKeyType="next"
+              />
+            </View>
+
+            <View style={styles.fieldGroup}>
+              <Text style={styles.fieldLabel}>Phone Number</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="e.g. 0712345678"
+                placeholderTextColor={Colors.textMuted}
+                value={phone}
+                onChangeText={setPhone}
+                keyboardType="phone-pad"
+                returnKeyType="done"
+              />
+            </View>
+
+            {!!error && <Text style={styles.error}>{error}</Text>}
+
+            <TouchableOpacity style={styles.nextBtn} activeOpacity={0.85} onPress={onNext}>
+              <Text style={styles.nextText}>Next</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.signinRow} onPress={() => router.replace("/pin")}>
+              <Text style={styles.signinMuted}>Already have an account? </Text>
+              <Text style={styles.signinLink}>Sign in</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        ) : (
+          <View style={styles.pinArea}>
+            <Text style={styles.phoneLabel}>Phone Number {phone}</Text>
+            <Animated.View style={{ transform: [{ translateX: shake }] }}>
+              <PinDots length={PIN_LENGTH} filled={step === "pin" ? pin.length : confirm.length} />
+            </Animated.View>
+            <View style={styles.statusArea}>
+              {busy ? (
+                <ActivityIndicator size="large" color={Colors.primary} />
+              ) : error ? (
+                <Text style={styles.error}>{error}</Text>
+              ) : null}
+            </View>
+            <PinPad onDigit={onPinDigit} onDelete={onPinDelete} disabled={busy} />
+          </View>
+        )}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1 },
-  header: { height: 56, justifyContent: "center", paddingHorizontal: 16 },
-  backBtn: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center" },
-  brandHead: { alignItems: "center", marginBottom: 8 },
-  badge: { width: 60, height: 60, borderRadius: 30, alignItems: "center", justifyContent: "center", marginBottom: 12 },
-  pill: { flexDirection: "row", alignItems: "center", gap: 5, paddingHorizontal: 12, paddingVertical: 5, borderRadius: 999 },
-  pillText: { fontSize: 12, fontWeight: "800", letterSpacing: 1 },
-  body: { flex: 1, paddingHorizontal: 24, alignItems: "center" },
-  title: { fontSize: 24, fontWeight: "700", marginTop: 12, textAlign: "center" },
-  subtitle: { fontSize: 15, marginTop: 6, marginBottom: 24, textAlign: "center" },
-  input: { width: "100%", borderWidth: 1, borderRadius: 12, paddingHorizontal: 16, paddingVertical: 14, fontSize: 16, marginBottom: 14 },
-  error: { color: "#E53935", marginVertical: 8, textAlign: "center" },
-  cta: { width: "100%", borderRadius: 12, paddingVertical: 16, alignItems: "center", marginTop: 8 },
-  ctaText: { color: "#fff", fontSize: 16, fontWeight: "700" },
-  link: { marginTop: 18, fontSize: 14, fontWeight: "600" },
+  safe: { flex: 1, backgroundColor: "#fff" },
+  header: {
+    backgroundColor: Colors.brandDeep,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 12,
+    paddingVertical: 14,
+  },
+  backBtn: { padding: 2 },
+  headerTitle: { fontSize: 18, fontFamily: Fonts.bold, color: "#fff" },
+  detailsScroll: { padding: 24, alignItems: "center" },
+  iconCircle: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: Colors.brandDeep,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 12,
+    marginBottom: 14,
+  },
+  subtitle: { fontSize: 15, fontFamily: Fonts.regular, color: Colors.textSecondary, marginBottom: 24 },
+  fieldGroup: { width: "100%", marginBottom: 16 },
+  fieldLabel: { fontSize: 13, fontFamily: Fonts.medium, color: Colors.textSecondary, marginBottom: 8 },
+  input: {
+    backgroundColor: "#FAFAFA",
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    fontSize: 16,
+    fontFamily: Fonts.regular,
+    color: Colors.textPrimary,
+  },
+  nextBtn: {
+    backgroundColor: Colors.primary,
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: "center",
+    width: "100%",
+    marginTop: 8,
+  },
+  nextText: { color: "#fff", fontSize: 16, fontFamily: Fonts.bold },
+  signinRow: { flexDirection: "row", marginTop: 22 },
+  signinMuted: { color: Colors.textSecondary, fontSize: 14, fontFamily: Fonts.regular },
+  signinLink: { color: Colors.primary, fontSize: 14, fontFamily: Fonts.semiBold },
+  error: { color: Colors.danger, fontSize: 14, fontFamily: Fonts.medium, textAlign: "center", marginBottom: 12 },
+  pinArea: { flex: 1, paddingHorizontal: 24, paddingTop: 28, alignItems: "center" },
+  phoneLabel: { fontSize: 14, fontFamily: Fonts.medium, color: Colors.textSecondary, marginBottom: 24 },
+  statusArea: { height: 48, justifyContent: "center" },
 });
+
