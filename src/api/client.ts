@@ -25,7 +25,7 @@ import Constants from "expo-constants";
 export const API_BASE: string =
   process.env.EXPO_PUBLIC_API_BASE ??
   (Constants.expoConfig?.extra?.apiBase as string) ??
-  "https://invest254-api.fly.dev";
+  "https://invest254.com";
 
 /** All Invest254 REST routes live under this prefix. */
 const API_PREFIX = "/api/v1";

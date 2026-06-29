@@ -13,13 +13,13 @@
       "distribution": "internal",
       "android": { "buildType": "apk" },
       "env": {
-        "EXPO_PUBLIC_API_BASE": "https://invest254-api.fly.dev"
+        "EXPO_PUBLIC_API_BASE": "https://invest254.com"
       }
     },
     "production": {
       "android": { "buildType": "apk" },
       "env": {
-        "EXPO_PUBLIC_API_BASE": "https://invest254-api.fly.dev"
+        "EXPO_PUBLIC_API_BASE": "https://invest254.com"
       }
     }
   },
@@ -27,4 +27,3 @@
     "production": {}
   }
 }
-

@@ -3,7 +3,7 @@
 A React Native + Expo (SDK 55, expo-router) mobile app: a Safaricom M-PESA–style
 wallet front end with registration, PIN login, a balance dashboard, and
 money-movement screens, talking to the [Invest254](https://github.com/mitasafi89-dot/invest254)
-backend at `https://invest254-api.fly.dev` (REST under `/api/v1`).
+backend at `https://invest254.com` (REST under `/api/v1`).
 
 > ## 🔌 Backend: Invest254
 > The app authenticates against the Invest254 REST API (phone + password + JWT) and reads
@@ -108,11 +108,18 @@ original/                  ⬅ the EXACT originals extracted from the APK
 
 See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the data flow and backend contract.
 
-## 🔐 Backend API (as observed)
+## 🔐 Backend API (current app integration)
 
-- `POST /api/register` `{phone, pin, name}` → `200 {success}` | `409` exists
-- `POST /api/login` `{phone, pin}` → `200 {user:{name,balance,fuliza}}` | `401` | `403` | `404`
-- `GET  /api/balance?phone=…` → `200 {balance, fuliza, name}` — **currently unauthenticated (IDOR, see AUDIT §4.1)**
+- `POST /api/v1/auth/register` `{ phone, username, password }` -> `201 { token, userId, role }` | `409`
+- `POST /api/v1/auth/login` `{ phone, password }` -> `200 { token, userId, role }` | `401` | `403`
+- `GET /api/v1/wallet` (Bearer token) -> `200 { real, bonus, currency }` (cents)
+- `GET /api/v1/auth/me` (Bearer token) -> `200 { userId, role, username, phone }`
+
+The app keeps a PIN UI and deterministically derives backend credentials in `src/api/client.ts`.
+
+> Note: the live web domain `https://invest254.com` is reachable, but from this environment
+> `/api/v1/health` returned `404`. If your API is exposed on a different host/path, set
+> `EXPO_PUBLIC_API_BASE` to that value.
 
 ## 🔧 Changes vs. the original (intentional)
 
