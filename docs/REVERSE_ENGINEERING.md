@@ -24,7 +24,7 @@ Everything in `original/` is copied verbatim from the APK:
 - `original/app.config.json` — exact Expo config.
 - `original/kotlin-tooling-metadata.json` — exact build metadata.
 - `original/resources/strings.xml`, `colors.xml` — exact resource tables.
-- `original/res-images/` — **all 253 raster assets, exact bytes** (icons, splash, illustrations; names are the APK's shrunk names, e.g. `sK.webp` = launcher icon).
+- `original/res-images.zip` — **all 253 raster assets, exact bytes** (icons, splash, illustrations; names are the APK's shrunk names, e.g. `sK.webp` = launcher icon). Packaged as a zip because 8 filename pairs differ only by case and can't coexist on case-insensitive filesystems — see `original/RES-IMAGES.md`.
 - `assets/icon.png` — the real launcher icon (`sK.webp`, 192×192) re-encoded as PNG.
 
 ## 🔁 Faithful reconstruction (not byte-identical — and why it can't be)

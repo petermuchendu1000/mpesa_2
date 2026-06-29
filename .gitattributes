@@ -19,4 +19,6 @@
 *.so    binary
 *.bundle binary
 *.bin   binary
+*.zip   binary
+
 
