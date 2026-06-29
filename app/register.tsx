@@ -89,6 +89,16 @@ export default function Register() {
         </Pressable>
       </View>
 
+      <View style={styles.brandHead}>
+        <View style={[styles.badge, { backgroundColor: p.brand.greenTintLight }]}>
+          <Ionicons name="person-add" size={26} color={p.brand.greenDark} />
+        </View>
+        <View style={[styles.pill, { backgroundColor: p.brand.greenTintLight }]}>
+          <Ionicons name="sparkles-outline" size={13} color={p.brand.greenDark} />
+          <Text style={[styles.pillText, { color: p.brand.greenDark }]}>CREATE ACCOUNT</Text>
+        </View>
+      </View>
+
       {step === "details" ? (
         <View style={styles.body}>
           <Text style={[styles.title, { color: p.textPrimary }]}>Create your account</Text>
@@ -122,7 +132,7 @@ export default function Register() {
             {step === "pin" ? "Set your PIN" : "Confirm your PIN"}
           </Text>
           <Text style={[styles.subtitle, { color: p.textSecondary }]}>
-            {step === "pin" ? `Choose a ${PIN_LENGTH}-digit M-PESA PIN` : "Re-enter your PIN to confirm"}
+            {step === "pin" ? `Step 2 of 2 · Choose a ${PIN_LENGTH}-digit M-PESA PIN` : "Step 2 of 2 · Re-enter your PIN to confirm"}
           </Text>
           <PinDots filled={(step === "pin" ? pin : confirm).length} total={PIN_LENGTH} />
           {!!error && <Text style={styles.error}>{error}</Text>}
@@ -141,6 +151,10 @@ const styles = StyleSheet.create({
   safe: { flex: 1 },
   header: { height: 56, justifyContent: "center", paddingHorizontal: 16 },
   backBtn: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center" },
+  brandHead: { alignItems: "center", marginBottom: 8 },
+  badge: { width: 60, height: 60, borderRadius: 30, alignItems: "center", justifyContent: "center", marginBottom: 12 },
+  pill: { flexDirection: "row", alignItems: "center", gap: 5, paddingHorizontal: 12, paddingVertical: 5, borderRadius: 999 },
+  pillText: { fontSize: 12, fontWeight: "800", letterSpacing: 1 },
   body: { flex: 1, paddingHorizontal: 24, alignItems: "center" },
   title: { fontSize: 24, fontWeight: "700", marginTop: 12, textAlign: "center" },
   subtitle: { fontSize: 15, marginTop: 6, marginBottom: 24, textAlign: "center" },

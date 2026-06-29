@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import { View, Text, Pressable, StyleSheet, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { PinPad, PinDots } from "@/components/PinPad";
 import { login, PIN_LENGTH, MAX_PIN_ATTEMPTS } from "@/api/client";
 import { getSession, saveSession, clearSession } from "@/auth/session";
@@ -112,9 +113,17 @@ export default function PinScreen() {
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: p.background }]}>
       <View style={styles.body}>
-        <Text style={[styles.title, { color: p.textPrimary }]}>Enter your M-PESA PIN</Text>
+        <View style={[styles.badge, { backgroundColor: p.brand.greenTintLight }]}>
+          <Ionicons name="lock-closed" size={30} color={p.brand.greenDark} />
+        </View>
+        <View style={[styles.pill, { backgroundColor: p.brand.greenTintLight }]}>
+          <Ionicons name="log-in-outline" size={13} color={p.brand.greenDark} />
+          <Text style={[styles.pillText, { color: p.brand.greenDark }]}>SIGN IN</Text>
+        </View>
+
+        <Text style={[styles.title, { color: p.textPrimary }]}>Welcome back</Text>
         <Text style={[styles.subtitle, { color: p.textSecondary }]}>
-          {phone ? maskPhone(phone) : ""}
+          {phone ? `Enter your M-PESA PIN for ${maskPhone(phone)}` : "Enter your M-PESA PIN"}
         </Text>
 
         <PinDots filled={pin.length} total={PIN_LENGTH} shake={shake} />
@@ -131,6 +140,11 @@ export default function PinScreen() {
         >
           <Text style={[styles.link, { color: p.brand.green }]}>Forgot PIN?</Text>
         </Pressable>
+
+        <Pressable style={styles.switchRow} onPress={() => router.replace("/register")}>
+          <Text style={[styles.switchMuted, { color: p.textMuted }]}>New here? </Text>
+          <Text style={[styles.switchLink, { color: p.brand.green }]}>Create an account</Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -144,8 +158,14 @@ function maskPhone(p: string) {
 const styles = StyleSheet.create({
   safe: { flex: 1 },
   body: { flex: 1, paddingHorizontal: 24, alignItems: "center", justifyContent: "center" },
-  title: { fontSize: 22, fontWeight: "700", textAlign: "center" },
-  subtitle: { fontSize: 15, marginTop: 6, textAlign: "center" },
+  badge: { width: 64, height: 64, borderRadius: 32, alignItems: "center", justifyContent: "center", marginBottom: 14 },
+  pill: { flexDirection: "row", alignItems: "center", gap: 5, paddingHorizontal: 12, paddingVertical: 5, borderRadius: 999, marginBottom: 14 },
+  pillText: { fontSize: 12, fontWeight: "800", letterSpacing: 1 },
+  title: { fontSize: 24, fontWeight: "700", textAlign: "center" },
+  subtitle: { fontSize: 15, marginTop: 6, marginBottom: 8, textAlign: "center" },
   error: { color: "#E53935", marginBottom: 10, textAlign: "center", paddingHorizontal: 16 },
   link: { fontSize: 14, fontWeight: "600" },
+  switchRow: { flexDirection: "row", marginTop: 24, alignItems: "center" },
+  switchMuted: { fontSize: 14 },
+  switchLink: { fontSize: 14, fontWeight: "700" },
 });
