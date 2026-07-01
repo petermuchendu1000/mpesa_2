@@ -1,0 +1,403 @@
+key,language,value
+Last Name,ar,الاسم الأخير
+App-Your date of birth,ar,تاريخ ميلادك
+App-Primary school name,ar,اسم المدرسة الإبتدائية
+App-Your birth address,ar,عنوان ميلادك
+App-P2P_VDF_Demo,ar,عرض توضيحي لـ P2P VDF
+App-Buy Airtime_VDF_Demo,ar,وقت البث_VDF_تجريبي
+App-PayBill_VDF_Demo,ar,دفع الفاتورة VDF_Demo
+App-insufficient_balance,ar,الرصيد غير كافٍ. طريقة الدفع هذه غير مدعومة حاليًا.
+App-Verify the current pin,ar,التحقق من السن الحالي
+App-Answer other question,ar,أجب على الأسئلة الأساسية
+App-Answer your secret question,ar,أجب على سؤالك الأمني
+App-Verify the ID type,ar,التحقق من نوع المعرّف
+App-RequestMoneyC2CForApp,ar,طلب المال C2C للتطبيق
+App-Request Money for Merchant,ar,طلب المال للتاجر
+App-Request Money for Customer,ar,طلب المال للعميل
+App-fail,ar,فاشل
+App-paying,ar,معلق
+App-expired,ar,معلق
+App-initial,ar,معلق
+App-rejected,ar,تم الرفض
+App-cancel,ar,تم الإلغاء
+App-paid,ar,مدفوع
+App-pending,ar,معلق
+App-Bill Ref. No,ar,رقم مرجع الفاتورة
+App-Service Number,ar,رقم الخدمة
+App-Smart Card No.,ar,رقم البطاقة الذكية.
+App-DSTV,ar,DSTV
+App-ET Postpaid Bill,ar,فاتورة ET آجل الدفع
+App-EEU,ar,EEU
+App-60320012,ar,الرصيد غير كافٍ
+App-Wallet,ar,رصيد
+App-Mobile No.,ar,رقم الجوال.
+App-Nick Name,ar,اسم الكنية
+App-Profile Picture,ar,صورة الملف الشخصي
+App-CmsAuthTransaction,ar,كمساوثصفقة
+App-PurchaseBundleByOrg,ar,تجميع المشتريات حسب المنظمة
+App-CommissionTransfer,ar,عمولة نقل
+App-GuaranteeP2PTransfer Reversal,ar,ضمان إلغاء نقل من نقطة إلى نقطة
+App-AirtimeRechargeByOrg,ar,الفواتير حسب المنظمة
+App-OrganizationPayBill,ar,تنظيم الدفع
+App-Buy Goods Reversal,ar,إلغاء شراء السلع
+Please make sure the input is correct.,ar,تأكد من إدخال بشكل صحيح .
+App-BNPL,ar,الدفع بعد الشراء
+App-Over Draft,ar,مشروع أولي
+City,ar,المدينة
+Date of Birth,ar,تاريخ الميلاد
+Certificate Photo of Back,ar,صورة الشهادة للخلف
+Uploading Personal Image,ar,رفع الصورة الشخصية
+Digital Signature,ar,التوقيع الرقمي
+Certificate Photo of Front,ar,صورة الشهادة للواجهة
+Please enter,ar,يُرجى الإدخال
+Please choose,ar,يُرجى الاختيار
+App-PAYMENT_UNAVAILABLE,ar,طريقة الدفع غير متوفرة
+App-UN_SUBSCRIBED,ar,يُرجى تفعيل طريقة الدفع أولاً
+App-CARD_TYPE_UNAVAILABLE,ar,نوع البطاقة (بطاقة الائتمان/الخصم) غير مدعوم أو القناة لا تدعم البطاقة
+App-CHANNEL_UNAVAILABLE,ar,لا توجد قناة دفع متاحة متطابقة
+App-HIGH_RISK_UNAVAILABLE,ar,طريقة الدفع هذه غير متوفرة مؤقتًا بسبب المخاطر العالية
+App-INSUFFICIENT_BALANCE,ar,الرصيد غير كافٍ
+Invitation Code,ar,رمز الدعوة
+App-Last 5 Transactions,ar,آخر 5 معاملات
+App-Birthday,ar,عيد ميلاد
+App-Current Balance,ar,الرصيد الحالي
+App-Last Name,ar,اسم العائلة
+App-Your favorite number,ar,رقمك المفضل
+App-Your parents birthday,ar,عيد ميلاد والديك
+App-History,ar,المحفوظات
+App-Electricity,ar,الكهرباء
+App-Balance,ar,الرصيد
+App-Group Collection,ar,مجموعة
+App-Home,ar,الصفحة الرئيسية
+App-Merchant,ar,التاجر
+App-More,ar,المزيد
+App-My Shop,ar,متجري
+App-My Wallet,ar,محفظتي
+App-Payment Canceled,ar,تم إلغاء الدفع
+App-Payment Processing,ar,معالجة الدفع
+App-Payment Success,ar,نجاح الدفع
+App-Quick Pay,ar,الدفع السريع
+App-nickName,ar,اسم مستعار
+App-Transfer,ar,نقل
+App-Transfer to Other Agent,ar,التحويل إلى موظف آخر
+App-avatar,ar,الصورة الرمزية
+App-birthday,ar,عيد ميلاد
+App-gender,ar,نوع الجنس
+App-idNumber,ar,رقم الهوية
+App-idType,ar,نوع الهوية
+App-msisdn,ar,المحطة المتنقلة الدولية دليل المستخدم
+App-name,ar,الاسم
+App-Buy Goods,ar,شراء السلع
+App-Cash In,ar,نقدًا في
+App-Cash Out,ar,صرف النقود خارجًا
+App-Org Transfer,ar,نقل المؤسسة
+App-Pay Salary,ar,دفع الراتب
+App-Remittance,ar,التحويل النقدي
+App-Float Transfer,ar,نقل تعويم
+App-Registration,ar,التسجيل
+App-Receive,ar,استلام
+App-Merchant Registry,ar,سجل التاجر
+App-share app,ar,مشاركة التطبيق
+App-Bank Transfer,ar,التحويل البنكي
+App-Request Cash,ar,طلب نقد
+App-Other,ar,غير ذلك
+App-shareAppTemplate,ar,دعوة من صديقك! سهولة الدفع باستخدام تطبيق {0}. <font color = '#4A90E2'>{1}</font>
+App-Reward Balance,ar,رصيد المكافأة
+App-P2P Transfer,ar,من نقطة إلى نقطة انتقال
+App-Airtime Recharge,ar,إعادة شحن البث
+App-Purchase Bundle,ar,شراء باقة
+App-Withdrawal,ar,الانسحاب
+App-Voucher Cash Out,ar,صرف قسيمة القبض
+App-CustomerPayBill,ar,دفع العميل
+App-Customer Pay Bill,ar,دفع العميل
+App-CampaignCashBack,ar,أنشطة الاسترداد النقدي
+App-Deposit,ar,إيداع
+App-GuaranteeP2PTransfer,ar,ضمان انتقال من نقطة إلى نقطة
+App-One Off,ar,إيقاف واحد
+App-Daily,ar,يوميًا
+App-Weekly,ar,أسبوعيًا
+App-4-weekly,ar,4 أسبوعيًا
+App-Monthly,ar,شهريًا
+App-Bi monthly,ar,مرتين شهريًا
+App-Quarterly,ar,ربع سنوي
+App-Half Yearly,ar,نصف سنوي
+App-Yearly,ar,سنويًا
+App-Card Number,ar,رقم البطاقة
+App-Card Holder Name,ar,اسم حامل البطاقة
+App-Certificate Type,ar,نوع الشهادة
+App-Certificate No.,ar,رقم الشهادة.
+App-Mobile Phone Number,ar,رقم الهاتف الجوال
+App-CVV,ar,بطاقة التحقق من قيمة
+App-Validity Period,ar,فترة الصلاحية
+App-Verification Code,ar,رمز التحقق
+App-National ID,ar,بطاقة الهوية الوطنية
+App-Passport,ar,جواز السفر
+Personal Details,ar,التفاصيل الشخصية
+Address Details,ar,تفاصيل العنوان
+First Name,ar,الاسم الأول
+DriversLicensePicture,ar,صورة رخصة القيادة
+App-shareAppTemplate,en,An invitation from your friend! Easy to pay with {0} APP. <font color = '#4A90E2'>{1}</font>
+App-Balance,en,Balance
+App-Electricity,en,Electricity
+App-History,en,History
+App-Home,en,Home
+App-Merchant,en,Merchant
+App-More,en,More
+App-My Shop,en,My Shop
+App-My Wallet,en,My Wallet
+App-Payment Canceled,en,Payment Canceled
+App-Payment Processing,en,Payment Processing
+App-Payment Success,en,Payment Success
+App-Quick Pay,en,Quick Pay
+App-nickName,en,NickName
+App-Transfer,en,Transfer
+App-Transfer to Other Agent,en,Transfer to Other Agent
+App-avatar,en,Avatar
+App-birthday,en,Birthday
+App-gender,en,gender
+App-idNumber,en,IdNumber
+App-idType,en,IdType
+App-msisdn,en,MSISDN
+App-name,en,Name
+App-Buy Goods,en,Buy Goods
+App-Cash In,en,Cash In
+App-Cash Out,en,Cash Out
+App-Org Transfer,en,Org Transfer
+App-Pay Salary,en,Pay Salary
+App-Remittance,en,Remittance
+App-Float Transfer,en,Float Transfer
+App-Registration,en,Registration
+App-Receive,en,Receive
+App-Merchant Registry,en,Merchant Registry
+App-share app,en,Share App
+App-Bank Transfer,en,Bank Transfer
+App-Request Cash,en,Request Cash
+App-Other,en,Other
+App-P2P Transfer,en,P2P Transfer
+App-Airtime Recharge,en,Airtime Recharge
+App-Purchase Bundle,en,Purchase Bundle
+App-Card Number,en,Card Number
+App-Card Holder Name,en,Card Holder Name
+App-Certificate Type,en,Certificate Type
+App-Certificate No.,en,Certificate No.
+App-Mobile Phone Number,en,Mobile Phone Number
+App-CVV,en,CVV
+App-Validity Period,en,Validity Period
+App-Verification Code,en,Verification Code
+App-National ID,en,National ID
+App-Passport,en,Passport
+App-Withdrawal,en,Withdrawal
+App-Voucher Cash Out,en,Voucher Cash Out
+App-CustomerPayBill,en,CustomerPayBill
+App-CampaignCashBack,en,CampaignCashBack
+App-Deposit,en,Deposit
+App-GuaranteeP2PTransfer,en,GuaranteeP2PTransfer
+App-One Off,en,One Off
+App-Daily,en,Daily
+App-Weekly,en,Weekly
+App-4-weekly,en,4-weekly
+App-Monthly,en,Monthly
+App-Bi monthly,en,Bi monthly
+App-Quarterly,en,Quarterly
+App-Half Yearly,en,Half Yearly
+App-Yearly,en,Yearly
+Personal Details,en,Personal Details
+Address Details,en,Address Details
+First Name,en,First Name
+Last Name,en,Last Name
+Date of Birth,en,Date of Birth
+City,en,City
+App-P2P Transfer Reversal,en,P2P Transfer Reversal
+App-ET Postpaid Bill,en,ET Postpaid Bill
+App-EEU,en,EEU
+App-Bill Ref. No,en,Bill Ref. No
+App-Service Number,en,Service Number
+App-Smart Card No.,en,Smart Card No.
+App-DSTV,en,DSTV
+App-theme Postpaid Bill,en,ET Postpaid Bill
+App-PAYMENT_UNAVAILABLE,en,Payment method not available
+App-UN_SUBSCRIBED,en,Please activate payment method first
+App-CARD_TYPE_UNAVAILABLE,en,The card type (credit/debit card) is not supported or the channel does not support the card
+App-CHANNEL_UNAVAILABLE,en,No available payment channel is matched
+App-HIGH_RISK_UNAVAILABLE,en,This payment method is temporarily unavailable due to high risks
+App-INSUFFICIENT_BALANCE,en,Insufficient balance
+Invitation Code,en,Invitation Code
+App-Last 5 Transactions,en,Last 5 Transactions
+App-Primary school name,en,Primary school name
+App-Your birth address,en,Your birth address
+App-Your date of birth,en,Your date of birth
+App-fail,en,Failed
+App-paying,en,Pending
+App-G2P Transfer,en,Initiate Refund
+App-P2G Transfer,en,Contributing
+Please enter,en,Please enter
+Please choose,en,Please choose
+App-Birthday,en,Birthday
+App-Reward Balance,en,Reward Balance
+App-Last Name,en,Last Name
+App-Your favorite number,en,Your favorite number
+App-Your parents birthday,en,Your parents birthday
+App-expired,en,Expired
+App-initial,en,Pending
+App-rejected,en,Rejected
+App-cancel,en,Canceled
+App-paid,en,Paid
+App-pending,en,Pending
+App-Current Balance,en,Current Balance
+DriversLicensePicture,en,DriversLicensePicture
+Invitation Details,en,Invitation Details
+Picture Details,en,Picture Details
+resource key,en,value
+Certificate Photo of Back,en,aa
+App-msisdn,zh_CN,电话号码
+App-idType,zh_CN,证件类型
+App-idNumber,zh_CN,证件号码
+App-gender,zh_CN,性别
+App-birthday,zh_CN,出生日期
+App-avatar,zh_CN,头像
+App-Transfer to Other Agent,zh_CN,同行转账
+App-Transfer,zh_CN,转账
+App-Request Cash,zh_CN,兑现
+App-Quick Pay,zh_CN,闪付
+App-Payment Success,zh_CN,支付成功
+App-Payment Processing,zh_CN,支付中
+App-Payment Canceled,zh_CN,支付取消
+App-My Wallet,zh_CN,钱包
+App-My Shop,zh_CN,店铺
+App-More,zh_CN,更多
+App-Merchant,zh_CN,商户
+App-Home,zh_CN,主菜单
+App-History,zh_CN,交易历史
+App-Electricity,zh_CN,电费
+App-Balance,zh_CN,余额
+App-shareAppTemplate,zh_CN,An invitation from your friend! Easy to pay with {0} APP. <font color = '#4A90E2'>{1}</font>
+App-nickName,zh_CN,昵称
+App-P2P_VDF_Demo,zh_CN,转账
+App-Buy Airtime_VDF_Demo,zh_CN,充值
+App-PayBill_VDF_Demo,zh_CN,账单支付
+App-Verify the current pin,zh_CN,检验当前PIN状态
+App-Answer other question,zh_CN,回答基本问题
+App-Answer your secret question,zh_CN,回答你的安全问题
+App-Verify the ID type,zh_CN,校验ID类型
+App-Bill Ref. No,zh_CN,账单参考号
+App-Service Number,zh_CN,服务号码
+App-Smart Card No.,zh_CN,智能卡号
+App-DSTV,zh_CN,DSTV
+App-ET Postpaid Bill,zh_CN,ET后付费账单
+App-EEU,zh_CN,EEU
+App-About,zh_CN,关于
+App-Share App,zh_CN,分享APP
+App-Limit & Fee,zh_CN,限额与费用
+App-My Coupon,zh_CN,我的优惠券
+App-Payment Setting,zh_CN,支付设置
+App-Login Setting,zh_CN,登录设置
+App-PIN Management,zh_CN,密码管理
+App-Change Language,zh_CN,修改语言
+App-My,zh_CN,我的
+App-Life,zh_CN,生活
+App-Transfer with OD,zh_CN,使用 OD转账
+App-Pay Bills with OD,zh_CN,使用 OD 支付账单
+App-Repay for Others,zh_CN,红包
+App-Ninja Rush,zh_CN,忍者冲刺
+App-Magic Rings,zh_CN,魔法戒指
+App-Super Pets,zh_CN,超级宠物
+App-Thunder Fighter,zh_CN,雷霆战机
+App-Payroll,zh_CN,工资单
+App-Hotel,zh_CN,酒店
+App-Game Card,zh_CN,游戏卡
+App-Cable TV Payment,zh_CN,有线电视付费
+App-Electricity Bill Payment,zh_CN,电费缴费
+App-Broadband Network Bill Payment,zh_CN,宽带网络缴费
+App-My Service,zh_CN,我的服务
+App-QR Menu,zh_CN,二维码菜单
+App-Nearby,zh_CN,附近
+App-Saving,zh_CN,储蓄
+App-Micro Loan,zh_CN,小额贷
+App-Overdraft,zh_CN,预支
+App-Transfer to Bank,zh_CN,银行转账
+App-Send Money,zh_CN,转账
+App-Top Up,zh_CN,充值
+App-Scan QR,zh_CN,扫码支付
+App-Other,zh_CN,其它
+App-Bank Transfer,zh_CN,银行卡交易
+App-share app,zh_CN,分享App
+App-Merchant Registry,zh_CN,注册商户
+App-Receive,zh_CN,收款码
+App-Registration,zh_CN,用户实名注册
+App-Float Transfer,zh_CN,向下级汇款
+App-Remittance,zh_CN,汇款
+App-Pay Salary,zh_CN,支付薪酬
+App-Org Transfer,zh_CN,组织交易
+App-Cash Out,zh_CN,付款
+App-Cash In,zh_CN,收款
+App-Buy Goods,zh_CN,购物
+App-name,zh_CN,姓名
+Certificate Photo of Back,zh_CN,证件照反面
+Certificate Photo of Front,zh_CN,证件照正面
+Uploading Personal Image,zh_CN,上传个人图片
+Digital Signature,zh_CN,数字签名
+Please enter,zh_CN,请输入
+Please choose,zh_CN,请选择
+App-PAYMENT_UNAVAILABLE,zh_CN,支付方式不可用
+App-UN_SUBSCRIBED,zh_CN,请先激活付款方式
+App-CARD_TYPE_UNAVAILABLE,zh_CN,卡类型（信用卡/借记卡）不支持或渠道不支持卡
+App-CHANNEL_UNAVAILABLE,zh_CN,没有匹配到可用的支付渠道
+App-HIGH_RISK_UNAVAILABLE,zh_CN,该支付方式因高风险暂时不可用
+App-INSUFFICIENT_BALANCE,zh_CN,余额不足
+Invitation Code,zh_CN,邀请码
+App-Yearly,zh_CN,每年
+App-Half Yearly,zh_CN,半年一次
+App-Quarterly,zh_CN,每季度
+App-Bi monthly,zh_CN,双月
+App-Monthly,zh_CN,月度
+App-4-weekly,zh_CN,每4周一次
+App-Weekly,zh_CN,每周
+App-Daily,zh_CN,每日
+App-One Off,zh_CN,一次性
+App-GuaranteeP2PTransfer,zh_CN,担保转账
+App-Deposit,zh_CN,存款
+App-CampaignCashBack,zh_CN,商户返现
+App-CustomerPayBill,zh_CN,用户支付账单
+App-Voucher Cash Out,zh_CN,代金券付款
+App-Withdrawal,zh_CN,取款
+App-Passport,zh_CN,护照
+App-National ID,zh_CN,身份证
+App-Verification Code,zh_CN,验证码
+App-Validity Period,zh_CN,有效期
+App-CVV,zh_CN,安全码
+App-Mobile Phone Number,zh_CN,手机号码
+App-Certificate No.,zh_CN,证书编号
+App-Certificate Type,zh_CN,证书类型
+App-Card Holder Name,zh_CN,持卡人姓名
+App-Card Number,zh_CN,卡号
+App-Purchase Bundle,zh_CN,流量充值
+App-Airtime Recharge,zh_CN,话费充值
+App-P2P Transfer,zh_CN,转账
+App-A-A Payment,zh_CN,A-A支付
+App-Bank Account,zh_CN,银行账户
+App-Help & Feedback,zh_CN,帮助与反馈
+App-Logout,zh_CN,退出
+Personal Details,zh_CN,个人资料
+Address Details,zh_CN,地址资料
+First Name,zh_CN,姓氏
+Last Name,zh_CN,名字
+Date of Birth,zh_CN,出生日期
+App-G2P Transfer,zh_CN,退款
+App-P2G Transfer,zh_CN,转账
+App-P2P Transfer Reversal,zh_CN,转账退款
+City,zh_CN,城市
+App-Your birth address,zh_CN,你的出生地址
+App-Primary school name,zh_CN,小学名
+App-Your date of birth,zh_CN,你的出生日期
+App-Your parents birthday,zh_CN,你父母的生日
+App-Your favorite number,zh_CN,您最喜欢的号码
+App-Last Name,zh_CN,姓氏
+App-Current Balance,zh_CN,当前余额
+App-Reward Balance,zh_CN,奖励余额
+App-Birthday,zh_CN,生日
+App-Last 5 Transactions,zh_CN,最近5次交易
+DriversLicensePicture,zh_CN,驾照图片
+resource key,zh_CN,value
+yml key,zh_CN,value
+App-G2P Transfer,fr,Lancer le remboursement
+App-P2G Transfer,fr,Contribuer

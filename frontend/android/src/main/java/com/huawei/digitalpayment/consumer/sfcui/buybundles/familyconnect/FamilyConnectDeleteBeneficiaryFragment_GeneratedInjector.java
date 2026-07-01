@@ -1,0 +1,5 @@
+package com.huawei.digitalpayment.consumer.sfcui.buybundles.familyconnect;
+
+public interface FamilyConnectDeleteBeneficiaryFragment_GeneratedInjector {
+    void injectFamilyConnectDeleteBeneficiaryFragment(FamilyConnectDeleteBeneficiaryFragment familyConnectDeleteBeneficiaryFragment);
+}

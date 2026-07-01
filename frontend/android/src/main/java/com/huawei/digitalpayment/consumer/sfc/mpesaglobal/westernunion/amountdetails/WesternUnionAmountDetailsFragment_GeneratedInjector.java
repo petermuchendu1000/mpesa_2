@@ -1,0 +1,5 @@
+package com.huawei.digitalpayment.consumer.sfc.mpesaglobal.westernunion.amountdetails;
+
+public interface WesternUnionAmountDetailsFragment_GeneratedInjector {
+    void injectWesternUnionAmountDetailsFragment(WesternUnionAmountDetailsFragment westernUnionAmountDetailsFragment);
+}

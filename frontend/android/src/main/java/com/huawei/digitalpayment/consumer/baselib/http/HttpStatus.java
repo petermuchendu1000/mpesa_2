@@ -1,0 +1,40 @@
+package com.huawei.digitalpayment.consumer.baselib.http;
+
+public interface HttpStatus {
+    public static final String BALANCE_INSUFFICIENT = "60320012";
+    public static final String CONNECT_EXCEPTION = "connectException";
+    public static final String CONSUMER_PIN_ERROR_MAXIMUM = "60700097";
+    public static final String CUBE_SUCCESS = "0";
+    public static final String CUBE_TOKEN_INVALID = "405230602";
+    public static final String CUBE_TOKEN_INVALID_603 = "405230603";
+    public static final String FORCE_UPDATE_MODE = "app.the_app_version_is_not_supported";
+    public static final String HTTP_EXCEPTION = "httpException";
+    public static final String NETWORK_DISCONNECT = "NETWORK_DISCONNECT";
+    public static final String NET_ERROR = "netError";
+    public static final String OTP_ERROR = "60700036";
+    public static final String OTP_VERIFY_LIMIT = "60007002";
+    public static final String PARSE_EXCEPTION = "parseException";
+    public static final String PAY_ERROR_PASSWORD_179 = "60320179";
+    public static final String PAY_ERROR_PASSWORD_180 = "60320180";
+    public static final String PAY_ERROR_PASSWORD_181 = "60320181";
+    public static final String PAY_ERROR_PASSWORD_182 = "60320182";
+    public static final String PAY_ERROR_PASSWORD_183 = "60320183";
+    public static final String PAY_ERROR_PASSWORD_225 = "60320225";
+    public static final String PAY_ERROR_PASSWORD_CODE = "60100006";
+    public static final String PAY_ERROR_PASSWORD_PARTNER_137 = "60200137";
+    public static final String PAY_ERROR_PASSWORD_PARTNER_179 = "60200179";
+    public static final String PAY_ERROR_PASSWORD_PARTNER_180 = "60200180";
+    public static final String PAY_ERROR_PASSWORD_PARTNER_181 = "60200181";
+    public static final String PAY_ERROR_PASSWORD_PARTNER_182 = "60200182";
+    public static final String PAY_ERROR_PASSWORD_PARTNER_183 = "60200183";
+    public static final String PAY_ERROR_PASSWORD_PARTNER_235 = "60200235";
+    public static final String PIN_ERROR_MAXIMUM = "60200134";
+    public static final String SERVER_EXCEPTION = "serverException";
+    public static final String SSL_HANDSHAKE_EXCEPTION = "SSLHandshakeException";
+    public static final String SUBSCRIBE_ERROR = "60750023";
+    public static final String SUCCESS = "SYS00000";
+    public static final String TIME_OUT = "timeout";
+    public static final String TOKEN_INVALID = "60720004";
+    public static final String TOKEN_INVALID_11 = "60700011";
+    public static final String UPDATE_FORCE = "60700014";
+}

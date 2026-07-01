@@ -1,0 +1,10 @@
+http://witapp.fsawsprod.safaricom.co.ke
+https://identity.safaricom.com
+https://internet.safaricom.co.ke
+https://mpa.qr.api.m-pesa.com
+https://mpa.qr.auth.m-pesa.com
+https://myaccount.safaricom.co.ke
+https://myoneapp.safaricom.co.ke
+https://preprod.safaricom.com
+https://safaricom.com
+https://www.safaricom.co.ke

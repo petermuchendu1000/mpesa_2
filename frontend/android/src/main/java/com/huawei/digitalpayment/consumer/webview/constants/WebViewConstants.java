@@ -1,0 +1,41 @@
+package com.huawei.digitalpayment.consumer.webview.constants;
+
+public interface WebViewConstants {
+    public static final String CHECK_PERMISSION = "checkPermission";
+    public static final String COMMON = "common";
+    public static final String CONSUMER_APP = "consumerapp";
+    public static final String FUNCTION_CALLBACK_NAME = "functionCallBackName";
+    public static final String H5_PERMISSION_CONFIG = "h5PermissionConfig";
+    public static final String JS_FUN_CLOSE_LOCATION = "js_fun_closeLocation";
+    public static final String JS_FUN_CLOSE_WEB_VIEW = "js_fun_close_web_view";
+    public static final String JS_FUN_EXECUTE = "js_fun_execute";
+    public static final String JS_FUN_GET_APP_INFO = "js_fun_get_app_info";
+    public static final String JS_FUN_GET_BASIC_JSON_CONFIG = "js_fun_get_basic_config";
+    public static final String JS_FUN_GET_COLOR_CONFIG = "js_fun_get_color_config";
+    public static final String JS_FUN_GET_FILE_BY_APP = "js_fun_getFileByApp";
+    public static final String JS_FUN_GET_NEARBY_LOCATION = "js_fun_get_nearby_location";
+    public static final String JS_FUN_GET_STATUSBAR_HEIGHT = "js_fun_get_statusbar_height";
+    public static final String JS_FUN_H5_SIGN = "js_fun_h5_sign";
+    public static final String JS_FUN_IS_APP_INSTALL = "js_fun_is_app_install";
+    public static final String JS_FUN_LOAD_DOC_ID_IMAGE = "js_fun_loadDocIdImage";
+    public static final String JS_FUN_OD_PAYMENT = "js_fun_od_payment";
+    public static final String JS_FUN_OPEN_LOCATION = "js_fun_openLocation";
+    public static final String JS_FUN_OPEN_THIRD_APP = "js_fun_open_third_part_app";
+    public static final String JS_FUN_PAY_MANDATE = "js_fun_start_pay_mandate";
+    public static final String JS_FUN_REQUEST_PIN = "js_fun_request_pin";
+    public static final String JS_FUN_SAVE_NEARBY_LOCATION = "js_fun_save_nearby_location";
+    public static final String JS_FUN_SESSION_OUT = "js_fun_session_out";
+    public static final String JS_FUN_SET_TOOLBAR_BACKGROUND = "js_fun_set_toolbar_background";
+    public static final String JS_FUN_SHARE_LOCAL = "js_fun_share_local";
+    public static final String JS_FUN_SHARE_NETWORK = "js_fun_share_network";
+    public static final String JS_FUN_START_AA_PAY = "js_fun_start_aa_pay";
+    public static final String JS_FUN_START_PAY = "js_fun_start_pay";
+    public static final String JS_FUN_VERIFY_PIN = "js_fun_verify_pin";
+    public static final String KEY_CONFIG_TYPES = "configTypes";
+    public static final String KEY_NEARBY_LOCATION = "locations";
+    public static final String PARTNER_APP = "partnerapp";
+    public static final int REQ_CODE_FINE_LOCATION = 66;
+    public static final int REQ_FILE_CHOOSER_RESULT_CODE = 111;
+    public static final int REQ_SHARE_RESULT_CODE = 56;
+    public static final String SP_WEBVIEW = "sp_webview";
+}
