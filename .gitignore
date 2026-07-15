@@ -38,3 +38,6 @@ local.properties
 
 
 
+
+# Large release APK - uploaded to GitHub manually, kept out of git history
+My OneApp.apk
