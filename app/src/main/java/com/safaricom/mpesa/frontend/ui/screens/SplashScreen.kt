@@ -1,0 +1,61 @@
+package com.safaricom.mpesa.frontend.ui.screens
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.safaricom.mpesa.frontend.R
+import kotlinx.coroutines.delay
+
+/**
+ * Splash / launch screen — faithful recreation of the original SplashActivity
+ * (`basic_activity_splash`).
+ *
+ * Original spec (recovered from decoded resources):
+ *  - Root ConstraintLayout, background `@color 0x7f060057` = #FFFFFF (day) / #121212 (night).
+ *  - `new_splash` "Safaricom | m-pesa" lockup (1009×130) in a 180dp square, centered on all
+ *    four sides with fitCenter → appears ~180dp wide, vertically centred.
+ *  - No tagline text; a top-end Skip button exists but is GONE by default.
+ *  - Logo is set statically, then after a short hold the app proceeds (login check).
+ */
+@Composable
+fun SplashScreen(onDone: () -> Unit) {
+    LaunchedEffect(Unit) {
+        delay(1300)
+        onDone()
+    }
+
+    // Same token as the original: #FFFFFF in light, #121212 in dark.
+    val background = if (isSystemInDarkTheme()) Color(0xFF121212) else Color.White
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(background),
+        contentAlignment = Alignment.Center,
+    ) {
+        Image(
+            painter = painterResource(R.mipmap.new_splash),
+            contentDescription = "Safaricom M-PESA",
+            contentScale = ContentScale.Fit,
+            // 180dp logo box from the original; keep the exact lockup aspect ratio.
+            modifier = Modifier
+                .width(180.dp)
+                .aspectRatio(1009f / 130f),
+        )
+    }
+}
+
+
+

@@ -1,0 +1,8 @@
+<resources>
+    <!-- Recovered Safaricom / M-PESA brand green -->
+    <color name="brand_green">#43B02A</color>
+    <color name="brand_green_dark">#2E7D1E</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+</resources>
+

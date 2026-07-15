@@ -27,4 +27,14 @@ node_modules/
 **/R.java
 **/BR.java
 
+# ---- Frontend-only Gradle app (buildable reconstruction) ----
+.gradle/
+build/
+app/build/
+captures/
+local.properties
+*.keystore
+.cxx/
+
+
 

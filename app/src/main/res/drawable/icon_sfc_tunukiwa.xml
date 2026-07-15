@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="24dp"
+    android:width="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M8.941,9.999V15.139C8.941,15.939 9.821,16.409 10.491,15.979L11.431,15.359C11.771,15.139 12.201,15.139 12.531,15.359L13.421,15.959C14.081,16.399 14.971,15.929 14.971,15.129V9.999H8.941Z"
+        android:strokeColor="#e62634"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M19.971,9.999H3.97V17.999C3.97,20.999 4.97,21.999 7.97,21.999H15.97C18.971,21.999 19.971,20.999 19.971,17.999V9.999Z"
+        android:strokeColor="#35a839"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M21.5,7V8C21.5,9.1 20.97,10 19.5,10H4.5C2.97,10 2.5,9.1 2.5,8V7C2.5,5.9 2.97,5 4.5,5H19.5C20.97,5 21.5,5.9 21.5,7Z"
+        android:strokeColor="#35a839"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M11.641,4.999H6.121C5.781,4.629 5.791,4.059 6.151,3.699L7.571,2.279C7.941,1.909 8.551,1.909 8.921,2.279L11.641,4.999Z"
+        android:strokeColor="#35a839"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M17.869,4.999H12.349L15.069,2.279C15.439,1.909 16.049,1.909 16.419,2.279L17.839,3.699C18.199,4.059 18.209,4.629 17.869,4.999Z"
+        android:strokeColor="#35a839"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+</vector>

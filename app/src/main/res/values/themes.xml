@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.MyOneApp" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/brand_green</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+</resources>
+
