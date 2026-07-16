@@ -100,28 +100,14 @@ fun PinLoginScreen(
             .background(Color.White),
     ) {
         Column(Modifier.fillMaxSize()) {
-            // --- Top app bar: back button (start) + centred title ---
+            // --- Top bar: centred title (no back button — this is the entry screen) ---
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 10.dp),
+                    .padding(horizontal = 8.dp, vertical = 10.dp)
+                    .height(40.dp),
                 contentAlignment = Alignment.Center,
             ) {
-                Box(
-                    Modifier
-                        .align(Alignment.CenterStart)
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .background(BackBtnBg)
-                        .clickable(onClick = onBack)
-                        .padding(9.dp),
-                ) {
-                    Image(
-                        painterResource(R.drawable.ic_sfc_back),
-                        contentDescription = "Back",
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                }
                 Text(
                     "Enter M-PESA PIN",
                     color = TitleColor,
@@ -157,8 +143,8 @@ fun PinLoginScreen(
                 Text(phone, color = NameColor, fontSize = 14.sp)
             }
 
-            // --- PIN boxes (marginTop 80dp from the phone row) ---
-            Spacer(Modifier.height(80.dp))
+            // --- PIN boxes sit just below the phone number (~1.5x the name→phone gap) ---
+            Spacer(Modifier.height(10.dp))
             PinBoxes(
                 filled = pin.length,
                 status = status,

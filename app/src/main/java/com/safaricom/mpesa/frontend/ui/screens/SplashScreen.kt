@@ -2,7 +2,6 @@ package com.safaricom.mpesa.frontend.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,13 +35,12 @@ fun SplashScreen(onDone: () -> Unit) {
         onDone()
     }
 
-    // Same token as the original: #FFFFFF in light, #121212 in dark.
-    val background = if (isSystemInDarkTheme()) Color(0xFF121212) else Color.White
-
+    // The whole app is forced-light, and the launch windowBackground is white, so the splash
+    // is white too (the day value of the original splash colour #ffffff) — no white→dark flash.
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(background),
+            .background(Color.White),
         contentAlignment = Alignment.Center,
     ) {
         Image(

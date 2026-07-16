@@ -111,26 +111,24 @@ fun HomeTab(
             }
         }
 
-        // Floating "Ask Zuri" assistant — white rounded card with a margin around the avatar.
+        // Floating "Ask Zuri" assistant — the transparent-cut avatar on a white bubble.
         Box(
             Modifier
                 .align(Alignment.BottomEnd)
                 .padding(end = 16.dp, bottom = 84.dp)
                 .size(58.dp)
-                .shadow(6.dp, RoundedCornerShape(18.dp))
-                .clip(RoundedCornerShape(18.dp))
+                .shadow(6.dp, CircleShape)
+                .clip(CircleShape)
                 .background(Color.White)
                 .clickable { onOpenRoute(Routes.ALL_SERVICES) }
-                .padding(7.dp),
+                .padding(5.dp),
             contentAlignment = Alignment.Center,
         ) {
             Image(
                 painterResource(R.drawable.ic_ask_zuri),
                 contentDescription = "Ask Zuri",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(12.dp)),
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.fillMaxSize(),
             )
         }
 
