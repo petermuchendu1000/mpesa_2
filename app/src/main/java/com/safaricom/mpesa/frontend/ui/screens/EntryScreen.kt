@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.safaricom.mpesa.frontend.data.AppState
 import com.safaricom.mpesa.frontend.data.FakeData
 import com.safaricom.mpesa.frontend.data.FieldKind
 import com.safaricom.mpesa.frontend.data.SfcCatalog
@@ -50,6 +51,13 @@ fun EntryScreen(
 
     val amountIndex = action.inputs.indexOfFirst { it.kind == FieldKind.AMOUNT }
     val allFilled = values.all { it.isNotBlank() }
+
+    // Affordability: only outgoing money actions are limited by balance + Fuliza.
+    val outgoing = actionId != "request"
+    val amountVal = if (amountIndex >= 0) values.getOrNull(amountIndex)?.toDoubleOrNull() ?: 0.0 else 0.0
+    val overLimit = outgoing && amountVal > 0.0 && !AppState.canAfford(amountVal)
+    val usesFuliza = outgoing && amountVal > AppState.balance && amountVal <= AppState.balance + AppState.fulizaAvailable
+
 
     Scaffold(
         containerColor = Color(0xFFF5F6F8),
@@ -99,6 +107,21 @@ fun EntryScreen(
 
             Spacer(Modifier.weight(1f))
 
+            if (amountIndex >= 0 && outgoing) {
+                Text(
+                    when {
+                        overLimit -> "Insufficient funds. Available: Ksh ${AppState.balanceStr}" +
+                            " (+ Fuliza Ksh ${AppState.fulizaAvailableStr})"
+                        usesFuliza -> "Balance is low — Fuliza will cover Ksh " +
+                            AppState.money(amountVal - AppState.balance) + "."
+                        else -> "M-PESA balance: Ksh ${AppState.balanceStr}"
+                    },
+                    color = if (overLimit) Color(0xFFE1251B) else MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontSize = 13.sp,
+                    modifier = Modifier.padding(bottom = 10.dp),
+                )
+            }
+
             Button(
                 onClick = {
                     TxFlow.actionId = action.id
@@ -108,7 +131,7 @@ fun EntryScreen(
                     TxFlow.reference = FakeData.newReference()
                     onContinue()
                 },
-                enabled = allFilled,
+                enabled = allFilled && !overLimit,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
@@ -116,16 +139,10 @@ fun EntryScreen(
             ) {
                 Text("Continue", fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
             }
-            Spacer(Modifier.height(8.dp))
-            Text(
-                "Frontend preview — no real transaction is performed.",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp)),
-            )
+            Spacer(Modifier.height(16.dp))
         }
     }
 }
+
+
 

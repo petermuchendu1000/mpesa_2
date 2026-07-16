@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.safaricom.mpesa.frontend.R
+import com.safaricom.mpesa.frontend.data.AppState
 import com.safaricom.mpesa.frontend.data.FakeData
 import com.safaricom.mpesa.frontend.ui.TxFlow
 import com.safaricom.mpesa.frontend.ui.components.KeyValueRow
@@ -118,4 +119,5 @@ private fun Divider() {
             .background(Color(0xFFEDEEF1))
     )
 }
+
 

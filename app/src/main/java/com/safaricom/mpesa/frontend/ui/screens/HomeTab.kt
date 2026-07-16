@@ -48,9 +48,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -59,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.safaricom.mpesa.frontend.R
 import com.safaricom.mpesa.frontend.data.AdBanner
+import com.safaricom.mpesa.frontend.data.AppState
 import com.safaricom.mpesa.frontend.data.DoMoreCategory
 import com.safaricom.mpesa.frontend.data.EntertainmentItem
 import com.safaricom.mpesa.frontend.data.FinanceItem
@@ -78,6 +81,7 @@ private val ChipGrey = Color(0xFFF3F4F6)
 fun HomeTab(
     modifier: Modifier = Modifier,
     onOpenRoute: (String) -> Unit,
+    onOpenProfile: () -> Unit = {},
 ) {
     val listState = rememberLazyListState()
     // Scan-to-pay collapses to just the QR icon once the feed is scrolled.
@@ -90,6 +94,7 @@ fun HomeTab(
             HomeTopBar(
                 onBell = { onOpenRoute(Routes.NOTIFICATIONS) },
                 onSearch = { onOpenRoute(Routes.ALL_SERVICES) },
+                onProfile = onOpenProfile,
             )
             LazyColumn(
                 state = listState,
@@ -106,16 +111,28 @@ fun HomeTab(
             }
         }
 
-        // Floating assistant (a server image in the original — approximated here).
+        // Floating "Ask Zuri" assistant — white rounded card with a margin around the avatar.
         Box(
             Modifier
                 .align(Alignment.BottomEnd)
                 .padding(end = 16.dp, bottom = 84.dp)
-                .size(46.dp)
-                .clip(CircleShape)
-                .background(Color(0xFFEDE7F6)),
+                .size(58.dp)
+                .shadow(6.dp, RoundedCornerShape(18.dp))
+                .clip(RoundedCornerShape(18.dp))
+                .background(Color.White)
+                .clickable { onOpenRoute(Routes.ALL_SERVICES) }
+                .padding(7.dp),
             contentAlignment = Alignment.Center,
-        ) { Text("\uD83D\uDE4B\u200D♀️", fontSize = 22.sp) }
+        ) {
+            Image(
+                painterResource(R.drawable.ic_ask_zuri),
+                contentDescription = "Ask Zuri",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(12.dp)),
+            )
+        }
 
         // Floating Scan-to-pay — a pill that collapses to the QR icon on scroll.
         ScanToPayFab(
@@ -129,7 +146,7 @@ fun HomeTab(
 /* ------------------------------------------------------------------ Top bar */
 
 @Composable
-private fun HomeTopBar(onBell: () -> Unit, onSearch: () -> Unit) {
+private fun HomeTopBar(onBell: () -> Unit, onSearch: () -> Unit, onProfile: () -> Unit) {
     val greeting = remember {
         when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
             in 0..11 -> "Good morning,"
@@ -144,13 +161,16 @@ private fun HomeTopBar(onBell: () -> Unit, onSearch: () -> Unit) {
             .padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // Avatar with account-switcher chevron badge.
-        Box(contentAlignment = Alignment.BottomEnd) {
+        // Avatar with account-switcher chevron badge (pale-blue initials chip, per original).
+        Box(
+            contentAlignment = Alignment.BottomEnd,
+            modifier = Modifier.clickable(onClick = onProfile),
+        ) {
             Box(
-                Modifier.size(44.dp).clip(CircleShape).background(Color(0xFFEFE1FB)),
+                Modifier.size(44.dp).clip(CircleShape).background(Color(0xFFDCE8FB)),
                 contentAlignment = Alignment.Center,
             ) {
-                Text(HomeContent.USER_INITIALS, color = Color(0xFF9C4DE0), fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                Text(HomeContent.USER_INITIALS, color = Color(0xFF2E6CD4), fontWeight = FontWeight.SemiBold, fontSize = 15.sp)
             }
             Box(
                 Modifier
@@ -165,17 +185,17 @@ private fun HomeTopBar(onBell: () -> Unit, onSearch: () -> Unit) {
         Spacer(Modifier.width(10.dp))
         Column(Modifier.weight(1f)) {
             Text(greeting, color = TextGrey, fontSize = 13.sp)
-            Text("${HomeContent.USER_NAME} \uD83D\uDC4B", color = TextDark, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text("${HomeContent.USER_NAME} \uD83D\uDC4B", color = TextDark, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
         }
         CircleIconButton(onClick = onBell) {
             Image(
-                painterResource(R.mipmap.icon_home_notification), "Notifications",
-                colorFilter = ColorFilter.tint(SafGreen), modifier = Modifier.size(20.dp),
+                painterResource(R.drawable.ic_notifications), "Notifications",
+                modifier = Modifier.size(22.dp),
             )
         }
         Spacer(Modifier.width(12.dp))
         CircleIconButton(onClick = onSearch) {
-            Image(painterResource(R.mipmap.icon_green_circle_search), "Search", modifier = Modifier.size(22.dp))
+            Image(painterResource(R.drawable.ic_one_app_search), "Search", modifier = Modifier.size(20.dp))
         }
     }
 }
@@ -226,7 +246,7 @@ private fun MpesaBalanceCard(onOpenRoute: (String) -> Unit) {
     Box(
         Modifier
             .fillMaxWidth()
-            .height(150.dp)
+            .height(168.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(Color.White),
     ) {
@@ -246,13 +266,19 @@ private fun MpesaBalanceCard(onOpenRoute: (String) -> Unit) {
                 .background(Brush.verticalGradient(listOf(SafGreen, Color(0xFF1E9BE0)))),
         )
         Column(Modifier.fillMaxSize().padding(start = 18.dp, end = 16.dp, top = 16.dp, bottom = 16.dp)) {
-            Text("M-PESA Balance", color = SafGreen, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+            Text("M-PESA Balance", color = SafGreen, fontSize = 14.sp, fontWeight = FontWeight.Medium)
             Spacer(Modifier.height(6.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    if (hidden) "Ksh ••••••" else "Ksh ${HomeContent.BALANCE}",
-                    color = TextDark, fontSize = 26.sp, fontWeight = FontWeight.Bold,
-                )
+                if (hidden) {
+                    Text("Ksh ••••••", color = TextDark, fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
+                } else {
+                    Text(
+                        "Ksh ${AppState.balanceStr}",
+                        color = TextDark,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }
                 Spacer(Modifier.width(8.dp))
                 Image(
                     painterResource(R.drawable.icon_hide_balance),
@@ -260,6 +286,13 @@ private fun MpesaBalanceCard(onOpenRoute: (String) -> Unit) {
                     modifier = Modifier.size(20.dp).clickable { hidden = !hidden },
                 )
             }
+            Spacer(Modifier.height(4.dp))
+            Text(
+                "Available Fuliza: Ksh ${AppState.fulizaAvailableStr}",
+                color = TextGrey,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Normal,
+            )
             Spacer(Modifier.weight(1f))
             OutlinedPill("View Statements") { onOpenRoute(Routes.HISTORY) }
         }
@@ -271,7 +304,7 @@ private fun MyBalancesCard() {
     Box(
         Modifier
             .fillMaxWidth()
-            .height(150.dp)
+            .height(172.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(Color.White),
     ) {
@@ -285,7 +318,7 @@ private fun MyBalancesCard() {
             Text("My Balances", color = SafGreen, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
             Spacer(Modifier.height(8.dp))
             Text("Airtime", color = TextGrey, fontSize = 12.sp)
-            Text("Ksh. ${HomeContent.AIRTIME}", color = TextDark, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+            Text("Ksh. ${AppState.airtimeStr}", color = TextDark, fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
             Spacer(Modifier.weight(1f))
             OutlinedPill("Buy Airtime") { }
         }
@@ -322,7 +355,7 @@ private fun WhiteCard(content: @Composable () -> Unit) {
 @Composable
 private fun SectionTitleRow(title: String, action: String? = null, onAction: () -> Unit = {}) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Text(title, fontSize = 17.sp, fontWeight = FontWeight.Bold, color = TextDark, modifier = Modifier.weight(1f))
+        Text(title, fontSize = 17.sp, fontWeight = FontWeight.SemiBold, color = TextDark, modifier = Modifier.weight(1f))
         if (action != null) {
             Row(Modifier.clickable(onClick = onAction), verticalAlignment = Alignment.CenterVertically) {
                 Text(action, color = SafGreen, fontSize = 14.sp, fontWeight = FontWeight.Medium)
@@ -374,9 +407,16 @@ private fun QuickActionTile(qa: QuickAction, modifier: Modifier, onClick: () -> 
 private fun FrequentsSection(onOpenRoute: (String) -> Unit) {
     var expanded by remember { mutableStateOf(true) }
     var tab by remember { mutableIntStateOf(0) }
+    // Each tab shows its own empty-state glyph, exactly like the original app.
+    val tabGlyphs = listOf(
+        R.drawable.ic_frequents_empty_state_mini_apps, // Apps
+        R.drawable.ic_frequents_empty_state_send,      // Send
+        R.drawable.ic_frequents_empty_state_pay,       // Pay
+        R.drawable.ic_frequents_empty_state_withdraw,  // Buy
+    )
     WhiteCard {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("Frequents", fontSize = 17.sp, fontWeight = FontWeight.Bold, color = TextDark, modifier = Modifier.weight(1f))
+            Text("Frequents", fontSize = 17.sp, fontWeight = FontWeight.SemiBold, color = TextDark, modifier = Modifier.weight(1f))
             Icon(
                 if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
                 "Toggle", tint = TextGrey,
@@ -385,30 +425,38 @@ private fun FrequentsSection(onOpenRoute: (String) -> Unit) {
         }
         if (expanded) {
             Spacer(Modifier.height(14.dp))
-            Row {
-                HomeContent.frequentTabs.forEachIndexed { i, t ->
-                    val active = i == tab
-                    Box(
-                        Modifier
-                            .padding(end = 10.dp)
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(if (active) SafGreen else Color.Transparent)
-                            .clickable { tab = i }
-                            .padding(horizontal = 20.dp, vertical = 8.dp),
-                    ) {
-                        Text(
-                            t, color = if (active) Color.White else TextGrey,
-                            fontWeight = if (active) FontWeight.SemiBold else FontWeight.Normal, fontSize = 14.sp,
-                        )
+            // Segmented tab strip: light-grey rounded container with a green active pill.
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(24.dp))
+                    .background(ChipGrey)
+                    .padding(4.dp),
+            ) {
+                Row(Modifier.horizontalScroll(rememberScrollState())) {
+                    HomeContent.frequentTabs.forEachIndexed { i, t ->
+                        val active = i == tab
+                        Box(
+                            Modifier
+                                .clip(RoundedCornerShape(20.dp))
+                                .background(if (active) SafGreen else Color.Transparent)
+                                .clickable { tab = i }
+                                .padding(horizontal = 24.dp, vertical = 8.dp),
+                        ) {
+                            Text(
+                                t, color = if (active) Color.White else TextGrey,
+                                fontWeight = if (active) FontWeight.SemiBold else FontWeight.Normal, fontSize = 14.sp,
+                            )
+                        }
                     }
                 }
             }
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(22.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                FreshIllustration()
+                FreshIllustration(tabGlyphs[tab])
                 Spacer(Modifier.width(16.dp))
                 Text(
-                    "It looks like starting fresh here. See the services we offer",
+                    "It looks like you're starting fresh here. See the services we offer",
                     color = TextGrey, fontSize = 14.sp, lineHeight = 20.sp, modifier = Modifier.weight(1f),
                 )
             }
@@ -426,24 +474,21 @@ private fun FrequentsSection(onOpenRoute: (String) -> Unit) {
 }
 
 @Composable
-private fun FreshIllustration() {
-    Box(Modifier.size(64.dp), contentAlignment = Alignment.Center) {
-        Column {
-            Row {
-                Box(Modifier.size(20.dp).clip(RoundedCornerShape(5.dp)).border(2.dp, SafGreen, RoundedCornerShape(5.dp)))
-                Spacer(Modifier.width(6.dp))
-                Box(Modifier.size(20.dp).clip(RoundedCornerShape(5.dp)).border(2.dp, SafGreen, RoundedCornerShape(5.dp)))
-            }
-            Spacer(Modifier.height(6.dp))
-            Row {
-                Box(Modifier.size(20.dp).clip(RoundedCornerShape(5.dp)).border(2.dp, SafGreen, RoundedCornerShape(5.dp)))
-                Spacer(Modifier.width(6.dp))
-                Box(
-                    Modifier.size(20.dp).clip(RoundedCornerShape(5.dp)).border(2.dp, Color(0xFFE0433F), RoundedCornerShape(5.dp)),
-                    contentAlignment = Alignment.Center,
-                ) { Text("+", color = Color(0xFFE0433F), fontSize = 14.sp, fontWeight = FontWeight.Bold) }
-            }
-        }
+private fun FreshIllustration(glyphRes: Int) {
+    // Original composition: pale-green "cloud" (ic_frequents_empty_state) with the
+    // per-tab glyph overlaid slightly left of centre.
+    Box(Modifier.size(width = 118.dp, height = 56.dp), contentAlignment = Alignment.Center) {
+        Image(
+            painterResource(R.drawable.ic_frequents_empty_state),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.fillMaxWidth().height(50.dp),
+        )
+        Image(
+            painterResource(glyphRes),
+            contentDescription = null,
+            modifier = Modifier.size(34.dp).offset(x = (-8).dp),
+        )
     }
 }
 
@@ -464,7 +509,7 @@ private fun ExploreDiscoverSection() {
     Column {
         Text(
             "Explore & Discover Deals \uD83D\uDD25",
-            fontSize = 17.sp, fontWeight = FontWeight.Bold, color = TextDark,
+            fontSize = 17.sp, fontWeight = FontWeight.SemiBold, color = TextDark,
             modifier = Modifier.padding(horizontal = 16.dp),
         )
         Spacer(Modifier.height(12.dp))
@@ -551,7 +596,7 @@ private fun FinanceCell(item: FinanceItem, modifier: Modifier) {
 @Composable
 private fun EntertainmentSection() {
     WhiteCard {
-        Text("Entertainment", fontSize = 17.sp, fontWeight = FontWeight.Bold, color = TextDark)
+        Text("Entertainment", fontSize = 17.sp, fontWeight = FontWeight.SemiBold, color = TextDark)
         Spacer(Modifier.height(16.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(24.dp)) {
             HomeContent.entertainment.forEach { EntertainmentCell(it) }
@@ -587,7 +632,7 @@ private fun DoMoreSection() {
         out
     }
     Column(Modifier.padding(horizontal = 16.dp)) {
-        Text("Do more with M-PESA", fontSize = 17.sp, fontWeight = FontWeight.Bold, color = TextDark)
+        Text("Do more with M-PESA", fontSize = 17.sp, fontWeight = FontWeight.SemiBold, color = TextDark)
         Spacer(Modifier.height(12.dp))
         rows.forEach { row ->
             val tall = row.size == 2
@@ -635,7 +680,7 @@ private fun ScanToPayFab(collapsed: Boolean, onClick: () -> Unit, modifier: Modi
             Modifier.clickable(onClick = onClick).padding(horizontal = 14.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(painterResource(R.mipmap.icon_home_scan), "Scan to pay", modifier = Modifier.size(26.dp))
+            Image(painterResource(R.drawable.ic_scan_to_pay), "Scan to pay", modifier = Modifier.size(28.dp))
             AnimatedVisibility(
                 visible = !collapsed,
                 enter = expandHorizontally(tween(200)) + fadeIn(tween(200)),

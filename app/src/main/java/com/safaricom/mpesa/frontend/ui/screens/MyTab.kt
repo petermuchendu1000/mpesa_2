@@ -2,6 +2,7 @@ package com.safaricom.mpesa.frontend.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,8 +10,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,11 +21,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,14 +37,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.safaricom.mpesa.frontend.R
 import com.safaricom.mpesa.frontend.data.FakeData
 import com.safaricom.mpesa.frontend.data.MenuItem
 import com.safaricom.mpesa.frontend.data.SfcCatalog
 import com.safaricom.mpesa.frontend.ui.Routes
-import com.safaricom.mpesa.frontend.ui.theme.BrandGreen
 import com.safaricom.mpesa.frontend.ui.theme.BrandGreenDark
 import com.safaricom.mpesa.frontend.ui.theme.Danger
 import com.safaricom.mpesa.frontend.ui.theme.TextSecondary
+import java.util.Calendar
+
+private val MyGreen = Color(0xFF35A839)
+private val GreetGrey = Color(0xFF757575)
+private val NameDark = Color(0xFF303030)
 
 @Composable
 fun MyTab(
@@ -52,7 +63,10 @@ fun MyTab(
             .background(Color(0xFFF5F6F8))
             .verticalScroll(rememberScrollState())
     ) {
-        ProfileHeader(onClick = { onOpenRoute(Routes.info("My Account")) })
+        ProfileHeader(
+            onBell = { onOpenRoute(Routes.NOTIFICATIONS) },
+            onSearch = { onOpenRoute(Routes.ALL_SERVICES) },
+        )
 
         Column(Modifier.padding(16.dp)) {
             SfcCatalog.myMenu.forEach { group ->
@@ -108,30 +122,66 @@ fun MyTab(
 }
 
 @Composable
-private fun ProfileHeader(onClick: () -> Unit) {
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .background(BrandGreen)
-            .clickable(onClick = onClick)
-            .padding(20.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Box(
+private fun ProfileHeader(onBell: () -> Unit, onSearch: () -> Unit) {
+    val greeting = remember {
+        when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+            in 0..11 -> "Good morning"
+            in 12..16 -> "Good afternoon"
+            else -> "Good evening"
+        }
+    }
+    val initials = FakeData.USER_NAME.trim().split(" ").filter { it.isNotEmpty() }.let { p ->
+        when {
+            p.isEmpty() -> "?"
+            p.size == 1 -> p[0].take(1).uppercase()
+            else -> (p.first().first().toString() + p.last().first()).uppercase()
+        }
+    }
+    Column(Modifier.fillMaxWidth().background(Color.White)) {
+        Row(
             Modifier
-                .size(58.dp)
-                .clip(CircleShape)
-                .background(Color.White.copy(alpha = 0.2f)),
-            contentAlignment = Alignment.Center,
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(FakeData.USER_NAME.first().toString(), color = Color.White, fontSize = 26.sp, fontWeight = FontWeight.Bold)
+            // Avatar (40dp) with account-switcher chevron badge.
+            Box(contentAlignment = Alignment.BottomEnd) {
+                Box(
+                    Modifier.size(40.dp).clip(CircleShape).background(Color(0xFFDCE8FB)),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(initials, color = Color(0xFF2E6CD4), fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                }
+                Box(
+                    Modifier
+                        .offset(x = 2.dp, y = 2.dp)
+                        .size(15.dp)
+                        .clip(CircleShape)
+                        .background(Color.White)
+                        .border(1.dp, MyGreen, CircleShape),
+                    contentAlignment = Alignment.Center,
+                ) { Icon(Icons.Filled.KeyboardArrowDown, null, tint = MyGreen, modifier = Modifier.size(11.dp)) }
+            }
+            Spacer(Modifier.width(10.dp))
+            Column(Modifier.weight(1f)) {
+                Text(greeting, color = GreetGrey, fontSize = 14.sp)
+                Text(FakeData.USER_NAME, color = NameDark, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+            }
+            HeaderCircleIcon(R.drawable.ic_notifications, "Notifications", onBell)
+            Spacer(Modifier.width(12.dp))
+            HeaderCircleIcon(R.drawable.ic_one_app_search, "Search", onSearch)
         }
-        Spacer(Modifier.size(14.dp))
-        Column(Modifier.weight(1f)) {
-            Text(FakeData.USER_NAME, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Text(FakeData.PHONE, color = Color.White.copy(alpha = 0.9f), fontSize = 13.sp)
-        }
-        Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, tint = Color.White)
+        Spacer(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFEDEEF1)))
+    }
+}
+
+@Composable
+private fun HeaderCircleIcon(iconRes: Int, desc: String, onClick: () -> Unit) {
+    Surface(shape = CircleShape, color = Color.White, shadowElevation = 2.dp) {
+        Box(
+            Modifier.size(40.dp).clip(CircleShape).clickable(onClick = onClick),
+            contentAlignment = Alignment.Center,
+        ) { Image(painterResource(iconRes), desc, modifier = Modifier.size(20.dp)) }
     }
 }
 
@@ -162,6 +212,8 @@ private fun MenuRow(item: MenuItem, onClick: () -> Unit) {
         )
     }
 }
+
+
 
 
 

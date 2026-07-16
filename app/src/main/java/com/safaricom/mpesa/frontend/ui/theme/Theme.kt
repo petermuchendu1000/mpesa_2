@@ -1,9 +1,10 @@
 package com.safaricom.mpesa.frontend.ui.theme
 
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Typography
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 
 private val LightColors = lightColorScheme(
@@ -24,8 +25,17 @@ private val LightColors = lightColorScheme(
 fun MyOneAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = LightColors,
-        typography = Typography(),
-        content = content
-    )
+        typography = ProximaTypography,
+    ) {
+        // Make Proxima Nova the default for every bare Text() as well.
+        CompositionLocalProvider(
+            LocalTextStyle provides LocalTextStyle.current.copy(fontFamily = ProximaNova),
+            content = content,
+        )
+    }
 }
+
+
+
+
 

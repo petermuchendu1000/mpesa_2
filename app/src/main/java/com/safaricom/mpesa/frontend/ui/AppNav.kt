@@ -1,11 +1,13 @@
 package com.safaricom.mpesa.frontend.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.safaricom.mpesa.frontend.data.AppState
 import com.safaricom.mpesa.frontend.data.SfcCatalog
 import com.safaricom.mpesa.frontend.ui.screens.AllServicesScreen
 import com.safaricom.mpesa.frontend.ui.screens.BundlesListScreen
@@ -24,6 +26,18 @@ import com.safaricom.mpesa.frontend.ui.screens.SplashScreen
 @Composable
 fun AppNavHost() {
     val nav = rememberNavController()
+
+    // When the app is backgrounded, AppState.authenticated is cleared. As soon as we're
+    // back and composing, bounce any protected screen to the lock (PIN login) screen.
+    LaunchedEffect(AppState.authenticated) {
+        if (!AppState.authenticated) {
+            val route = nav.currentBackStackEntry?.destination?.route
+            if (route != null && route != Routes.LOGIN && route != Routes.SPLASH) {
+                nav.navigate(Routes.LOGIN) { popUpTo(0) { inclusive = true } }
+            }
+        }
+    }
+
     NavHost(navController = nav, startDestination = Routes.SPLASH) {
         composable(Routes.SPLASH) {
             SplashScreen(onDone = {
@@ -39,6 +53,7 @@ fun AppNavHost() {
             HomeShell(
                 onOpenRoute = { route -> nav.navigate(route) },
                 onLogout = {
+                    AppState.lock()
                     nav.navigate(Routes.LOGIN) { popUpTo(Routes.HOME) { inclusive = true } }
                 },
             )
@@ -98,7 +113,17 @@ fun AppNavHost() {
         composable(Routes.PIN) {
             PinEntryScreen(
                 onBack = { nav.popBackStack() },
-                onDone = { nav.navigate(Routes.RECEIPT) { popUpTo(Routes.HOME) } },
+                onDone = {
+                    // Charge the wallet (balance first, Fuliza covers any shortfall).
+                    val amt = TxFlow.amount.toDoubleOrNull() ?: 0.0
+                    val res = AppState.performTransaction(
+                        TxFlow.actionId, TxFlow.title, amt, TxFlow.recipient,
+                    )
+                    TxFlow.success = res.success
+                    TxFlow.fulizaUsed = res.fromFuliza
+                    TxFlow.newBalance = AppState.balanceStr
+                    nav.navigate(Routes.RECEIPT) { popUpTo(Routes.HOME) }
+                },
             )
         }
         composable(Routes.RECEIPT) {

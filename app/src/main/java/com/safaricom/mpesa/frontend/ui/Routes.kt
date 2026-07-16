@@ -11,6 +11,11 @@ object TxFlow {
     var recipient: String = ""
     var amount: String = ""
     var reference: String = ""
+
+    // Result populated after the PIN is confirmed and the wallet is charged.
+    var fulizaUsed: Double = 0.0
+    var newBalance: String = ""
+    var success: Boolean = true
 }
 
 object Routes {
@@ -35,5 +40,6 @@ object Routes {
         ActionKind.LIST -> list(a.id)
     }
 }
+
 
 

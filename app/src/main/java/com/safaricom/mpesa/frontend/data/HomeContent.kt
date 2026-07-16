@@ -28,18 +28,26 @@ object HomeContent {
     const val USER_NAME = "Peter"
     const val USER_INITIALS = "PM"
     const val PHONE = "0703501549"
-    const val BALANCE = "514.75"
+    const val BALANCE = "914.88"
+    const val FULIZA = "300.00"
     const val AIRTIME = "20.00"
 
-    /** The 8 Quick Actions in the exact order shown. */
+    /**
+     * The 8 Quick Actions in the exact order shown.
+     *
+     * Icons use the consistent `icon_sfc_*` vector set (brand green #35A839 + red line-art),
+     * which matches the live home screen. The older `mipmap/icon_*` PNGs were a mismatched set —
+     * several (buy goods, cash out, purchase bundle, airtime) are flat light-grey glyphs that are
+     * nearly invisible on the grey icon chip.
+     */
     val quickActions = listOf(
-        QuickAction("Send Money", R.mipmap.icon_send_money, "send_money"),
-        QuickAction("Lipa na\nM-PESA", R.mipmap.icon_buy_goods, "buygoods"),
-        QuickAction("Withdraw\nMoney", R.mipmap.icon_cash_out, "withdraw"),
-        QuickAction("Buy Bundles", R.mipmap.icon_purchase_bundle, "bundles"),
-        QuickAction("International\nTransfers", R.mipmap.icon_international_transfers, "global"),
-        QuickAction("Airtime Top\nup", R.mipmap.icon_airtime_recharge, "airtime"),
-        QuickAction("Tunukiwa\nBundles", R.mipmap.icon_bundle_tunukiwa, "tunukiwa"),
+        QuickAction("Send Money", R.drawable.icon_sfc_send_money, "send_money"),
+        QuickAction("Lipa na\nM-PESA", R.drawable.icon_sfc_mpesa_pay, "buygoods"),
+        QuickAction("Withdraw\nMoney", R.drawable.icon_sfc_withdraw_at_agent, "withdraw"),
+        QuickAction("Buy Bundles", R.drawable.icon_sfc_buy_bundles, "bundles"),
+        QuickAction("International\nTransfers", R.drawable.icon_sfc_mpesa_global, "global"),
+        QuickAction("Airtime Top\nup", R.drawable.icon_sfc_airtime, "airtime"),
+        QuickAction("Tunukiwa\nBundles", R.drawable.icon_sfc_tunukiwa, "tunukiwa"),
         QuickAction("Home\nInternet", R.drawable.icon_sfc_home_fibre, "homefibre"),
     )
 

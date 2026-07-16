@@ -1,34 +1,25 @@
 package com.safaricom.mpesa.frontend.ui.screens
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.StartOffset
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,263 +32,301 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.safaricom.mpesa.frontend.R
+import com.safaricom.mpesa.frontend.data.AppState
 import kotlinx.coroutines.delay
 
-// Brand + state colours recovered from the original resources.
-private val SafGreen = Color(0xFF35A839)   // #35a839 brand green (filled dot)
-private val SafErrorRed = Color(0xFFFF2A58) // #ff2a58 pin error colour
+/*
+ * Rebuilt 1:1 from the original `activity_sfc_pin_login` layout:
+ *   back button + centred title "Enter M-PESA PIN"  (title #1e1e1e, 16sp)
+ *   avatar 60dp (marginTop 50dp)
+ *   name   16sp #282828 (marginTop 14dp)
+ *   "Phone Number  <number>"  14sp #282828 (marginTop 6dp)
+ *   PIN input: 4 SEPARATE rounded boxes (24dp horizontal inset, marginTop 80dp),
+ *              empty border #e0e0e0, green dot #35a839, ~9dp corners
+ *   SafeInputKeyboard pinned to the bottom on a white background
+ */
+private val SafGreen = Color(0xFF35A839)
+private val SafErrorRed = Color(0xFFE1251B)
+private val TitleColor = Color(0xFF1E1E1E)
+private val NameColor = Color(0xFF282828)
+private val BoxBorder = Color(0xFFE0E0E0)
+private val BackBtnBg = Color(0xFFF7F7F7)
 
 private enum class PinStatus { IDLE, LOADING, ERROR }
 
-/**
- * M-PESA PIN login — faithful recreation of `SFCPinLoginActivity` / `activity_sfc_base_pin`.
- *
- * Structure (top → bottom): centered title, avatar (initials fallback), name,
- * "Phone Number <msisdn>", 4-box [PinPadView], custom [SafeInputKeyboard].
- *
- * Behaviour (extracted from PinPadView + SafeInputKeyboard + SFCPinLoginActivity):
- *  - digit → selectDot() fills the next box with a green dot; 4th digit auto-submits.
- *  - submit → startLoadingAnimation(): staggered 200ms wave across the dots while verifying.
- *  - success → onAuthenticated(); error → red dots + shake, then auto-clear to retry.
- *  - delete → deselectDot() un-fills the last box.
- *
- * Mock verify: PIN "0000" demonstrates the error path; any other 4 digits succeed.
- */
 @Composable
 fun PinLoginScreen(
     onAuthenticated: () -> Unit,
+    onBack: () -> Unit = {},
     name: String = "Peter Muchendu",
     phone: String = "0703501549",
 ) {
-    val dark = isSystemInDarkTheme()
-    val background = if (dark) Color(0xFF121212) else Color.White
-    val textPrimary = if (dark) Color.White else Color(0xFF121212)
-    val textSecondary = if (dark) Color(0xFFBFBFBF) else Color(0xFF6B6B6B)
-    val boxBorderIdle = if (dark) Color(0xFF4A4A4A) else Color(0xFFCBD5E1)
-
     var pin by remember { mutableStateOf("") }
     var status by remember { mutableStateOf(PinStatus.IDLE) }
-
-    // 4th digit → loading wave → verify → success / error, exactly like onConfirmClick().
     LaunchedEffect(pin) {
         if (pin.length == 4 && status == PinStatus.IDLE) {
             status = PinStatus.LOADING
-            delay(1100) // ~ 4 dots * 200ms wave + verify latency
-            if (pin == "0000") {
-                status = PinStatus.ERROR
-                delay(600)  // showErrorAnimation() duration
-                pin = ""    // clearDots()
-                status = PinStatus.IDLE
-            } else {
+            delay(700)
+            if (pin == AppState.CORRECT_PIN) {
+                AppState.authenticated = true
                 onAuthenticated()
+            } else {
+                status = PinStatus.ERROR
+                delay(700)
+                pin = ""
+                status = PinStatus.IDLE
+            }
+        }
+    }
+    val initials = remember(name) {
+        name.trim().split(" ").filter { it.isNotEmpty() }.let { parts ->
+            when {
+                parts.isEmpty() -> "?"
+                parts.size == 1 -> parts[0].take(1).uppercase()
+                else -> (parts.first().first().toString() + parts.last().first()).uppercase()
             }
         }
     }
 
-    val initials = remember(name) {
-        name.trim().split(" ").filter { it.isNotEmpty() }
-            .take(2).joinToString("") { it.first().uppercase() }
-            .ifEmpty { "?" }
-    }
-
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(background)
-            .padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .background(Color.White),
     ) {
-        Spacer(Modifier.height(24.dp))
-        Text(
-            text = "Enter your M-PESA PIN",
-            color = textPrimary,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Medium,
-        )
+        Column(Modifier.fillMaxSize()) {
+            // --- Top app bar: back button (start) + centred title ---
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 10.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Box(
+                    Modifier
+                        .align(Alignment.CenterStart)
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(BackBtnBg)
+                        .clickable(onClick = onBack)
+                        .padding(9.dp),
+                ) {
+                    Image(
+                        painterResource(R.drawable.ic_sfc_back),
+                        contentDescription = "Back",
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+                Text(
+                    "Enter M-PESA PIN",
+                    color = TitleColor,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
 
-        Spacer(Modifier.height(28.dp))
+            // --- Profile block, stacked from the top (not vertically centred) ---
+            Spacer(Modifier.height(50.dp))
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .size(60.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFFDCE8FB)),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(initials, color = Color(0xFF2E6CD4), fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+            }
+            Spacer(Modifier.height(14.dp))
+            Text(
+                name,
+                color = NameColor,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            )
+            Spacer(Modifier.height(6.dp))
+            Row(Modifier.align(Alignment.CenterHorizontally)) {
+                Text("Phone Number", color = NameColor, fontSize = 14.sp)
+                Spacer(Modifier.width(5.dp))
+                Text(phone, color = NameColor, fontSize = 14.sp)
+            }
 
-        // Avatar — initials fallback (cardAbbr + tvAbbr), light-blue like the original.
-        Box(
-            modifier = Modifier
-                .size(60.dp)
-                .clip(CircleShape)
-                .background(Color(0xFF8AB4E8)),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(initials, color = Color(0xFF2F6FD6), fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            // --- PIN boxes (marginTop 80dp from the phone row) ---
+            Spacer(Modifier.height(80.dp))
+            PinBoxes(
+                filled = pin.length,
+                status = status,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            )
+            // Error message directly under the boxes (as in CodeWithErrorInputView)
+            Box(
+                Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .height(28.dp)
+                    .padding(top = 8.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                if (status == PinStatus.ERROR) {
+                    Text(
+                        "Incorrect M-PESA PIN. Please try again.",
+                        color = SafErrorRed,
+                        fontSize = 13.sp,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
         }
 
-        Spacer(Modifier.height(14.dp))
-        Text(name, color = textPrimary, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-
-        Spacer(Modifier.height(6.dp))
-        Row {
-            Text("Phone Number", color = textPrimary, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
-            Spacer(Modifier.size(5.dp))
-            Text(phone, color = textPrimary, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
-        }
-
-        Spacer(Modifier.height(32.dp))
-
-        PinPadBoxes(
-            filled = pin.length,
-            status = status,
-            idleBorder = boxBorderIdle,
-        )
-
-        // Error message (tvPinError) — shown only during the error animation.
-        Spacer(Modifier.height(12.dp))
-        Text(
-            text = if (status == PinStatus.ERROR) "Incorrect M-PESA PIN. Please try again." else "",
-            color = SafErrorRed,
-            fontSize = 14.sp,
-            textAlign = TextAlign.Center,
-        )
-
-        Spacer(Modifier.weight(1f))
-
+        // --- Keyboard pinned to the bottom on white ---
         SfcPinKeypad(
+            modifier = Modifier.align(Alignment.BottomCenter),
             onDigit = { d ->
-                // selectDot(): if in error, clear + reset first, then take this digit.
                 if (status == PinStatus.ERROR) {
                     pin = ""
                     status = PinStatus.IDLE
                 }
                 if (status == PinStatus.IDLE && pin.length < 4) pin += d
             },
-            onDelete = {
-                if (status == PinStatus.IDLE && pin.isNotEmpty()) pin = pin.dropLast(1)
+            onDelete = { if (status == PinStatus.IDLE && pin.isNotEmpty()) pin = pin.dropLast(1) },
+            onBiometric = {
+                // Biometric login succeeds immediately in this preview build.
+                AppState.authenticated = true
+                onAuthenticated()
             },
-            digitColor = textPrimary,
-            secondaryColor = textSecondary,
+            digitColor = TitleColor,
         )
-        Spacer(Modifier.height(16.dp))
     }
 }
 
-/** The 4 PIN boxes with green-dot fill, staggered loading wave, and error shake. */
 @Composable
-private fun PinPadBoxes(
+private fun PinBoxes(
     filled: Int,
     status: PinStatus,
-    idleBorder: Color,
+    modifier: Modifier = Modifier,
 ) {
-    // Horizontal shake on error (showErrorAnimation()).
+    val isError = status == PinStatus.ERROR
+    // Shake the whole row of boxes when the PIN is wrong.
     val shake = remember { Animatable(0f) }
     LaunchedEffect(status) {
         if (status == PinStatus.ERROR) {
-            val kf = listOf(-10f, 10f, -8f, 8f, -4f, 4f, 0f)
+            val kf = listOf(-11f, 11f, -9f, 9f, -5f, 5f, 0f)
             for (v in kf) shake.animateTo(v, tween(45))
         } else {
             shake.snapTo(0f)
         }
     }
-
-    val transition = rememberInfiniteTransition(label = "pinWave")
-
     Row(
-        modifier = Modifier.offset(x = shake.value.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = modifier.offset(x = shake.value.dp),
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
         repeat(4) { i ->
-            val isFilled = i < filled
-            val isError = status == PinStatus.ERROR
-            val borderColor = if (isError) SafErrorRed else idleBorder
-            val dotColor = if (isError) SafErrorRed else SafGreen
-
-            // Green dot scale-in on select.
-            val dotScale by animateFloatAsState(
-                targetValue = if (isFilled || isError) 1f else 0f,
-                animationSpec = tween(160),
-                label = "dotScale",
+            PinBox(
+                isFilled = i < filled,
+                isFocused = i == filled && !isError && status == PinStatus.IDLE,
+                isError = isError,
             )
-
-            // Staggered loading pulse — each dot offset by 200ms (LOADING_DELAY).
-            val pulse by transition.animateFloat(
-                initialValue = 1f,
-                targetValue = 0.35f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(400),
-                    repeatMode = RepeatMode.Reverse,
-                    initialStartOffset = StartOffset(i * 200),
-                ),
-                label = "pulse$i",
-            )
-            val dotAlpha = if (status == PinStatus.LOADING) pulse else 1f
-
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .border(1.5.dp, borderColor, RoundedCornerShape(12.dp)),
-                contentAlignment = Alignment.Center,
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(14.dp)
-                        .scale(dotScale)
-                        .clip(CircleShape)
-                        .background(dotColor.copy(alpha = dotAlpha)),
-                )
-            }
         }
     }
 }
 
-/** Custom numeric keypad (SafeInputKeyboard): digits + green circular delete. */
+@Composable
+private fun PinBox(
+    isFilled: Boolean,
+    isFocused: Boolean,
+    isError: Boolean,
+) {
+    val borderColor = when {
+        isError -> SafErrorRed
+        isFocused -> SafGreen
+        else -> BoxBorder
+    }
+    Box(
+        modifier = Modifier
+            .size(width = 52.dp, height = 50.dp)
+            .clip(RoundedCornerShape(9.dp))
+            .border(1.5.dp, borderColor, RoundedCornerShape(9.dp)),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (isFilled) {
+            // Pop animation: dot expands then shrinks back to size as you type.
+            val scale = remember { Animatable(1f) }
+            LaunchedEffect(Unit) {
+                scale.snapTo(1.5f)
+                scale.animateTo(1f, tween(180))
+            }
+            Box(
+                Modifier
+                    .size(16.dp)
+                    .scale(scale.value)
+                    .clip(CircleShape)
+                    .background(if (isError) SafErrorRed else SafGreen),
+            )
+        }
+    }
+}
+
 @Composable
 private fun SfcPinKeypad(
     onDigit: (String) -> Unit,
     onDelete: () -> Unit,
+    onBiometric: () -> Unit,
     digitColor: Color,
-    secondaryColor: Color,
+    modifier: Modifier = Modifier,
 ) {
+    // "F" = fingerprint / biometric key (bottom-left, as in the original login keyboard).
     val rows = listOf(
         listOf("1", "2", "3"),
         listOf("4", "5", "6"),
         listOf("7", "8", "9"),
-        listOf("", "0", "<"),
+        listOf("F", "0", "<"),
     )
-    Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(horizontal = 16.dp)
+            .padding(top = 8.dp, bottom = 28.dp),
+        verticalArrangement = Arrangement.spacedBy(28.dp),
+    ) {
         rows.forEach { row ->
             Row(Modifier.fillMaxWidth()) {
                 row.forEach { key ->
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .height(64.dp)
+                            .height(48.dp)
                             .then(
-                                if (key.isEmpty()) Modifier
-                                else Modifier.clickable(
-                                    interactionSource = remember { MutableInteractionSource() },
-                                    indication = null,
-                                ) { if (key == "<") onDelete() else onDigit(key) }
+                                when (key) {
+                                    "<" -> Modifier.clickable { onDelete() }
+                                    "F" -> Modifier.clickable { onBiometric() }
+                                    else -> Modifier.clickable { onDigit(key) }
+                                }
                             ),
                         contentAlignment = Alignment.Center,
                     ) {
                         when (key) {
-                            "" -> {}
-                            "<" -> Box(
-                                modifier = Modifier
-                                    .size(34.dp)
-                                    .clip(CircleShape)
-                                    .border(1.5.dp, SafGreen, CircleShape),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                Icon(
-                                    Icons.Filled.Close,
-                                    contentDescription = "Delete",
-                                    tint = SafGreen,
-                                    modifier = Modifier.size(16.dp),
-                                )
-                            }
-                            else -> Text(key, color = digitColor, fontSize = 28.sp, fontWeight = FontWeight.Normal)
+                            "F" -> Image(
+                                painter = painterResource(R.mipmap.base_icon_fingerprint),
+                                contentDescription = "Login with biometrics",
+                                modifier = Modifier.size(30.dp),
+                            )
+                            "<" -> Image(
+                                painter = painterResource(R.mipmap.base_icon_delete),
+                                contentDescription = "Delete",
+                                modifier = Modifier.size(24.dp),
+                            )
+                            else -> Text(
+                                key,
+                                color = digitColor,
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Normal,
+                            )
                         }
                     }
                 }
@@ -305,5 +334,3 @@ private fun SfcPinKeypad(
         }
     }
 }
-
-
