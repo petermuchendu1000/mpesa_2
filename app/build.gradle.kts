@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.safaricom.mpesa.frontend"
+    namespace = "com.safarlcom.mbesa.frontend"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.safaricom.mpesa.frontend"
+        applicationId = "com.safarlcom.mbesa.frontend"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
