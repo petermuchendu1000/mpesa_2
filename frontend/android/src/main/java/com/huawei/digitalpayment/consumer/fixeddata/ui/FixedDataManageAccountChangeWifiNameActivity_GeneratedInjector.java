@@ -1,5 +1,0 @@
-package com.huawei.digitalpayment.consumer.fixeddata.ui;
-
-public interface FixedDataManageAccountChangeWifiNameActivity_GeneratedInjector {
-    void injectFixedDataManageAccountChangeWifiNameActivity(FixedDataManageAccountChangeWifiNameActivity fixedDataManageAccountChangeWifiNameActivity);
-}

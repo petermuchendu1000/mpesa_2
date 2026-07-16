@@ -1,5 +1,0 @@
-package com.huawei.digitalpayment.consumer.fixeddata.ui;
-
-public interface FixedDataManageAccountConfirmationActivity_GeneratedInjector {
-    void injectFixedDataManageAccountConfirmationActivity(FixedDataManageAccountConfirmationActivity fixedDataManageAccountConfirmationActivity);
-}

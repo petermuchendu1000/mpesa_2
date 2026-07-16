@@ -1,5 +1,0 @@
-package com.huawei.digitalpayment.consumer.sfcui.buybundles.familyconnect;
-
-public interface FamilyConnectAddBeneficiaryFragment_GeneratedInjector {
-    void injectFamilyConnectAddBeneficiaryFragment(FamilyConnectAddBeneficiaryFragment familyConnectAddBeneficiaryFragment);
-}

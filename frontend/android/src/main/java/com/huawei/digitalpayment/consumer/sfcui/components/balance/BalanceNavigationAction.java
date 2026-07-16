@@ -1,7 +1,0 @@
-package com.huawei.digitalpayment.consumer.sfcui.components.balance;
-
-import kotlin.Metadata;
-
-@Metadata(d1 = {"\u00002\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\bv\u0018\u00002\u00020\u0001\u0082\u0001\n\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b¨\u0006\f"}, d2 = {"Lcom/huawei/digitalpayment/consumer/sfcui/components/balance/BalanceNavigationAction;", "", "Lcom/huawei/digitalpayment/consumer/sfcui/components/balance/AirtimeBalanceAction;", "Lcom/huawei/digitalpayment/consumer/sfcui/components/balance/BongaBalanceAction;", "Lcom/huawei/digitalpayment/consumer/sfcui/components/balance/CallsAirtimeBalanceAction;", "Lcom/huawei/digitalpayment/consumer/sfcui/components/balance/DataBalanceAction;", "Lcom/huawei/digitalpayment/consumer/sfcui/components/balance/PostpaidBalanceAction;", "Lcom/huawei/digitalpayment/consumer/sfcui/components/balance/RoamingDataBalanceAction;", "Lcom/huawei/digitalpayment/consumer/sfcui/components/balance/SmsBalanceAction;", "Lcom/huawei/digitalpayment/consumer/sfcui/components/balance/TariffCardAction;", "Lcom/huawei/digitalpayment/consumer/sfcui/components/balance/TunukiwaBalanceAction;", "Lcom/huawei/digitalpayment/consumer/sfcui/components/balance/VoiceBalanceAction;", "ConsumerSfcUI_release"}, k = 1, mv = {2, 0, 0}, xi = 48)
-public interface BalanceNavigationAction {
-}

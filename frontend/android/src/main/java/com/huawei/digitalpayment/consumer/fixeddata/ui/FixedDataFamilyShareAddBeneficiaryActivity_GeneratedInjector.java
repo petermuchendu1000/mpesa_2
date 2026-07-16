@@ -1,5 +1,0 @@
-package com.huawei.digitalpayment.consumer.fixeddata.ui;
-
-public interface FixedDataFamilyShareAddBeneficiaryActivity_GeneratedInjector {
-    void injectFixedDataFamilyShareAddBeneficiaryActivity(FixedDataFamilyShareAddBeneficiaryActivity fixedDataFamilyShareAddBeneficiaryActivity);
-}

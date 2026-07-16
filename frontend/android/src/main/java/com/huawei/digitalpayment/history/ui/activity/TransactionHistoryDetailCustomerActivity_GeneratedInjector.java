@@ -1,5 +1,0 @@
-package com.huawei.digitalpayment.history.ui.activity;
-
-public interface TransactionHistoryDetailCustomerActivity_GeneratedInjector {
-    void injectTransactionHistoryDetailCustomerActivity(TransactionHistoryDetailCustomerActivity transactionHistoryDetailCustomerActivity);
-}
