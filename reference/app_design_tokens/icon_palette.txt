@@ -1,0 +1,20 @@
+# Exact fill/stroke colors used inside the 56 imported real Safaricom icons (opaque)
+
+#35A839  x127
+#E62634  x69
+#FF2A58  x18
+#1074FF  x5
+#F7F7F7  x4
+#F44242  x2
+#FF8200  x2
+#E3F2FD  x2
+#FFFFFF  x2
+#BA2234  x2
+#E22A2C  x2
+#3675F4  x1
+#EAF6EE  x1
+#000000  x1
+#303030  x1
+#A24A3F  x1
+#DD383A  x1
+#33B14B  x1

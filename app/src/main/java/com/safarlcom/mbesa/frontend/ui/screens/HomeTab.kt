@@ -544,7 +544,7 @@ private fun AdBannerCard(ad: AdBanner) {
             .padding(18.dp),
     ) {
         Column(Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Center) {
-            Text(ad.title, color = Color(ad.textColor), fontSize = 20.sp, fontWeight = FontWeight.Black, lineHeight = 24.sp)
+            Text(ad.title, color = Color(ad.textColor), fontSize = 20.sp, fontWeight = FontWeight.Bold, lineHeight = 24.sp)
             Spacer(Modifier.height(6.dp))
             Text(ad.subtitle, color = Color(ad.textColor).copy(alpha = 0.85f), fontSize = 12.sp)
         }

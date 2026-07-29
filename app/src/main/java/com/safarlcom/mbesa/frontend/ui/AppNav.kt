@@ -16,6 +16,7 @@ import com.safarlcom.mbesa.frontend.ui.screens.EntryScreen
 import com.safarlcom.mbesa.frontend.ui.screens.HistoryScreen
 import com.safarlcom.mbesa.frontend.ui.screens.HomeShell
 import com.safarlcom.mbesa.frontend.ui.screens.InfoScreen
+import com.safarlcom.mbesa.frontend.ui.screens.MyTab
 import com.safarlcom.mbesa.frontend.ui.screens.NotificationsScreen
 import com.safarlcom.mbesa.frontend.ui.screens.PinLoginScreen
 import com.safarlcom.mbesa.frontend.ui.screens.PinEntryScreen
@@ -50,12 +51,16 @@ fun AppNavHost() {
             })
         }
         composable(Routes.HOME) {
-            HomeShell(
+            HomeShell(onOpenRoute = { route -> nav.navigate(route) })
+        }
+        composable(Routes.MY) {
+            MyTab(
                 onOpenRoute = { route -> nav.navigate(route) },
                 onLogout = {
                     AppState.lock()
                     nav.navigate(Routes.LOGIN) { popUpTo(Routes.HOME) { inclusive = true } }
                 },
+                onBack = { nav.popBackStack() },
             )
         }
         composable(Routes.ALL_SERVICES) {

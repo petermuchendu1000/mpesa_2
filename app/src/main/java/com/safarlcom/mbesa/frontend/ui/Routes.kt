@@ -22,6 +22,7 @@ object Routes {
     const val SPLASH = "splash"
     const val LOGIN = "login"
     const val HOME = "home"
+    const val MY = "my"          // account/profile screen — opened from the home profile avatar
     const val ALL_SERVICES = "allservices"
     const val HISTORY = "history"
     const val NOTIFICATIONS = "notifications"

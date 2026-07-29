@@ -1,0 +1,19 @@
+{
+  "colorPrimary": "#366bfc",
+  "colorPrimaryClick": "#224CD6",
+  "colorImportantDefault": "#FF7420",
+  "colorProjection": "#000000",
+  "colorUrgentDefault": "#FF4040",
+  "colorGeneralText": "#5C5C5C",
+  "colorFirstLevelBorder": "#e0e0e0",
+  "colorSecondaryText": "#8F8F8F",
+  "colorMainText": "#282828",
+  "colorListHeader": "#fafafa",
+  "colorSecondLevelBorder": "#f0f0f0",
+  "colorPlaceholderText": "#c7c7c7",
+  "colorGround": "#ffffff",
+  "colorPromptDefault": "#338BFF",
+  "colorBackgroundFloating": "#f5f5f5",
+  "colorWarningDefault": "#FAAF0C",
+  "colorSuccessDefault": "#2EBF88"
+}

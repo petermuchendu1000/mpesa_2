@@ -8,17 +8,23 @@ import androidx.compose.ui.text.font.FontWeight
 import com.safarlcom.mbesa.frontend.R
 
 /**
- * The original My OneApp bundles **Proxima Nova** (extracted byte-exact from the APK's
- * res/font family: Light 300, Regular 400, Semibold 500/600, Bold 700, Black 900).
- * This is the single typeface used across every screen.
+ * Proxima Nova — extracted **byte-identical** from My OneApp v5.1.9 (`assets/fonts/`).
+ *
+ * The production app ships EXACTLY three weights and no others:
+ *   - Regular.ttf  -> Proxima Nova Regular   (usWeightClass 400)
+ *   - Medium.ttf   -> Proxima Nova Semibold  (usWeightClass 600)  ← the app's "Medium" file IS Semibold
+ *   - Bold.ttf     -> Proxima Nova Bold      (usWeightClass 700)
+ * unitsPerEm 1000, ascent/descent 920/-298, 1435 glyphs (all three).
+ *
+ * There is no Light (300) or Black (900) in the app, so this family exposes only the real
+ * weights. Compose resolves any heavier request (e.g. FontWeight.Black) to the nearest
+ * available weight (Bold 700) — matching how the app itself renders.
  */
 val ProximaNova = FontFamily(
-    Font(R.font.proxima_nova_light, FontWeight.Light),        // 300
-    Font(R.font.proxima_nova_regular, FontWeight.Normal),     // 400
-    Font(R.font.proxima_nova_semibold, FontWeight.Medium),    // 500  (app maps Medium→Semibold)
-    Font(R.font.proxima_nova_semibold, FontWeight.SemiBold),  // 600
-    Font(R.font.proxima_nova_bold, FontWeight.Bold),          // 700
-    Font(R.font.proxima_nova_black, FontWeight.Black),        // 900
+    Font(R.font.proxima_nova_regular, FontWeight.Normal),    // 400
+    Font(R.font.proxima_nova_semibold, FontWeight.Medium),   // 500 -> Semibold file (app mapping)
+    Font(R.font.proxima_nova_semibold, FontWeight.SemiBold), // 600 -> Semibold file (exact)
+    Font(R.font.proxima_nova_bold, FontWeight.Bold),         // 700
 )
 
 /** Material3 typography re-based onto Proxima Nova (weights unchanged from defaults). */
@@ -42,4 +48,3 @@ val ProximaTypography: Typography = Typography().run {
         labelSmall = labelSmall.pn(),
     )
 }
-

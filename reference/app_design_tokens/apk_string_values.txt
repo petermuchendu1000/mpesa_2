@@ -1,0 +1,2684 @@
+# 2682 unique string VALUES from resources.arsc (names obfuscated to numeric IDs)
+
+"%s" didn't ask for any permission
+#%s confirmed. Ksh %s has been %s successfully
+$
+$v
+%1$d hours
+%1$d minutes
+%1$d o'clock
+%1$d percent.
+%1$d selected
+%1$d%2$s
+%1$d.
+%1$d/%2$d
+%1$s
+%1$s %2$s
+%1$s %2$s for %3$s Bonga Points
+%1$s %2$s left
+%1$s Bonga Points is equivalent to %2$s
+%1$s Bundles
+%1$s Confirmed. %2$s paid to %3$s, %4$s for account number %5$s via My OneApp on %6$s.
+%1$s Confirmed. %2$s paid to %3$s, %4$s via My OneApp on %5$s.
+%1$s Confirmed. %2$s sent to %3$s, %4$s via My OneApp on %5$s.
+%1$s Confirmed. %2$s withdraw at %3$s via My OneApp on %4$s.
+%1$s Points
+%1$s Tariff
+%1$s is having trouble with Google Play services. Please try again.
+%1$s minutes
+%1$s o'clock
+%1$s won't run unless you update Google Play services.
+%1$s won't run without Google Play services, which are currently updating.
+%1$s won't run without Google Play services, which are missing from your device.
+%1$s won't run without Google Play services, which are not supported by your device.
+%1$s won't work unless you enable Google Play services.
+%1$s – %2$s
+%1$s – End date
+%1$s(%2$s)
+%1$s/
+%1$s/%2$s MBs
+%1$s/%2$sMB
+%d images are chosen
+%s
+%s %s
+%s (%s)
+%s :
+%s Airtime
+%s GB
+%s Ksh
+%s MBs
+%s Mins
+%s Minutes
+%s Points
+%s SMS
+%s Seconds
+%s Tarrif
+%s Used
+%s falsify area, Represents the height[%.1fdp] of drag at run time, It does not show anything.
+%s of %s transaction were successful
+%s/%s
+'Last Update' M-d HH:mm
+(As at %1$s)
+(Ksh %s)
+(due on %1$s)
+(worth %1$s points)
+(worth %s points)
+-
+- %1$s
+-%s
+--
+-----BEGIN PUBLIC KEY-----
+-----END PUBLIC KEY-----
+. If you agree to this policy, please click Agree to start using the mini-app.
+0
+0 MB
+0.00
+1
+1%s=%s%s
+1. At most one merchant coupon and one sp coupon can be used in one payment order. 2. When both one merchant coupon and one sp coupon are used, the system will first apply the merchant coupon and then the sp coupon. 3. User can change coupons to be used. If the selected coupons cannot be used together, the system preferentially retains the coupons selected last.
+1. Ensure the SIM card you want to sign in with is set as your primary data line.
+1. photo can be uploaded
+1.5
+12 months
+1:694797283505:android:3c962e9371f15322eef290
+2
+2. Ensure you are connected to Safaricom mobile data on your primary data line.
+2f846a6a6f4f497b91b137daf67bc4f5
+3
+3 months
+3. Ensure your VPN is turned off.
+4-weekly
+4G Wi-Fi
+4G Wireless
+4qn1brrnmi9s
+5G Covered Areas
+5G FAQS
+5G Ready Bundles
+5G Ready Devices
+5G Wi-Fi
+5G Wireless
+6 months
+694797283505
+7 Day Spotify Trial
+999+
+:
+A temporary PIN has been sent to your phone %s
+AIzaSyBAGJIa6GKvEAz0ZCDMGrd-Y3-65SfGxIo
+AM
+ATM Withdrawal
+ATM number: %s
+About
+About App
+About eSim Activation
+Accept
+Accept Request
+Access your Bluetooth
+Access your clipboard
+Access your photos
+Account Deregistration and Impact
+Account Details
+Account Life Mgt
+Account Number
+Account Number: %1$s
+Account and Settings
+Account no: %s
+Account number: %s
+Account to be deregistered
+Accumulated %1$s points
+Accumulation
+Accumulation Transactions
+Active
+Active PIN
+Active Subscriptions
+Add
+Add Action
+Add Another Product
+Add Beneficiary
+Add Collection Note
+Add Contact
+Add Family, Friends or your other Sim Cards to share data bundles with max of 6 beneficiaries
+Add Family, Friends or your other Sim Cards to share data bundles with max of 6 beneficiaries. Request your family or friends to share their data bundles with you. Once they accept the request, the data balance will appear here.
+Add GIF
+Add Notes
+Add Products
+Add Tip
+Add Transactions
+Add a Beneficiary
+Add a Home Fibre Plan
+Add a bill
+Add a new phone number
+Add a product
+Add a transaction
+Add amount to QR
+Add description
+Add notes(optional)
+Add to Existing Contact
+Add to Favorites
+Add to Favourites
+Add to an existing contact
+Add to favourites
+Add withdraw charges
+Add withdrawal charges
+Added to Favorites
+Added to favourites
+Addons
+Agent Details
+Agent Name
+Agent Number
+Agent not found
+Agent number
+Agree
+Airtime
+Airtime Amount
+Airtime Balance
+Airtime Offers ������
+Airtime Top Up
+Airtime Usage
+Airtime Usage Period
+Album
+Alert
+Ali mini program
+Alien ID
+Align document inside rectangle.
+Align front of QR Code within screen to scan
+Align the QR code below
+Align the QR code/barcode below
+All
+All Cities
+All In One Bundles
+All Transactions
+All bundles come with free WhatsApp
+All your balances in one view. ������
+AllRights Reserved %s Version
+Allow
+Allow "%s" to access my
+Allow "%s" to use your %s
+Allow All
+Allow All Promotional Messages
+Allow By Sender Name
+Allow Messages
+Allow Promotional Message
+Allow Promotional Messages
+Allow camera permissions so you can scan quickly.
+Allow contact permissions so we can help you find numbers faster.
+Allow this app to
+Allow this app to access your camera when you use the app?
+Allow this application to access your address book when you use the app?
+Allow this application to access your album?
+Allow this application to access your camera?
+Allow this application to access your photo library?
+Allowed Senders
+Almost done…
+Alt+
+Amend
+Amount
+Amount %1$s Cost Ksh. 0.00
+Amount Details
+Amount Lost
+Amount exceeds maximum shareable (%s Ksh)
+Amount in %s
+Amount in Ksh
+Amount in Tsh
+Amount is required
+Amount must be greater than 0
+Amount paid
+Amount to Receive
+Amount to Send
+Amount to points
+Amount to spend: Ksh. %s
+Amount+ Withdrawal Charge
+An eSIM is a digital version of the SIM card identifying your device virtually to provide seamless network connection
+An error occurred
+An error occurred.
+An existing connection exists.
+An icon representing a camera
+An icon representing contacts
+An invitation from your friend! Easy to pay with HUAWEI Payment Consumer APP
+An unexpected error occurred
+Angaza
+Angaza Bundles
+Answer
+Answer input error
+Answer other question
+Answer the Security questions below to proceed
+Answer your secret question
+Any other information you would like to share on the fraud you experienced
+App Icon
+App Usage
+Apply
+Apps
+Apps > Permission manager]]>
+April
+Are you sure to delete the phone number %s? It is unrecoverable once done
+Are you sure you want to cancel the order?
+Are you sure you want to cancel?
+Are you sure you want to delete all historical records?
+Are you sure you want to delete the message?
+Are you sure you want to delete this bill? This action cannot be undone
+Are you sure you want to delete this favourite? This action cannot be undone
+Are you sure you want to end your PostPay plan?
+Are you sure you want to log out?
+As at: May 17 2023
+At ATM
+At Agent
+August
+Authenticate
+Authentication canceled by user.
+Authorization is in progress
+Auto Deduction Management
+Auto login failed
+Auto-renewal
+Autofill
+Automatic Payment
+Autorenewal has been stopped successfully.
+Available Balance
+Available Balance :
+Available Balance:
+Available Fuliza
+Available Fuliza: %s
+Available Plans
+Available balance is not applied
+Available for Login
+Avatar for %1$s
+B -Live Bundles
+B-Live Bundles
+B-Live Offers
+BNPL Enabling Failure And Activation Failure
+BONGA
+Back
+Back ID
+Bal %1$s
+Bal. %1$s
+Bal. Ksh. %s
+Balance
+Balance Not Available
+Balance Outdated
+Balance(%s)
+Balance: %1$s %2$s
+Balance: %1$s Points
+Balance: %s %s
+Balance: Ksh 30,000 - Fuliza: ksh 8,000
+Balance:%s
+Balances
+Bank Details
+Barcode Scanner
+Barcode scanning library for Android, using ZXing for decoding.
+Basic Information
+Baze
+Be the first to try what’s new
+Before you proceed to use the
+Beneficiary added successfully
+Beneficiary deleted successfully
+Between 10 MBs - %1$d MBs
+Between 10 MBs - 5120 MBs
+Between 10 Mins - %1$d Mins
+Between 5-35000 points
+Between 5–35000 points
+Bi monthly
+Bill Manager
+Bill Name
+Biometric Login
+Biometric Payment
+Biometrics
+Block
+Block Request
+Block Request?
+Blocked Senders
+Bluetooth
+Bonga
+Bonga Balance %1$s points
+Bonga Calculator
+Bonga Deal
+Bonga Deals - Coming Soon ������
+Bonga Deals - Coming Soon������
+Bonga Deals ������
+Bonga Points
+Bonga Points can be redeemed for talk-time, data, SMS, MMS bundles, merchandise, at Buy goods and Lipa na M-PESA merchants.
+Bonga Points can be redeemed for talk-time, data, SMS, MMS bundles, merchandise, at Buy goods and Lipa na MPESA merchants.
+Bonga Statements
+Bonga transfer
+Both
+Both input and output Uri must be specified
+Bottom Sheet
+Breaking News! your archive is empty
+Breaking news: there’s nothing here...yet
+Bring entertainment home
+Bringing families together by enabling customers to share their worry-free experience
+Browse publications
+Bundle
+Bundle Balance
+Bundle allocation has been updated successfully
+Bundles
+Bundles in MB
+Business
+Buy
+Buy 4G Plan
+Buy 5G Plan
+Buy Airtime
+Buy Bundles
+Buy Bundles Now
+Buy Data
+Buy Device
+Buy Goods
+Buy Home Fibre Plan
+Buy New Bundle
+Buy Plan
+Buy Roaming Bundles
+Buy Tunukiwa Bundles
+Buy a newspaper to start reading.
+Buy bundles, send money, or pay bills — it’s all here. You can also tap ‘View All’ to see more, and ‘edit’ your Quick Actions to suit your routine.
+Buy for
+By starting, I agree to the %s
+By tapping Continue you acknowledge that you have read and agree to the Terms and Conditions
+By tapping ‘Allow’ you consent to allowing Safaricom to collect and use your information as stated above, and have agreed to Safaricom’s Privacy Policy Statement.
+By tapping “Continue” you acknowledge that you have read and agreed to the
+By tapping “Continue” you acknowledge that you have read and agreed to the %s
+By tapping “Continue” you acknowledge that you have read and agreed to the Terms and Conditions
+By tapping “Open Account” you acknowledge that you have read and agreed to the Terms and Conditions
+CONFIRM NEW M-PESA PIN
+CONTACTS
+CROP
+Calculate how much you need to send money.
+CalendarSelector
+Calls and Minutes
+Camera
+Camera permission required to scan QR code
+Can you tell us why?
+Cancel
+Cancel Download
+Cancel Request
+Cancel Request?
+Cancel order
+Cancelled
+Cannot add yourself to favorites.
+Cannot allocate memory for the current Websocket connection.
+Cannot obtain sufficient signature characteristics, please try again
+Captured successfully
+Cash Back
+Cash In
+Cash out at agent
+Cash out money at any Vodacom agent
+Cash to Spend
+Cash to spend
+Cash-Back
+Cash-back is any amount credited back to your account.
+Catch up on the latest movies on Baze������
+Certificate verification failed, System is Under Maintenance
+Change 4G Plan
+Change 5G Plan
+Change Account
+Change Amount
+Change Email Address
+Change Failed
+Change Home Fibre Plan
+Change Language
+Change Limit and plan
+Change Mobile Number
+Change PIN
+Change PIN?
+Change Plan
+Change Postpay Plan
+Change Profile Picture
+Change Wi-Fi Name
+Change Wi-Fi Password
+Change plan immediately
+Change to next month
+Change to previous month
+Channel
+Character limit exceeded %1$d of %2$d
+Characters entered %1$d of %2$d
+Charge
+Charge(KSH)
+Chat with Zuri
+Check Transaction Cost
+Check if it's Safaricom calling?
+Check out our roaming rates
+Check the spelling or try using a different word
+Check your M-PESA, data, minutes, and airtime — no switching apps, it’s all right here.
+Check your internet connection and try again
+Check your internet connection, then refresh.
+Checked
+Checking Service PIN status, Please wait …
+Checking eSim status, Please wait ...
+Checking status, please wait
+Checking status, please wait…
+Checking, please wait
+Checkout
+Chip text
+Choose City
+Choose Coupon
+Choose From Album
+Choose Merchant Coupon
+Choose Plan
+Choose Preferred Data
+Choose Preferred Minutes
+Choose Preferred Validity
+Choose Provider
+Choose Region
+Choose Time
+Choose a business category
+Choose a reason for reversal
+Choose an app
+Choose another one
+Choose any 3 Security questions from the options below
+Choose custom name
+Choose from album
+Choose item
+Choose one
+Choose the humanitarian organization to donate to
+Choose the perfect bundle to keep you and your loved ones connected, anytime — paired with an active Home Fibre plan.
+Choose the risk level of this mini program
+Clear Amount
+Clear all
+Clear query
+Clear recent searches
+Clear text
+Click button, put QR code in the frame and pay
+Click here to resend after %d seconds
+Click to exit
+Click to exit network debugging
+Click to exit performance debugging
+Close
+Close navigation menu
+Close rail
+Close sheet
+Closed
+Collapse
+Collapse bottom sheet
+Collapse toolbar
+Collapsed
+Collect
+Column of days: %1$s
+Coming soon
+Comment
+Comment:
+Completed
+Confirm
+Confirm Email Address
+Confirm New PIN
+Confirm New PIN > OK]]>
+Confirm PIN
+Confirm Password
+Confirm Service PIN (Four Digits)
+Confirm to add %1$s as beneficiary
+Confirm to continue logout
+Confirm to exit real machine debugging?
+Confirm to opt out of Family Share
+Confirm you are about to delete
+Confirm you are about to delete %1$s as a %2$s?
+Confirm you are about to delete %1$s as a beneficiary?
+Confirm you are opting out of Family Share. Your plan remains active until %1$s and will not renew. You can continue to manage your beneficiaries until the plan expires.
+Confirm your %s digit PIN code to secure your account
+Confirm your new M-PESA PIN
+Connected, please start
+Connecting...
+Connecting…
+Connection timeout, try again later
+Connection timeout.
+Connections > Airplane Mode. Toggle this for 5 seconds and turn back off and retry. Request Id: %s]]>
+Constraints violated
+Consumer app is in background
+Contact
+Contact customer support to reset your PIN
+Contact customer support(IVR)
+Contacts
+Content information temporarily is not available
+Continue
+Control your roaming expenditure
+Control your usage by setting your limit for Data and Airtime
+Copied to Clipboard
+Copy
+Copy Link
+Copy Messages
+Copy link
+Copyright © 2023-2024 Mobile Money
+Cost
+Cost Calculator
+Cost Estimation
+Cost Estimator
+Coupon Usage Instructions
+Create Automatic Payment
+Create Bill
+Create New Contact
+Create New PIN
+Create a new contact
+Create the perfect Bundles for you by selecting your desired validity and budget.
+Create the perfect monthly plan for you by selecting your desired data and/or minutes valid for 30 days.
+Create your %s digit PIN code to secure your account
+Credit Card
+Credit Limit
+Credit Limit :Ksh. %1s | Airtime: Ksh. %2s
+Crop
+Crop Voucher
+Ctrl+
+Currency
+Current Email Address
+Current Mobile Number
+Current PIN
+Current Plan
+Current Usage:
+Current selection: %1$s
+Daily
+Daily (current)
+Daima
+Data
+Data Bundles
+Data Collection
+Data Collection Disabled
+Data Limit (MB)
+Data Manager
+Data Manager is on
+Data Only
+Data Unit
+Data Usage Period
+Data manager is off
+Data to Sambaza
+Date
+Date does not match expected pattern: %1$s
+Date not allowed: %1$s
+Date out of expected year range %1$s - %2$s
+Date range can’t be more than 6 months
+DateTime
+Days
+Deal of the Day
+Dear Customer you cannot pay for this plan as the postpay subscription is active.
+Dear Customer your registration details for the numbers below are compliant as per government regulations
+Dear Customer, please try again after some time
+Dear customer, you currently do not have any beneficiaries added.
+Debugging panel
+December
+Decline
+Decline Request
+Decline Request Success
+Decline Request?
+Delete
+Delete Beneficiary
+Delete Bill?
+Delete Favourite
+Delete Icon
+Delete Limit
+Delete Messages
+Delete Request
+Delete Request?
+Delete Sponsor
+Delete Successful!
+Delete all messages with one click?
+Deny
+Deposit
+Deposit Top Pay
+Deposit to Pochi
+Description
+Deselect
+Destination Country
+Detail
+Device Usage
+Dialog
+Dialog Icon
+Did you lose funds/ lost money?
+Did you mean %1$s?
+Digital Signature
+Disagree
+Disconnected
+Discount Type
+Discount:
+Discover Home Internet ������
+Dismiss
+Dismiss bottom sheet
+Do More
+Do more with M-PESA
+Do not display again
+Do not prompt again
+Do you want to fuliza the remaining %1$s at Ksh. %2$s?
+Do you wish to Decline this request?
+Do you wish to block money requests to %s?
+Do you wish to cancel your money request of %s to %s?
+Do you wish to cancel your request of %s money requests from %s?
+Do you wish to delete your money request of %s from %s?
+Do you wish to delete your money request of %s to %s?
+Do you wish to mark this request as paid?
+Do you wish to unblock money requests to %s?
+Document Proof
+Don't Allow
+Donate
+Donate Bonga
+Donate Bonga Points
+Donate points
+Donate your Bonga Points
+Donate your Bonga Points to a humanitarian organization and help those in need.
+Done
+Doodle
+Download
+Download Cancelled
+Download Fail:
+Download Mini Program failed
+Download Receipt
+Download failure_
+Download receipt
+Downloaded
+Downloading Cancelled
+Downloading Failed
+Downloading…
+Drag Icon
+Drag handle
+Drag to reorder
+Dropdown menu
+Due Amount
+Due Date
+Due Date:
+E-Receipt
+E.g 1234567890
+E.g 321
+E.g 5132413524
+E.g Dodoma
+E.g XYZ Bank
+E.g. 03
+E.g. Doe
+E.g. Jane
+ENTER M-PESA CURRENT PIN:
+ETR (Scan me)
+Earn 1 point for every 10 Ksh spent on voice calls, SMS, or data with Safaricom's Bonga Points loyalty program.
+Earn Loyalty Points
+Easy Talk Bundles
+Easy-Talk Bundles
+Edit
+Edit Bill
+Edit Favourite
+Edit Photo
+Edit Quick Actions
+Eg Boda guy
+Eg OB/1234/23
+Elevation
+Email Address
+Email addresses do not match
+Email@email.com
+Emerald Postpay
+Empty
+Empty Statements
+Enable
+Enable %s permission
+Enable Biometric Payment
+Enable Camera
+Enable Google Play services
+Enable face or fingerprint payment verification?
+End Date
+End date
+English
+Enjoy a 50 % Discount on your next purchase.
+Enjoy a worry-free calling and messaging experience by purchasing a bundle that best fits you.
+Enjoy seamless and fast Wi-Fi internet at home with multiple connection capability
+Enter 16 Digit PIN Number
+Enter ATM number
+Enter Account Number
+Enter Address
+Enter Agent Number
+Enter Amount
+Enter Amount in this format 234,987.09
+Enter Bank
+Enter Bank Code
+Enter Bonga Points
+Enter Bonga Points you wish to donate
+Enter Branch Code
+Enter Data Amount
+Enter E-mail Address
+Enter Email Address
+Enter ID Number
+Enter ID or Passport Number
+Enter Link/Website/Online Account
+Enter M-PESA PIN
+Enter National ID
+Enter New Airtime Amount
+Enter New Airtime amount
+Enter New Data Amount
+Enter Nickname/Name
+Enter PIN
+Enter Password
+Enter Paybill Number
+Enter Paybill/Till Number
+Enter Phone No
+Enter Phone Number
+Enter Phone number
+Enter Police Station Name
+Enter Remarks
+Enter Service PIN
+Enter Time
+Enter Verification Code
+Enter Wi-Fi Name
+Enter Your National ID Number
+Enter a name with 3 to 22 characters
+Enter a new mobile number.
+Enter a valid whole number
+Enter account number
+Enter agent number
+Enter amount
+Enter an amount less than or equal to Ksh. %d
+Enter an amount more than or equal to Ksh. %d
+Enter contents here
+Enter custom name
+Enter dates
+Enter email address
+Enter paybill
+Enter phone number
+Enter reason for opting out
+Enter short code
+Enter store number
+Enter the Account Number you sent money to
+Enter the Agent Number you withdrew from
+Enter the Amount you Wish to Spend
+Enter the Link/Website/Online Account used to con you
+Enter the PIN
+Enter the Paybill/Till you sent money to
+Enter the SMS verification code
+Enter the amount you would like to add to your Home Fiber account. You will complete the payment via M-PESA in the next step.
+Enter the city name to search
+Enter the code we sent to %s
+Enter the fraudulent's number
+Enter the number that called or texted you
+Enter the number that was replaced/swapped
+Enter the region name to search
+Enter till number
+Enter your M-PESA PIN
+Enter your M-PESA Start Key sent to you via SMS
+Enter your answer
+Enter your current M-PESA PIN
+Enter your current PIN to create a new PIN
+Enter your friend's contact
+Enter your new M-PESA PIN
+Enter your phone number to get started
+Entered date
+Entered date: %1$s
+Entertainment
+Entertainment Bundles
+Error
+Error fetching balalnces
+Error writing to stream.
+Error: %s
+Escrow Time :
+Estimate Roaming Pickup
+Estimate send to Bank
+Estimate send to Western Union
+Estimate send to mobile
+Example: %1$s
+Exceeds available credit
+Exchange rate
+Exchange rate: %s
+Exit
+Exit Mini Program
+Expand
+Expand Balances
+Expand bottom sheet
+Expand halfway
+Expand toolbar
+Expanded
+Expire
+Expire %s
+Expire date:%s
+Expired
+Expires in %1$s days
+Expiry
+Expiry Date
+Expiry Date:
+Expiry Date: %s
+Explore Apps
+Explore More
+Explore the app
+Exploring our amazing products and deals that you can add to your bill and enjoy a discount!
+Export Statement
+Export statements
+External application download
+External applications are about to be downloaded：“%s”，Please confirm the authenticity of the application
+External applications are to be installed. Verify the application authenticity
+FAQ
+FAQs
+FRI
+Face ID
+Face ID Login
+Face ID Payment
+Face Not Recongnized
+Face is already suspended by your phone system because of too many times of failure.
+Fail to locate
+Failed
+Failed ,please enter amount between %1$s and %2$s
+Failed Transactions
+Failed to add beneficiary
+Failed to delete beneficiary
+Failed to get authorization
+Failed to load
+Failed to load remote resources
+Failed to open Mini Program, please check the network and try again
+Failed to open this page
+Failed to register for Bonga. Please try again.
+Failed to save to system album!
+Failed to take screenshot. Please try again.
+Failed to upload your report.
+Failed to upload your report. Please click %sRetry%s to try again.
+Failed to upload your report. Some of the %s%s%s selected screenshots failed to upload. Click %sRetry%s to reupload the report.
+Failed: %s
+Family Connect
+Family Share
+Family Share Dashboard
+Favourite Name
+Favourite added successfully
+Favourite removed successfully
+Favourites
+Feature unavailable on offline mode
+February
+Fee
+Fee: %s %s
+Feedback
+Fetch Mini Program failed
+Fetching US states, please wait
+Fetching Wi-Fi details...
+Fetching balance, please wait…
+Fetching bank details, please wait
+Fetching bundles, please wait…
+Fetching countries, please wait
+File %s
+Filter
+Filter :
+Filter By
+Fingerprint
+Fingerprint Login
+Fingerprint Payment
+Fingerprint hardware not available.
+Fingerprint is already suspended by your phone system because of too many times of failure.
+Fingerprint operation canceled by user.
+Finish
+First Name
+Flash Off
+Flash On
+Flashlight
+Flashlight has been turned off
+For a secure log in, please switch off Wi-Fi and turn your mobile data on
+For more deregistration impacts, see%s
+For the security of your account, we've added an extra layer of protection. You will be required to enter an OTP for the next few logins.
+For you
+Forget PIN
+Forgot PIN
+Forgot PIN?
+Forgot the answer?
+Fraud
+Free Bundle
+Free Whatsapp
+Frequently Asked Questions
+Frequents
+Fresh Friday
+From %s to %s
+Front ID
+Fuliza
+Fuliza Ksh. %s
+Fuliza limit: %s
+Fuliza: %1$s %2$s
+Full image
+Function+
+Further authentication
+GB
+Gallery
+Games
+Gathering info, please wait…
+Generate Statement
+Get Code
+Get Google Play services
+Get Internet
+Get Started
+Get Usage Alerts
+Get alerts to track your data and airtime usage
+Get an eSim
+Get app information is empty
+Get connected to Kenya’s first 5G network. Future of Smart Living is here
+Get fast, reliable and unlimited internet access from the comfort of your home
+Get started
+Get your calendar creation permission
+Get your file read permission
+Gift and Donation
+Global
+Global Pay Virtual Card
+Go 5G
+Go 5G Bundles
+Go Monthly
+Go ahead, don't be shy — share the app.
+Go and enable
+Go to
+Go to Settings
+Go to permission settings to enable?
+Go to settings
+Good morning!
+Google Play services availability
+Google Play services error
+Got a dual SIM? If you'd like to use your other number, just make sure that SIM is set as the default one.
+Got it
+Grant Permission
+Granting access helps keep your account secure while simplifying your login experience.]]>
+Grid View
+Half Yearly
+Hang Up
+Hang on tight. This will only take a few minutes.
+Have you read all messages with one click?
+Have you reported to the police?
+Hello blank fragment
+Help
+Help Center
+Help Improve Your Network
+Help Us Keep My OneApp Account Secure Yet Seamless at Login
+Help center
+Help us to serve you better
+Hi,%s
+Hide Balance
+High
+Hint
+Hit breakpoint...
+Hmmm, we couldn’t detect any payment details from the image you uploaded. Please try again.
+Hmm… that number isn’t here
+Home
+Home Apps
+Home Fibre
+Home Internet
+Hour
+Hours
+How much data all your apps have used
+How much did you lose?
+How much do you wish to spend?
+I didn’t receive a code?
+I have read and accept the above terms and conditions
+I want to ...
+I want to buy:
+I want to share
+I,understand
+ID Number
+ID Type
+ID:%s
+INSERT NEW M-PESA PIN
+If you want to make payment without enter PIN, you can turn on this feature with a limited amount.
+If you’d like to use a different number, please insert the matching SIM card and set it as the default.
+Images
+In order to ensure the normal use of the app, please open the location permissions
+In order to ensure the normal use of the app, please open the microphone permissions
+In order to ensure the normal use of the app, please open the nearby devices permissions
+In order to ensure the normal use of the app, please open the notifications permissions
+In order to ensure the normal use of the app, please open the permissions
+In order to ensure the normal use of the app, please open the phone permissions
+In progress
+In range
+In use
+In your device settings, please allow My OneApp to query for network statistics.
+In-App PIN Free Setting
+Inactive
+Incoming call
+Incorrect amount format
+Incorrect payment password
+Information not modified
+Install
+Install Fail
+Instructions
+Insufficient Balance
+Insufficient balance
+Interest Fee
+International Bundles
+International Bundles to make Calls to USA, Canada, China and India (available for purchase and use in Kenya Only)
+International Bundles to make calls
+International Transfers
+Internet connection lost
+Invalid PIN Number
+Invalid Sec-WebSocket-Accept response.
+Invalid account number
+Invalid agent number
+Invalid api entry
+Invalid date range input
+Invalid format.
+Invalid input
+Invalid phone number
+Invalid range.
+Invalid sambaza amount
+Invest, borrow, shop. Discover apps that help you manage your lifestyle.
+Investment or Business
+Invited Friends
+It has already been added
+It looks like you're starting fresh here.
+It looks like you're starting fresh here. %s
+It looks like you're starting fresh here. You have no notifications.
+It looks like you're starting fresh here. Your Requests Received will be recorded here once you start transacting
+It looks like you're starting fresh here. Your Requests Sent will be recorded here once you start transacting
+It looks like you're starting fresh here. Your statements will be appear here once you start using Fuliza
+It looks like you're starting fresh here. Your statements will be recorded here once you start transacting
+It's kinda lonely over here…
+It’s kinda lonely over here. Your active subscriptions will appear here
+JSAPI call denied
+January
+Jitter:
+Jobs
+Joseph Mudibo
+JourneyApps
+July
+June
+Just a heads up — You’re about to share full access to your Data and Minutes from your Family Share account.
+Just a heads up — You’re about to share full access to your Data and minutes from your Family Share account.
+Just a heads up — You’re about to share full access to your Data from your Family Share account.
+Just a heads up — You’re about to share full access to your Minutes from your Family Share account.
+Just a moment...
+Just search for it. Bundles, bills, even your favourite mini app — all one quick tap away
+KSH
+KSH %1$s
+Keep my choice and do not ask again
+Keyword search
+Keyword search…
+Kindly enter your email address through which we will send you the eSIM.
+Ksh
+Ksh %s
+Ksh 0.00
+Ksh.
+Ksh. $1sD
+Ksh. %1$s
+Ksh. %s
+Ksh. 150.00.
+Label
+Lack read external storage, can not preview the document
+Last 5 Transactions
+Last Name
+Last Transaction
+Last seven days
+Latency:
+Later
+Learn More
+Learn more
+Let's Get Started
+Let's get started
+Let's give it another go and see if that clears up.
+Let's start with your profile
+Level
+Light
+Liked our Service?
+Limit Amount
+Limit should be less than %1$s in MBs or less than %2$s in GBs
+Limit: %1$s
+Limit: %s
+Limited Time Offer - Expires in %1$s
+Limited Time Offer Expires in %1$s
+Link copied to clipboard
+Link has been copied
+Link, Withdraw and Top Up account.
+Link/Website/Online Account
+Linkage interrupt
+Lipa na Bonga
+Lipa na M-PESA
+Lipa na M-PESA Costs
+Lipa using Fuliza
+List View
+Listen to all your favourite music with Spotify bundles
+Listen to your favourite Gospel music and life your spirit and soul
+Load Failed
+Load Mini Program failed.
+Load Success
+Load app failed.
+Loading
+Loading Failed
+Loading failed, Please %s
+Loading...
+Loading…
+Location
+Location Service
+Location and Device Data
+Log Out
+Log your location and network data for Review and Troubleshooting.
+Login
+Login Setting
+Login with Biometric
+Login with Face ID
+Login with Fingerprint
+Login with OTP
+Login with PIN
+Logout
+Looking for something? ������
+Looks like this is your default phone number. We’ll send you an OTP to verify it.
+Looks like this one’s not in your bills
+Looks like this one’s not in your frequent bills
+Looks like this one’s not in your popular bills
+Looks new, feels familiar — we’ve just tidied things up for you.
+Low
+M 0,0 C 0.05, 0, 0.133333, 0.06, 0.166666, 0.4 C 0.208333, 0.82, 0.25, 1, 1, 1
+M-PESA
+M-PESA Balance
+M-PESA PIN
+M-PESA Statements
+M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z
+M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z
+M3.27,4.27 L19.74,20.74
+MAXIMUM LIMIT IS %s PEOPLE
+MB
+MON
+Make Ur Bundle
+Make Ur Bundles
+Make payments to merchants internationally.
+Make sure you have your SIM card
+Manage
+Manage Account
+Manage Beneficiary
+Manage Data Usage
+Manage Emerald Postpay
+Manage Favourite Bundles
+Manage Favourites
+Manage My Numbers
+Manage My Services
+Manage Service PIN
+Manage Your Data
+Manage your network, anywhere, anytime
+Manual
+March
+Mark all as Read
+Mark as Paid
+Mark as Paid?
+Masoko Offers ������
+Maximum Airtime Shareable : 120
+Maximum Airtime Shareable: %1$s
+Maximum Airtime Shareable: %s
+Maximum Amount is %1$s
+Maximum Amount: Ksh. 250,000.00
+Maximum Attempt
+Maximum Withdrawable at Agent
+Maximum amount
+Maximum amount reached
+May
+Mbps
+Menu+
+Merchant Coupons
+Merchant Name
+Merchant Payment
+Message
+Messages
+Messages cannot be sent until the connection is established.
+Messages copied
+Meta+
+Mh… no usage recorded for this day
+Microphone
+Middle Name (Optional)
+Military ID
+Mini Apps
+Mini Program
+Mini Program has been removed
+Mini Program has been suspended
+Mini Program is not exist
+Mini Program is unable to open this type of file, you can try with another app.
+Mini app
+Mini-App Privacy Policy
+Mini-apps
+Minimum Amount: Ksh. 1.0
+Minimum Amount: Ksh.50.0
+Minimum Balance - Send to Registered
+Minimum Balance - Send to Unregistered
+Minimum Bonga Points: 5
+Minimum Points to Transfer 50 Points
+Minimum Points to transfer: 50 Points
+Minimum Points: 5
+Minimum amount
+Minimum amount is %1$s MB, Maximum is %2$s MB
+Minimum amount is 5 MB, Maximum is 5120 MB
+Minimum amount is Ksh. 5
+Minimum top up amount Ksh. 1
+Minimum top up amount Ksh. 1.0
+Minimum top up amount Ksh. 5
+Minute
+Minutes
+Minutes Limit
+Minutes Only
+Miscellaneous
+Missing account details
+Mobile Money
+Mobile Money Cancellation Notice
+Mobile No.
+Mobile number
+Mobile number registered
+Money In
+Money Out
+Monthly
+Monthly (current)
+Monthly plan
+More
+More Awaits with M-PESA
+More options
+More than %1$d new notifications
+More than just a plan
+Mpesa
+Mpesa Receipt
+Mpesa Statements downloaded failed
+My Account
+My Automatic Payment
+My Balances
+My Beneficiaries %s
+My Beneficiaries (%1$d of %2$d)
+My Beneficiaries (%1$s of %2$s)
+My Beneficiaries (%1$s of 6)
+My Bills
+My Bonga Balance
+My Bonga Balance : Ksh %1$s
+My Bonga Balance:
+My Coupons
+My Favourites
+My Finances
+My Information
+My Loyalty
+My QR
+My Requests
+My Subscriptions
+My Usage
+My Usage Limit
+MyWeb Dynamic Feature
+N/A
+NO EXPIRY
+Name
+Name of Police Station you reported
+National ID
+National ID Number
+Navigate Up
+Navigate home
+Navigate to year %1$s
+Navigate up
+Navigation menu
+Navigation rail
+Need location permission, please enable it in app settings.
+Network Exception
+Network and Cell Service Data
+Network debugging is connected
+Network debugging is disconnected
+Network error
+Network error. Please try again.
+Network unavailable...
+New
+New Email Address
+New Login
+New Look, who dis?
+New PIN
+New PINs do not match
+New Request
+New Version
+New Version Found
+New Wi-Fi Name
+New limit should not be the same as the previous one set.
+New notification
+New passwords entered twice are inconsistent.
+New version of Google Play services needed. It will update itself shortly.
+News Archive
+Newspaper
+Newspapers
+Newspapers are only stored for 7 days. Subscribe to start reading and keep up with the latest.
+Next
+Next Steps
+Nick Name
+Nick name: %s
+No
+No Beneficiaries Added
+No Beneficiaries Found
+No Bills Yet
+No Coupons
+No Data Connectivity
+No Deals
+No Expiry Bundles
+No FAQs available
+No Frequents Yet
+No Internet
+No More Data
+No PIN, pattern, or password set.
+No Pictures
+No Pinned favourites
+No Result Found
+No SD Card
+No accounts
+No active subscriptions
+No bundles available
+No code detected.
+No contacts match your search
+No data available
+No expiration date
+No fingerprints enrolled.
+No invites shared yet!
+No longer display
+No newspaper bought yet. You will have access to your newspapers for 7 days from the day of purchase
+No permission to load.
+No permission. Please check basic config.
+No ping
+No plans available
+No promotional messages sender has been blocked. Tap buttons below to stop one or stop all.
+No record yet
+No records found.
+No results for %1$s
+No results for “%s”
+No results found
+No shareable resources
+No transactions at the moment. Your account usage will appear when you continue using your line.
+No transactions done just yet!
+No, Cancel
+No, Keep
+No, give up
+Non-subcontracting mode
+Non-wifi network, download or not
+Non-wifi network，
+None
+None (disabled)
+Not Connected To Internet
+Not Set
+Not interested
+Not now
+Not recognized
+Not selected
+Note
+Nothing here yet. Bills will appear here once created
+Nothing here yet. Frequents will appear here once you start transacting
+Nothing to report... yet
+Notice
+Notification
+Notifications
+November
+Number is already a favourite
+Number modified successfully
+OB Number
+OD Access Fee:
+OD Enabling Failure And Activation Failure
+OD Usage:
+OFF
+OK
+OK (%dS)
+ON
+OTP Verification
+October
+Ofa Moto
+Off
+Offers
+Offers ������
+Okay
+Old Newspapers
+On
+Onboarding Banner
+Once you submit you will receive an MTCN for your reference
+One Off
+One place to manage your home WiFi, data, sms and airtime
+One-step activation
+OneApp requires access to your device's contacts.
+Ongoing call
+Only buy a new bundle upon expiry of any existing paid Spotify subscription or else you will need to create a new account
+Oops! Something went wrong
+Open Account
+Open File With
+Open Gallery
+Open Play Store
+Open Playstore
+Open Settings
+Open a business account using your phone number, receive payments and see your account balance in a convenient way
+Open document
+Open in browser
+Open navigation drawer
+Open on phone
+Open share app successfully
+Opt Out
+Opt Out Of Fuliza
+Opt Out Of Pochi
+Opt Out Pochi La Biashara ?
+Opt out
+Opted out successfully
+Orde ID
+Origin
+Original
+Other
+Other Bank Card
+Other Favourites
+Other Login Modes
+Other Number
+Other Postpay Plans
+Other Reason
+Other reason
+Others
+Out of range: %1$s
+Outdated Balances
+Outstanding Amount
+Outstanding Balance
+Outstanding Bill Amount: Ksh %1$s
+Over Draft
+Own Number
+PIN Free Success
+PIN Locked
+PIN Management
+PIN set successfully!
+PM
+PUK for %s is:
+Page has exited
+Page has exited (render is empty)
+Paid to:
+Parsing failure_
+Partially checked
+Passport
+Pay
+Pay 4G Plan
+Pay 5G Plan
+Pay Bill
+Pay Bill for
+Pay Family Share
+Pay Home Fibre Plan
+Pay Now
+Pay Postpay Bill
+Pay for %1$s
+Pay for %1$s %2$s
+Pay for a month
+Pay for your products and services
+Pay this Amount
+Pay to merchant
+Pay to other networks
+Pay with Bonga Points
+Pay with M-PESA
+Pay/Collect
+Paybill
+Paybill Account
+Paybill No: %s
+Paybill Number
+Paybill Number is already a favourite
+Paybill number: %s
+Paybill/Till Number
+Payment
+Payment End Date
+Payment Method
+Payment Priority Order
+Payment Setting
+Payment Starting Date
+Payment Successful
+Payment failed. Please try again.
+Payment method
+Payments will be via M-PESA only.
+Paypal
+Pension
+Performance debugging has been disconnected
+Performance debugging is connected
+Period
+Permission Needed
+Personal Consumption
+Phone No.
+Phone Number
+Phone Number %s
+Phone Number: %1$s
+Phone no: %s
+Phone number found
+Phone number is already a favourite
+Phone number:
+Phone number: %s
+Phone permission denied. Enable phone access to continue with eSIM setup.
+Pick your top 8 quick actions. Tap to reorder.
+Pin Free Pay…
+Pin can not be less than 4 digits
+Ping
+Place a barcode inside the viewfinder rectangle to scan it.
+Place the code within the frame
+Plan
+Plan Price
+Plan purchased successfully
+Plan:
+Please Choose
+Please Enter Amount
+Please Enter Number
+Please Note that if you opt out, you can't opt in back for 30 days
+Please Provide Details
+Please Select Biller
+Please allow the app to access device usage data to continue.
+Please allow to access your Album in the Settings
+Please answer your security question to finish reset PIN
+Please check the network connection
+Please choose
+Please choose a location
+Please choose type
+Please confirm New PIN
+Please confirm you want to receive your M-PESA statement to your email %1$s.
+Please enable location services
+Please enter
+Please enter New PIN (Four characters)
+Please enter PIN to confirm BNPL activation
+Please enter PIN to confirm OD activation
+Please enter a registered number
+Please enter a valid ID Number
+Please enter a valid National ID
+Please enter a valid amount greater than 0
+Please enter a valid email address
+Please enter a valid phone number
+Please enter a valid sender name
+Please enter an amount greater than or equal to 5 and less than or equal to 10000
+Please enter an amount greater than or equal to 50 and less than or equal to 500
+Please enter an amount less than or equal to %1$d
+Please enter friend's phone number
+Please enter points less than or equal to %1$d
+Please enter short code
+Please enter the correct name
+Please enter the correct remarks
+Please enter the payment password
+Please enter your %d digit PIN
+Please enter your %s digit PIN
+Please enter your phone number
+Please input amount
+Please note that before deregistration the account:
+Please note that for periods over 6 months, your statement will be shared via email.
+Please note that if you choose to stop using Fuliza, your limit may go down and could start again from Ksh 0 when you re-activate it.
+Please note that if you have dual sim and would like to use the other number, you need to have that SIM card as the default.
+Please note that if you would like to use the another number, you need to have that SIM card as the default.
+Please note that this feature can make mistakes. Please confirm the details before proceeding
+Please note that unused PostPay resources won't carry over to next month.
+Please note that you can not share Tunukiwa, Bonus, Promotional, Daily or Weekly Data Bundles.
+Please note that you have an outstanding bill of Ksh %1$s
+Please note that you will be charged additional deposit top-up of Ksh %1$d.
+Please note you can only use roaming bundles while outside Kenya.
+Please note:
+Please open the album access rights of this application in Settings
+Please open the camera access rights of this application in Settings
+Please provide more information to authenticate your identity.
+Please refresh later
+Please restart the app to use this service
+Please save your changes before you quit this page
+Please select a country
+Please select from %s
+Please select your issue.
+Please selected Start Time
+Please set your PIN free payment limit（1 ~ %s)
+Please take a photo to use as your profile image.
+Please touch the fingerprint sensor
+Please try again
+Please upload back ID image
+Please verify your biometric
+Please verify your fingerprint
+Please wait a few seconds until we are able to read the OTP
+Please wait…
+Please write horizontally in the blank
+Pochi
+Pochi Balance
+Pochi Balance:%s
+Pochi Code
+Pochi Wallet
+Pochi la Biashara
+Pochi statements
+Point the amera at the barcode and the QR code to see its contents.
+Points
+Points to redeem
+Pop-Up Window
+Popular
+Popular Cities
+Postpaid
+Postpay
+Postpay Limit
+Postpay Plan
+Pre-payment
+Pre-payment:
+Premium Services
+Prepare Mini Program timeout
+Prepayment
+Preview
+Previous
+Previous Allocated Data
+Previous Bundle Allocation
+Previous Months
+Previous Request
+Previous Speed Tests
+Privacy Protection Notification for Users
+Proceed
+Proceed with login
+Processing…
+Profile
+Profile Picture
+Profile Picture has been changed.
+Profile Picture has been removed.
+Promotion
+Promotional Messages
+Publications
+Pull Down To Refresh
+Pull Up To Load More
+Purpose
+Purpose of Funds
+QR Scan To Pay Me
+Quarterly
+Question? Comment? Feel Free to get in touch Safaricom House Waiyaki Way P.O Box 66827- 08000, Nairobi + 254 722 003 272
+Questions
+Questions %d
+Quick Actions
+Quick Care
+Quit Directly
+Raised Tickets
+Range end
+Range end,
+Range start
+Range start,
+Re-enter Password
+Read your carrier's information
+Read your contacts
+Real machine debugging is connected
+Real machine debugging is interrupted
+Receipt Downloaded
+Receipt Record
+Receipt download failed.
+Receipts
+Receive
+Receive Reminder in Advance(Days)
+Received
+Receiver Mobile Number
+Recent Searches
+Recent Transactions
+Recharge
+Recipient
+Recipient Details
+Recipient Names
+Recipients
+Recommend
+Recommend a Friend
+Recommend and get rewarded
+Recommend the app to friends and family and help them discover a smarter, more seamless way to stay connected and in control.
+Recommended
+Record Video
+Redeem
+Redeem Airtime, Data, etc
+Redeem Bonga Points
+Redeem Points
+Redeem Units
+Redeemed %1$s points
+Redemption
+Redemption Statements
+Reduces the amount to pay to %1$s
+Reference Number
+Refresh
+Refresh Failed
+Refresh Limit
+Refresh Success
+Refresh active in %s days
+Refreshing…
+Refund
+Reject
+Release To Load More
+Release To Refresh
+Release To Second Floor
+Reload
+Remarks
+Remind
+Reminder Name
+Remove
+Remove %1$s
+Remove Favourite
+Remove Frequent?
+Remove Profile Picture
+Remove from Favorites
+Removed Apps
+Removed from Favorites
+Renew Home Fibre Plan
+Reopen
+Replay
+Report Fraud
+Report Network Issues
+Report Upload Result
+Report a conman
+Report a swapped Line
+Report that I was conned online
+Report your network issues
+Reported Number
+Request
+Request Bill
+Request Data
+Request Data from friends and family
+Request From
+Request Money
+Request PUK
+Request PUK for
+Request Postpay Bill
+Request Sent
+Request eSim
+Request failed, please try again later
+Request sent
+Request your family or friends to share their data bundles with you. Once they accept the request, the data balance will appear here.
+Requested on %s
+Resend
+Resend PIN
+Resend PIN in %s
+Resend code
+Resend code in %s
+Reset
+Reset PIN
+Reset PIN will temporarily lock your account. A initial PIN will be sent to your phone through short message. Please change the initial PIN Immediately to reactive your account.
+Reset Service PIN
+Restart Router
+Retake photo
+Retry
+Reverse transaction
+Rewrite
+Roaming Bundles
+Roaming Cashout
+Roaming Cashout from
+Roaming Pickup
+Roaming keeps you connected to enjoy your Safaricom mobile services while outside Kenya.
+Rotate
+Run Test
+Run a speed test to start building your history.
+Run a speedtest to check the state of your internet connection. (Data charges may apply)
+Running
+SAT
+SKIP
+SKIP %dS
+SMS
+SMS Bundles
+SSL handshake failed.
+START
+STK Push Sent
+SUN
+Safaricom Hook Bundle
+Safaricom Hook Bundles
+Salary
+Sambaza
+Sambaza Airtime
+Sambaza Data
+Same amount
+Save
+Save Image
+Save Receipt
+Save Successful
+Save and quit
+Save failed
+Save pictures or videos to your album Save pictures or videos to your album
+Save successfully
+Save to Album
+Save your Favourite Bundles
+Save your phone number for next time
+Saved QR Code Fail!
+Saved to %s successfully
+Saved to album success
+Saved to album successfully
+Savings
+Scale
+Scan
+Scan QR
+Scan QR code
+Scan QR code/barcode
+Scan QR codes or capture images with clear payment details.
+Scan a QR code to pay
+Scan from Gallery
+Scan scratch card
+Scan the 16 Digit Code
+Scan to Pay now with AI ✨
+Scan to pay
+Scan to send
+Scanning failed
+Scratch Card
+Screening an incoming call
+Screenshot
+Screenshot Count: %s
+Scroll to show earlier years
+Scroll to show later years
+Scroll to show the next month
+Scroll to show the previous month
+Search
+Search Bundles
+Search Contacts
+Search History
+Search Mini apps
+Search contacts
+Search for a Favourite
+Search for a US state
+Search for a country
+Search for a miniapp
+Search for a paybill name or account
+Search for request
+Search instead for %1$s
+Search query
+Searching for nearby location
+Searching......
+Search…
+Seconds
+Secret Question
+Security Centre
+Security Questions
+Security Verification
+See More
+See all
+See details
+See the services we offer
+Select
+Select AM or PM
+Select Biller
+Select Bundle Type
+Select Channel
+Select Conversion
+Select Country
+Select Currency
+Select Data to Sambaza
+Select Date
+Select Frequency
+Select Payment Frequency
+Select Payment Method
+Select Plan Type
+Select Preferred PIN
+Select Preferred PIN to proceed
+Select Preferred Plan
+Select Range
+Select Resource to Sambaza
+Select Screenshots
+Select Time
+Select Type
+Select US State
+Select Wi-Fi
+Select Your Language
+Select a question
+Select an option
+Select an option from below
+Select and upload document used for registration
+Select at least 1 screenshot to proceed.
+Select bundles to add to your favourites
+Select date
+Select dates
+Select from Phone Book
+Select hour
+Select minutes
+Select numbers registered with your ID
+Select payment and package
+Select reason for opting out
+Select the account you would like to switch to:
+Select the fraudulent channel
+Select time
+Select your issue
+Selected
+Selected date
+Selected: %s/%s
+Selection
+Send
+Send Invite
+Send Money
+Send Request
+Send and receive money internationally
+Send and receive money internationally from your phone number, receive payments in a convenient way. Whether it’s Paypal or Western Union
+Send money for the receiver to withdraw at any western union location
+Send money now
+Send money to Mobile
+Send money to any bank account globally
+Send money to any mobile number globally
+Send to
+Send to %s/%s
+Send to Bank
+Send to Many
+Send to Mobile
+Send to Mobile,
+Send to Registered
+Send to Unregistered
+Send to Western Union
+Send to bank in
+Send to many
+Send via Western Union
+Send/Withdraw
+Sender's Name
+Sent
+Sent money to the wrong number? Give more context here
+Sent to:
+Separate your personal and business funds.
+September
+Server data exception, Please contact customer service
+Server exception, Please try again
+Server specified Sec-WebSocket-Protocol that wasn't requested.
+Service
+Service PIN
+Service PIN (Four Digits)
+Service PIN Set Successfully
+Service PIN is used for Safaricom services like Bonga Points transfers. It’s different from your M-PESA PIN and helps keep your actions secure.
+Set Amount
+Set Limit
+Set Nick name
+Set Now
+Set PIN
+Set Phone Number
+Set Profile Photo
+Set Security Questions
+Set Service Pin
+Set security questions
+Set up your QR code to enable payments from others directly to your account.
+Setting
+Settings
+Settlement Amount :
+Settlement Info
+Settlement Status :
+Settlement Time :
+Setup Face ID
+Setup PIN
+Setup biometric
+Setup fingerprint
+Setup your Biometrics
+Setup your Face ID
+Setup your Fingerprint
+Share
+Share App
+Share App Success
+Share Data
+Share Data with family
+Share Receipt
+Share and Request Data
+Share details
+Share link
+Share with
+Share with %1$s beneficiary
+Share with %s
+Share with Limit
+Share with up to %1$s beneficiaries
+Share without Limit
+Share your Data and Minutes and allow family, friends or your other SIM cards to use your bundles without having to sambaza.
+Share your Data and allow family, friends or your other SIM cards to use your bundles without having to sambaza.
+Share your Minutes and allow family, friends or your other SIM cards to use your bundles without having to sambaza.
+Share/Request
+Shareable Data
+Shareable Data and Minutes
+Shareable Minutes
+Shared By
+Shared Data Balance
+Shared by:
+Shift+
+Show Balance
+Show dropdown menu
+Show me around
+Show password
+Show tooltip
+Sign in
+Sign in on M-PESA with:
+Sign in with Google
+Sim Registration Details
+Sim details updated successfully
+Simply tap to add your favourite bundle for quick access, anytime
+Skip
+Skip the typing — just scan, confirm, pay and you’re done.
+Skiza
+Skiza Tunes
+Slow Speeds
+Smart plans with more, just for you.
+Social Network
+Something went wrong
+Something went wrong. Please check your internet connection
+Something went wrong. Please try again.
+Sorry! Something went wrong. Kindly try again after sometime
+Sorry, PIN mismatch, Please try again.
+Sorry, something went wrong, please try again later
+Sorry, that didn't work. Let's give it another shot.
+Sorry, the Android camera encountered a problem. You may need to restart the device.
+Sorry, the new PIN cannot be the same as the old MPIN. Please try again.
+Sorry, you have exceeded the maximum number of PIN attempts, please contact customer care service
+Sort and Filter
+Sort by Price
+Source
+Source of Funds
+Special Offers
+Speed Test
+Speed Test Complete.
+Sponsor’s Phone Number
+Spotify
+Spotify Bundles
+Start
+Start Date
+Start Downloading
+Start Paying
+Start Sending Money
+Start date
+Start date – %1$s
+Start date – End date
+Start new plan next month
+Statement Options
+Statements
+Statements download failed.
+Status
+Status:
+Step1.
+Step2.
+Stop
+Stop All
+Stop All Promotional Messages
+Stop Autorenewal
+Stop By Sender Name
+Stop Messages
+Stop Promotional Message
+Stop Promotional Messages
+Stopped Successfully
+Storage
+Submit
+Submit query
+Submitting
+Subscribe
+Success
+Success: %s
+Successful
+Suggested for you
+Suggestions below
+Summary
+Support
+Swipe to select a year, or tap to switch back to selecting a day
+Switch
+Switch Lines
+Switch to calendar input mode
+Switch to clock mode for the time input
+Switch to clock mode for the time input.
+Switch to selecting a year
+Switch to text input mode
+Switch to text input mode for the time input
+Switch to text input mode for the time input.
+Sym+
+System
+System Timeout
+System error, please try again later
+System is busy, please try again later
+System permission is not granted
+System server error
+System timeout. Please try again later.
+TGI Fridays
+THU
+TSH
+TUE
+Tab
+Take Photo
+Take a Photo
+Take a photo
+Take another one
+Take at least 1 screenshot to proceed.
+Talk to Zuri
+Tanzania
+Tap buttons below to allow promotional messages by name one or to allow all.
+Tap to switch to selecting a day
+Tap to switch to selecting a year
+Tap to view payment code
+Tariff
+Terminate Postpay
+Terms and Conditions
+Terms of Service
+Terms of request
+Tethering and Hotspot
+Thank you for your time
+Thanks %s for paying with M-Pesa.
+Thanks for diving in early
+Thanks for using Mobile Money!
+That didn't go as planned
+That didn’t go as planned. Let’s give it another go and see if that clears it up
+The Beneficiary has been deleted successfully
+The Mini Program does not exist.
+The Mini Program has been removed.
+The URL address is not ws or wss.
+The URL format is invalid.
+The WebSocket corresponding to the appId and SocketTaskID already exists.
+The amount is illegal
+The app collects network and cell service data, even in the background, to optimize your experience based on the service quality in your area.
+The app does not exist.
+The app gathers location and device metrics, including in the background, to provide key network insights and improve your overall experience.
+The app has been removed.
+The authorized fatigue limit is reached
+The beneficiary was added successfully
+The content view in SmartRefreshLayout is empty. Do you forget to add it in xml layout file?
+The download link will send by SMS
+The eSIM cost for Prepaid Swap is KES 150 and for Postpaid Swap is free of charge.
+The eSIM will cost
+The end time must be greater than the start time
+The end time must be later than the start time.
+The flashlight is open
+The format is incorrect. Please try again.
+The maximum amount you can send is %s %s
+The maximum amount you can send is KSH %s
+The maximum you can spend is Ksh. %d
+The minimum amount you can send is %s %s
+The minimum amount you can send is KSH %s
+The minimum amount you can send is KSH 1.00
+The minimum amount you can withdraw is KSH 1.00
+The network type does not match, so the download will not be performed
+The new password entered is the same as the old password.
+The operation could not be completed. None Route to the host
+The operation is too frequent, please try again later!
+The page is not allowed to load.
+The phone number has already existed, are you sure to use it?
+The recipients name must match the name on the recipients ID document
+The result will appear here
+The shared application component could not be found
+The statements have been downloaded successfully
+The statements have been successfully verified.
+The user selected the disallow authorization option
+The video is abnormal, temporarily unable to play
+Theme
+Theme download fail
+Then switch Airplane Mode on and off and try signing in again. This is required when you sign-in the first-time.
+Therefore, override color resource (ucrop_color_toolbar_widget) in your app to make it work on pre-L devices
+There’s more waiting for you ������������������
+These are the other favourites you’ve created
+This Phone Number haven't registered yet, do you confirm to transfer?
+This app is still cooking! ������
+This app will not use any of your data bundles
+This contact has already been added to the send list.
+This device does not have a fingerprint sensor
+This device does not support PIN, pattern, or password.
+This favourite will be removed from your device. Do you still want to continue?
+This is a continuous overdraft service that allows M-PESA customers to complete their M-PESA transactions even when they do not have enough funds in their M-PESA account
+This is equivalent to
+This is the latest version
+This is used to provide scanning services.
+This month
+This service is still being tested. The data displayed is limited to one month may not be accurate.
+TikTok
+TikTok Bundles
+Till Number
+Till no: %s
+Till number is already a favourite
+Till number: %s
+Tips
+Title
+To be rated
+To continue using these services, please un-install and re-install the M-PESA app from the Google Play Store
+To enhance your app and network experience, we use data from your device and app interactions. We collect the following data:
+To enjoy 5G fast speeds ensure you’re browsing with a 5G ready device and you are in a 5G Zone.
+To pay Ksh. %1$s to %2$s (%3$s) will cost Ksh. %4$s
+To prevent potential fraud, only show payment code to cashier when paying
+To proceed, you will have to set sequrity questions to use this
+To scan, M-PESA requires access to your device's camera.
+To scan, OneApp requires access to your device's camera.
+To sign-in using M-PESA the service will request you to share the following personal details
+Today
+Today's Newspapers
+Together, we’re building something better. Thank you for being part of this journey.
+Toggle Visibility
+Toggle dropdown menu
+Too many PIN attempts.
+Too many attempts. Please try again later.
+Tooltip
+Top Up
+Top Up Bundle
+Top Up Bundles
+Top Up Fibre Plan
+Top Up For
+Top Up via M-PESA
+Top up amount
+Top up config request fail
+Total
+Total - - MBs
+Total Amount
+Total Amount to Pay:
+Total Amount:
+Total Paid In Amount
+Total Paid Out Amount
+Total Usage
+Total Used
+Total Used %1$s
+Total amount to be sent
+Touch and hold to drag to sort
+Touch the fingerprint sensor
+Transaction
+Transaction Category
+Transaction Cost
+Transaction Date
+Transaction Failed
+Transaction History
+Transaction ID
+Transaction Type
+Transaction charges are high
+Transaction cost
+Transaction cost:
+Transaction cost: %s
+Transaction fee
+Transaction is being processed. You can query the transaction statement or receive an SMS notification later.
+Transfer
+Transfer Bonga Points
+Transfer Points
+Transfer more with the revamped sambaza data
+Transfer to Customer
+Transfer to person
+Transferred amount
+Try Again
+Try Face ID Again
+Try Later
+Try again
+Trying to sign in with a new number? Click the button below to proceed
+Tunukiwa
+Tunukiwa Bundles
+Turn On
+Turn light on
+Turn mobile data on
+Turn off Wi-Fi
+Turn off light
+Turn on Biometrics?
+Turn on if you wish to use biometrics to authenticate transactions
+Turn on if you wish to use biometrics to unlock the app
+Type
+Type a message
+Types of codes supported
+URL is empty.
+USD
+Unable to complete download test. Please check your internet connection and try again.
+Unable to complete upload test. Please check your internet connection and try again.
+Unable to get Mobile Number
+Unable to get your Phone Number
+Unable to open services
+Unable to ping. Please check your internet connection and try again.
+Unable to read your phone number. Please login again.
+Unable to request eSIM
+Unable to run speed test without an active internet connection. Please connect to the internet and try again.
+Unable to turn on Flashlight
+Unauthorized access to user information!
+Unblock
+Unblock Request
+Unblock Request?
+Unknown
+Unknown Error
+Unknown error
+Unkonwn error.
+Unlock App
+Unlock PIN
+Unsubscribe
+Unsubscribe Selected
+Unzip Mini Program failed
+Update
+Update Beneficiary
+Update Data
+Update Data Allocation
+Update Google Play services
+Update Limit
+Update SIM details
+Update Ticket
+Update after %d minute
+Update after %d minute %d second
+Update after %d second
+Update after 1 minute
+Update after one minute
+Update for other number
+Update now
+Update your account
+Upload
+Upload Documents
+Upload Report
+Upload failed
+Upload inspection report
+Uploading…
+Usage %s
+Usage Statement Alerts
+Usage: %1$s
+Usage: %s
+Use
+Use Camera
+Use Mobile Money Scan To Pay Me
+Use Mpesa Scan To Pay Me
+Use Now
+Use PIN
+Use Photo
+Use another phone number
+Use available balance
+Use password
+Use this picture
+Use your Face ID to access faster and secure to your account.
+Use your camera
+Use your fuzzy location
+Use your location
+Use your microphone
+Use: %1$s
+Used %1$s
+Used: %1$.1f%%
+Used: %s
+User Agreement
+User Information
+User canceled authorization
+User refuses to grant permission
+Using overdraft facility
+V
+Valid For
+Valid for %1$s
+Valid for %1$s %2$s
+Valid for %s %s
+Validity
+Validity period to %s
+Verification Code
+Verification code error
+Verification code is displayed at the bottom of the statement page, example GKLXZG2R
+Verify
+Verify Registered Numbers
+Verify Statement
+Verify Statements
+Verify Your Identity
+Verify phone number
+Verify the ID type
+Verify to ensure complete ID is visible with edges and there is no glare or blurred text.
+Verify your number
+Verifying...
+Video
+View
+View All
+View All Balances
+View Areas
+View Bundles
+View Home Fibre, 4G Wi-Fi and 5G Wi-Fi products and services
+View My Spend
+View Profile
+View Statements
+View Usage
+View all
+View and verify your SIM registration details
+View by:
+Virtual Card
+Visit any Safaricom Shop or M-PESA Agent with your ID to register for M-PESA and unlock more services on the app. Learn more
+Vodacom
+Voice
+Voice search
+WED
+Wait For Loading…
+Wait For Refreshing…
+Warning
+We are still cooking
+We are trying to retrieve your number. Thank you for your patience.
+We are unable to fetch your updated balances at this time.
+We can’t access your camera just yet
+We can’t access your contacts just yet
+We can’t find any item matching your search
+We have sent an SMS verification code to you
+We searched your bills but couldn’t find a match. Try another name or browse the list instead
+We searched your contacts but couldn’t find a match. Want to check the number and try again?
+We will send an SMS verification code to your phone number
+We're experiencing a temporary system fault. Please bear with us. You can still pay by entering the details manually.
+WeChat
+Wecome to Fuliza
+Weekly
+Weekly (current)
+Welcome Onboard
+Welcome back
+Welcome to Zuri
+Welcome to the M-PESA Statement verification service. Enter the details below to verify ownership.
+Well, this is awkward
+Western Union
+We’ll invite you in once it’s hot and ready! Tap the button below and select Leave beta on the Play Store to download the M-PESA App. This ensures that you leave the beta program and get the official M-PESA App release.
+We’re Getting Things Ready… ✨
+We’re done here — your turn now. You’ll feel right at home in no time.
+We’re unable to retrieve your phone number at the moment. Please try the following steps:
+We’ve found the following phone. It will be used to sign in to M-PESA
+We’ve found this phone number as your default number. It will be used to sign in to the app.
+We’ve sent an SMS with a verification code to your phone +%s
+What are you looking for today?
+What is Cash-back?
+What is an eSIM?
+What is your Available Balance?
+What's a prepayment?
+What’s a Service PIN
+What’s coming up ������
+When do you want your new plan to start?
+When enabled, you will use your devices biometrics to unlock the app and authenticate your transactions
+When enabled, you will use your device’s biometrics to unlock the app and authenticate your transactions.
+Whether Download
+Which product would you like to add?
+Will expire after %d hour
+Will expire in one hour
+With Expiry
+With Expiry Bundles
+With unlimited data, you can now dance, create and share on TikTok
+Withdraw
+Withdraw at ATM
+Withdraw at Agent
+Withdraw at:
+Withdraw from Pochi
+Withdraw money
+Withdrawn at:
+Without Expiry
+Worth 0 points
+Write permission required to save QR code
+Wrong amount
+Wrong number
+Year picker visible
+Yearly
+Yes
+Yes, Block
+Yes, Cancel
+Yes, Decline
+Yes, Delete
+Yes, Mark
+Yes, Opt Out
+Yes, Unblock
+Yes, still transfer
+Yesterday
+You are about Opt Out Pochi La Biashara. Do you still want to continue?
+You are about to allow %1$s to send you promotional messages.
+You are about to allow receiving all promotional messages.
+You are about to disable auto-renewal on your account. After doing so, you will need to manually renew your subscription once your current Plan expires. Would you like to continue?
+You are about to log out from this device clearing all transaction frequents. To use this device you will have to sign in again.
+You are about to opt in to receive %1$s mobile data and airtime usage statement alerts.
+You are about to opt out of Pochi la Biashara. To proceed, you will have to withdraw your balance of %s Proceed?
+You are about to opt out of receiving %1$s mobile data and airtime usage statement alerts.
+You are about to remove this frequent from your list. Would you like to continue?
+You are about to remove your %1$s %2$s limit
+You are about to request for a SIM Replacement to eSIM for
+You are about to reset your Service PIN for your line.
+You are about to restart router for account %1$s. This will only take a few minutes.
+You are about to restart your router. Select your account number to proceed. This will only take a few minutes.
+You are about to sambaza %1$s to %2$s
+You are about to set up your Service PIN for your line.
+You are about to stop receiving all promotional messages.
+You are about to stop receiving promotional messages from %1$s.
+You are about to unsubscribe from %1$s
+You are about to unsubscribe from %1$s by %2$s at Ksh. %3$s daily.
+You are adding to your favourites. You can give a more memorable name
+You are all set!
+You are editing your favourite. You can give a more memorable name to find easily
+You are logging with a new device.To ensure the security of your account, please verify your identity.
+You are modifying your phone number，please verify your identity
+You are now on Uwezo Tariff. Any unused Postpay resources will not roll over to the next month.
+You can add up to 5 transaction records
+You can change your language anytime from your settings
+You can drag any of your favourites here to show them while transacting
+You can now use your Service PIN services like Bonga Points Transfer. Remember that this is not your M-PESA PIN
+You can now use your service PIN for Bonga points transfer. Remember this is not your M-PESA PIN.
+You can only choose %d images at most
+You can only pin up to 4 favourites
+You can only request an eSIM for your own number.
+You can opt out at any time by turning off ‘Data Collection’ within ‘Help Improve Your Network’.
+You can pin up to 4 favourites on your transact tab!
+You cannot transfer to yourself
+You do not have any active subscriptions.
+You don't have an active Home Fibre plan. Proceed to add Home Fibre plan and add-ons.
+You don’t have an active Home Fibre plan. Renew it first so you can buy add-ons.
+You don’t have enough balance to complete this transaction.
+You have 10 chances to share everyday!
+You have an outstanding fuliza loan of %s. Kindly pay to opt out of our service.
+You have been awarded 5GB bundles valid for 24 Hours. To enjoy 5G fast speeds ensure you’re browsing with a 5G ready device and in a 5G zone.
+You have been opt opted of receiving %1$s mobile data and airtime usage statement alerts.
+You have been successfully been opted out of M-PESA Fuliza
+You have been successfully been opted out of Pochi la Biashara
+You have enabled data collection.
+You have exceeded the numberof attempts to enter the OTP and will be getting new code in 30:00 minutes.
+You have insufficient funds on M-PESA. You are about to
+You have not enabled all requested permissions for data collection to work properly. Please allow all requested permissions to continue.
+You have not set your limit. Tap the button to get started.
+You have successfully agreed to receiving all promotional messages.
+You have successfully allowed %1$s to be sending you promotional messages.
+You have successfully blocked %1$s from sending promotional messages.
+You have successfully purchased %1$s %2$s.
+You have successfully purchased %1$s for %2$s via M-PESA.
+You have successfully purchased %s bundle valid for %s for %s.
+You have successfully purchased %s bundle valid for %s.
+You have successfully purchased %s for %s with No Expiry Date.
+You have successfully purchased %s for %s.
+You have successfully purchased %s with No Expiry Date.
+You have successfully purchased airtime worth %s for %s.
+You have successfully purchased airtime worth %s.
+You have successfully set Security questions for your account. You will be able to use this service after 24hrs
+You have successfully stopped receiving all promotional messages.
+You have successfully subscribed to receive %1$s mobile data and airtime usage statement alerts.
+You have successfully topped up your account %1$s for %2$s via M-PESA.
+You have successfully transferred %1$s through %2$s
+You have successfully unsubscribed from %1$s
+You have successfully unsubscribed from %1$s by %2$s.
+You haven't accumulated any Bonga points during this period.
+You haven't redeemed any Bonga points during this period.
+You will have access to your newspapers for 7 days from the day of purchase
+You're about to remove your profile picture. Once removed, your initials will be shown instead.
+You're in inspection mode. Proceed to review the mini program's contents.
+You've reached the max quantity of favorites
+YouTube
+YouTube Bundles
+Your Available Balance is the amount of money you have previously overpaid. It’s the excess funds available in your account, which can be applied to future payments.
+Your Biometrics Have Changed
+Your Limit has been updated
+Your M-PESA PIN has been changed successfully.
+Your M-PESA PIN has been reset successfully.
+Your M-PESA PIN has been unlocked successfully.
+Your News Archive
+Your Plan
+Your Postpay Bill
+Your Statements are being processed.
+Your Usage
+Your airtime will not be used once your bundles run out.
+Your block request was successful
+Your complaint has been captured and shall be actioned upon.
+Your current plan does not support add-ons. Proceed to change plan to add add-on.
+Your custom content is full
+Your data seem to be off, turn mobile data on to proceed or switch to Safaricom mobile data.
+Your details have been submitted successfully for approval. You will receive a notification on the status.
+Your device does not show settings for the configuration of data and view data usage. Please Try again
+Your device is currently on a 2G network, speed tests may not perform optimally.
+Your device is e-SIM compatible.
+Your device's location is disabled. Please enable it to continue.
+Your go-to quick actions ⚡
+Your location:
+Your money request was %s
+Your money request was successful
+Your new Available Fuliza is
+Your profile, Get Support and App Settings all live here.
+Your receipt are being processed
+Your report has been received
+Your report has been uploaded with all %s%s%s screenshots successfully.
+Your request has been received successfully. Please wait to enter your M-PESA PIN when prompted
+Your request has been received successfully. Please wait to enter your M-PESA PIN when prompted.
+Your request has been submitted. You will receive a confirmation email in 2 hours.
+Your request to purchase %1$s for %2$s has failed.
+Your reversal request has been submitted
+Your statements will appear here once you earn some Bonga Points.
+Your transaction failed
+Your transaction has failed
+Your transaction is successful
+Your transaction was successful
+Your transaction were successful
+You’re about to change your Wi-Fi name from %1$s to %2$s. Would you like to continue?
+You’re about to change your password for %1$s. Would you like to continue?
+You’re on an early beta version. Some features may not work as expected.
+You’ve switched off data collection — but no worries, you can turn it back on whenever you like.
+ZXing Android Embedded
+access Bluetooth
+access microphone
+access your album
+access your album and camera
+access your camera
+access your contact
+access your current location
+allowed
+androidx.startup
+apache_2_0
+appUpdate
+as a beneficiary?
+at least 4 quick actions
+at most 8 quick actions
+back
+beneficiary
+blocked
+camera
+click here to load more miniApp …
+com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior
+com.google.android.material.behavior.HideBottomViewOnScrollBehavior
+com.google.android.material.bottomsheet.BottomSheetBehavior
+com.google.android.material.transformation.FabTransformationScrimBehavior
+com.google.android.material.transformation.FabTransformationSheetBehavior
+consumer
+contact
+cubic-bezier(0.0, 0.0, 0.0, 1.0)
+cubic-bezier(0.0, 0.0, 0.2, 1.0)
+cubic-bezier(0.0, 0.0, 1.0, 1.0)
+cubic-bezier(0.1, 0.7, 0.1, 1.0)
+cubic-bezier(0.2, 0.0, 0.0, 1.0)
+cubic-bezier(0.3, 0.0, 0.8, 0.2)
+cubic-bezier(0.3, 0.0, 1.0, 1.0)
+cubic-bezier(0.4, 0.0, 0.2, 1.0)
+cubic-bezier(0.4, 0.0, 1.0, 1.0)
+d
+dd MMM
+delete
+democonsumer
+destination title
+e.g. 123456
+e.g. 500
+e.g. ACC001
+e.g. Rent
+eSIM Request Received
+eSim Activation
+eSim Request
+eg. 123456
+enter
+for
+for hour
+for minutes
+get your phone number to contact you
+https://github.com/journeyapps/zxing-android-embedded
+https://journeyapps.com/
+invalid agent number
+invalid organization number
+invalid pay bill number
+invalid phone number
+invalid store number
+loading more …
+location
+m
+menu icon
+microphone
+month
+months
+ms
+no more mini apps …
+null
+oneapp3-uat
+oneapp3-uat.firebasestorage.app
+operations success
+out of 5
+path(M 0,0 C 0.05, 0, 0.133333, 0.06, 0.166666, 0.4 C 0.208333, 0.82, 0.25, 1, 1, 1)
+payment and other sensitive operations, please make sure PIN is safe.
+pieces
+pushWindow cannot be used for transparent Windows
+received
+refresh
+sans-serif
+sans-serif-medium
+search
+sent
+service, please read carefully the
+show tooltip
+space
+sponsor
+storage
+sure
+the devices has installed Xposed framework
+the devices has rooted
+the devices is running in emulator
+to USA, Canada, China and India (available for purchase and use in Kenya only).
+to complete this transaction.
+toastImage
+tooltip
+true
+want to
+y
+‘No Expiry Bundles’ are offered between Ksh 1 - Ksh 499
+• Last 5 Transactions
+• Payment and money transfer code • And many other types of code …
+• You can add up to 5 transaction records
+⛔️
+加载失败，请点我重试
+正在加载中...
+没有更多数据
+点击加载更多
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+������
