@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -56,6 +57,7 @@ fun MyTab(
     modifier: Modifier = Modifier,
     onOpenRoute: (String) -> Unit,
     onLogout: () -> Unit,
+    onBack: (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier
@@ -66,6 +68,7 @@ fun MyTab(
         ProfileHeader(
             onBell = { onOpenRoute(Routes.NOTIFICATIONS) },
             onSearch = { onOpenRoute(Routes.ALL_SERVICES) },
+            onBack = onBack,
         )
 
         Column(Modifier.padding(16.dp)) {
@@ -122,7 +125,7 @@ fun MyTab(
 }
 
 @Composable
-private fun ProfileHeader(onBell: () -> Unit, onSearch: () -> Unit) {
+private fun ProfileHeader(onBell: () -> Unit, onSearch: () -> Unit, onBack: (() -> Unit)? = null) {
     val greeting = remember {
         when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
             in 0..11 -> "Good morning"
@@ -144,6 +147,13 @@ private fun ProfileHeader(onBell: () -> Unit, onSearch: () -> Unit) {
                 .padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            if (onBack != null) {
+                Box(
+                    Modifier.size(40.dp).clip(CircleShape).clickable(onClick = onBack),
+                    contentAlignment = Alignment.Center,
+                ) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = NameDark, modifier = Modifier.size(22.dp)) }
+                Spacer(Modifier.width(4.dp))
+            }
             // Avatar (40dp) with account-switcher chevron badge.
             Box(contentAlignment = Alignment.BottomEnd) {
                 Box(
