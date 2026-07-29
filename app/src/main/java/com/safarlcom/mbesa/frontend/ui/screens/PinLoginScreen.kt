@@ -52,7 +52,7 @@ import kotlinx.coroutines.delay
  *   SafeInputKeyboard pinned to the bottom on a white background
  */
 private val SafGreen = Color(0xFF35A839)
-private val SafErrorRed = Color(0xFFE1251B)
+private val SafErrorRed = Color(0xFFE62634)   // exact Safaricom red from APK palette
 private val TitleColor = Color(0xFF1E1E1E)
 private val NameColor = Color(0xFF282828)
 private val BoxBorder = Color(0xFFE0E0E0)
