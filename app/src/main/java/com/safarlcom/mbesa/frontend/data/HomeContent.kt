@@ -31,7 +31,7 @@ object HomeContent {
     val USER_NAME: String get() = NameUtils.firstName(FULL_NAME)
     /** Avatar initials (e.g. "PM"), auto-derived from [FULL_NAME]. */
     val USER_INITIALS: String get() = NameUtils.initials(FULL_NAME)
-    const val PHONE = "0703501549"
+    const val PHONE = "0722000001"
     const val BALANCE = "914.88"
     const val FULIZA = "300.00"
     const val AIRTIME = "20.00"
