@@ -25,8 +25,12 @@ data class AdBanner(val title: String, val subtitle: String, val bg: Long, val t
 
 object HomeContent {
 
-    const val USER_NAME = "Peter"
-    const val USER_INITIALS = "PM"
+    /** Full account name — the greeting first-name and avatar initials are auto-derived from this. */
+    const val FULL_NAME = "Peter Muchendu"
+    /** First name for the greeting (e.g. "Peter"), auto-picked from [FULL_NAME]. */
+    val USER_NAME: String get() = NameUtils.firstName(FULL_NAME)
+    /** Avatar initials (e.g. "PM"), auto-derived from [FULL_NAME]. */
+    val USER_INITIALS: String get() = NameUtils.initials(FULL_NAME)
     const val PHONE = "0703501549"
     const val BALANCE = "914.88"
     const val FULIZA = "300.00"
@@ -107,3 +111,28 @@ object HomeContent {
     val doMoreRowPattern = listOf(3, 2, 3, 2, 3, 2, 3)
 }
 
+
+
+/**
+ * Derives display fields from a full name. Mirrors the server-side SQL helpers
+ * (fn_first_name / fn_initials) so the app and database agree:
+ *   "Peter Muchendu" -> firstName "Peter", initials "PM"
+ *   "Peter"          -> firstName "Peter", initials "PE"
+ */
+object NameUtils {
+    private val WS = Regex("\\s+")
+
+    /** The first word of the name (used for the greeting). */
+    fun firstName(fullName: String): String =
+        fullName.trim().split(WS).firstOrNull().orEmpty()
+
+    /** Avatar initials: first+last initial for multi-word names, else the first two letters. */
+    fun initials(fullName: String): String {
+        val parts = fullName.trim().split(WS).filter { it.isNotEmpty() }
+        return when {
+            parts.isEmpty() -> ""
+            parts.size == 1 -> parts[0].take(2).uppercase()
+            else -> (parts.first().take(1) + parts.last().take(1)).uppercase()
+        }
+    }
+}
