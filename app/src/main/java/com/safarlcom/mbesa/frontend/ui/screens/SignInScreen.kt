@@ -104,7 +104,7 @@ fun SignInScreen(onAuthenticated: () -> Unit) {
         Text("Log in", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xFF1E1E1E))
         Spacer(Modifier.height(6.dp))
         Text(
-            "Use your phone number and website password",
+            "Login using your phone number and password",
             fontSize = 14.sp,
             color = Color(0xFF7B7F87),
             textAlign = TextAlign.Center,
@@ -128,7 +128,7 @@ fun SignInScreen(onAuthenticated: () -> Unit) {
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Website password") },
+            label = { Text("Password") },
             leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = null) },
             trailingIcon = {
                 IconButton(onClick = { showPassword = !showPassword }) {
