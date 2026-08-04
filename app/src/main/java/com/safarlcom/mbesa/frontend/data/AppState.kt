@@ -44,6 +44,9 @@ object AppState {
     var phone by mutableStateOf(HomeContent.PHONE)
         private set
 
+    /** Privacy-masked number for user-facing display (e.g. "071*****49"). Never show raw `phone`. */
+    val phoneMasked: String get() = NameUtils.maskPhone(phone)
+
     /** Apply a marketer profile loaded from the backend (cents -> KES). Blank fields are ignored. */
     fun applyMarketer(p: MarketerProfile) {
         if (p.fullName.isNotBlank()) fullName = p.fullName

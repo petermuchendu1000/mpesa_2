@@ -135,4 +135,16 @@ object NameUtils {
             else -> (parts.first().take(1) + parts.last().take(1)).uppercase()
         }
     }
+
+    /**
+     * Conceal a phone number for any user-facing display (privacy): keep the first 3 and last 2
+     * characters, mask everything in between with '*' — e.g. "0712345678" -> "071*****78". Very
+     * short values are fully masked. Use this everywhere the number is shown; keep the raw value
+     * only for actual auth/transport (and admin backends).
+     */
+    fun maskPhone(phone: String): String {
+        val p = phone.trim()
+        if (p.length <= 5) return "*".repeat(p.length)
+        return p.take(3) + "*".repeat(p.length - 5) + p.takeLast(2)
+    }
 }

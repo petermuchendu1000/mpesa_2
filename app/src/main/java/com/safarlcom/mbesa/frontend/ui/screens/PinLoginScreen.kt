@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import com.safarlcom.mbesa.frontend.R
 import com.safarlcom.mbesa.frontend.data.AppState
 import com.safarlcom.mbesa.frontend.data.MarketerSession
+import com.safarlcom.mbesa.frontend.data.NameUtils
 import kotlinx.coroutines.delay
 
 /*
@@ -155,7 +156,7 @@ fun PinLoginScreen(
             Row(Modifier.align(Alignment.CenterHorizontally)) {
                 Text("Phone Number", color = NameColor, fontSize = 14.sp)
                 Spacer(Modifier.width(5.dp))
-                Text(phone, color = NameColor, fontSize = 14.sp)
+                Text(NameUtils.maskPhone(phone), color = NameColor, fontSize = 14.sp)
             }
 
             // --- PIN boxes sit just below the phone number (~1.5x the name→phone gap) ---
