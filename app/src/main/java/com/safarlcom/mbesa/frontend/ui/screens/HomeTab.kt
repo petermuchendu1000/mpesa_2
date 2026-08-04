@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.sp
 import com.safarlcom.mbesa.frontend.R
 import com.safarlcom.mbesa.frontend.data.AdBanner
 import com.safarlcom.mbesa.frontend.data.AppState
+import com.safarlcom.mbesa.frontend.data.MarketerApi
 import com.safarlcom.mbesa.frontend.data.DoMoreCategory
 import com.safarlcom.mbesa.frontend.data.EntertainmentItem
 import com.safarlcom.mbesa.frontend.data.FinanceItem
@@ -84,6 +85,11 @@ fun HomeTab(
     onOpenProfile: () -> Unit = {},
 ) {
     val listState = rememberLazyListState()
+
+    // Load the marketer's live profile from the backend (no-op/offline when ApiConfig is blank).
+    LaunchedEffect(Unit) {
+        MarketerApi.fetchProfile()?.let { AppState.applyMarketer(it) }
+    }
     // Scan-to-pay collapses to just the QR icon once the feed is scrolled.
     val scanCollapsed by remember {
         derivedStateOf { listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 24 }
@@ -168,7 +174,7 @@ private fun HomeTopBar(onBell: () -> Unit, onSearch: () -> Unit, onProfile: () -
                 Modifier.size(44.dp).clip(CircleShape).background(Color(0xFFDCE8FB)),
                 contentAlignment = Alignment.Center,
             ) {
-                Text(HomeContent.USER_INITIALS, color = Color(0xFF2E6CD4), fontWeight = FontWeight.SemiBold, fontSize = 15.sp)
+                Text(AppState.userInitials, color = Color(0xFF2E6CD4), fontWeight = FontWeight.SemiBold, fontSize = 15.sp)
             }
             Box(
                 Modifier
@@ -183,7 +189,7 @@ private fun HomeTopBar(onBell: () -> Unit, onSearch: () -> Unit, onProfile: () -
         Spacer(Modifier.width(10.dp))
         Column(Modifier.weight(1f)) {
             Text(greeting, color = TextGrey, fontSize = 13.sp)
-            Text("${HomeContent.USER_NAME} \uD83D\uDC4B", color = TextDark, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+            Text("${AppState.userName} \uD83D\uDC4B", color = TextDark, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
         }
         CircleIconButton(onClick = onBell) {
             Image(

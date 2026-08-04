@@ -34,6 +34,21 @@ object AppState {
 
     val fulizaAvailable: Double get() = (fulizaLimit - fulizaUsed).coerceAtLeast(0.0)
 
+    /** Display name — drives the greeting first-name and avatar initials. Defaults to sample data. */
+    var fullName by mutableStateOf(HomeContent.FULL_NAME)
+        private set
+    val userName: String get() = NameUtils.firstName(fullName)
+    val userInitials: String get() = NameUtils.initials(fullName)
+
+    /** Apply a marketer profile loaded from the backend (cents -> KES). Blank name is ignored. */
+    fun applyMarketer(p: MarketerProfile) {
+        if (p.fullName.isNotBlank()) fullName = p.fullName
+        balance = p.balanceCents / 100.0
+        fulizaLimit = p.availableFulizaCents / 100.0
+        fulizaUsed = 0.0
+        airtime = p.airtimeCents / 100.0
+    }
+
     /** Session flag – cleared when the app goes to the background so the PIN is required again. */
     var authenticated by mutableStateOf(false)
 
