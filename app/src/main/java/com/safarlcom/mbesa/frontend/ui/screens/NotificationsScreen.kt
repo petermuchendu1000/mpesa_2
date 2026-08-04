@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.safarlcom.mbesa.frontend.data.AppState
 import com.safarlcom.mbesa.frontend.data.FakeData
 import com.safarlcom.mbesa.frontend.data.NotificationItem
 import com.safarlcom.mbesa.frontend.ui.components.SafTopBar
@@ -48,7 +49,10 @@ fun NotificationsScreen(onBack: () -> Unit) {
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
-            FakeData.notifications.forEach { n ->
+            // Live wallet notifications (e.g. game-withdrawal credits) take precedence; fall back to
+            // the sample feed only when nothing has arrived yet this session.
+            val items = AppState.notifications.ifEmpty { FakeData.notifications }
+            items.forEach { n ->
                 NotificationCard(n)
                 Spacer(Modifier.height(12.dp))
             }
@@ -82,6 +86,16 @@ private fun NotificationCard(n: NotificationItem) {
             }
             Spacer(Modifier.height(2.dp))
             Text(n.body, color = TextSecondary, fontSize = 13.sp)
+            n.amountText?.let { amt ->
+                Spacer(Modifier.height(6.dp))
+                // Received money in M-PESA green; outgoing in red — matches the app's tx styling.
+                Text(
+                    amt,
+                    color = if (n.incoming) Color(0xFF1E8E3E) else Color(0xFFD93025),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                )
+            }
         }
     }
 }

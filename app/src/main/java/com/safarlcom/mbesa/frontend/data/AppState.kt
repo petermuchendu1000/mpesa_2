@@ -52,6 +52,52 @@ object AppState {
     /** Session flag – cleared when the app goes to the background so the PIN is required again. */
     var authenticated by mutableStateOf(false)
 
+    // ── Live M-PESA notifications (newest-first) raised from the wallet transaction feed ─────────
+    /** In-app notification banners for received/sent money (drives NotificationsScreen). */
+    val notifications: SnapshotStateList<NotificationItem> = mutableStateListOf()
+
+    /** Highest ledger id already accounted for; -1 until the first feed sync establishes a baseline. */
+    @Volatile
+    private var lastSeenTxId: Long = -1L
+
+    /**
+     * Reconcile the latest transaction feed against what we've already seen and return the NEW
+     * incoming transactions that warrant an OS notification.
+     *
+     *  - First sync after login only sets the baseline (so pre-existing history is NOT re-announced).
+     *  - Afterwards, every credit with a higher ledger id is treated as freshly received: it's
+     *    prepended to the in-app list and returned so the caller can post the OS notification.
+     */
+    fun ingestTransactions(txs: List<MpesaTx>): List<MpesaTx> {
+        if (txs.isEmpty()) return emptyList()
+        val maxId = txs.maxOf { it.id }
+        if (lastSeenTxId < 0L) {
+            lastSeenTxId = maxId          // baseline; do not notify for history already in the wallet
+            return emptyList()
+        }
+        val fresh = txs.filter { it.id > lastSeenTxId && it.direction == "in" }.sortedBy { it.id }
+        if (maxId > lastSeenTxId) lastSeenTxId = maxId
+        for (t in fresh) {
+            notifications.add(
+                0,
+                NotificationItem(
+                    title = "M-PESA",
+                    body = t.message,
+                    time = "Just now",
+                    amountText = t.amountText,
+                    incoming = true,
+                ),
+            )
+        }
+        return fresh
+    }
+
+    /** Drop live notifications + baseline (e.g. on logout / session loss). */
+    fun resetNotifications() {
+        notifications.clear()
+        lastSeenTxId = -1L
+    }
+
     /** Newest-first list of transactions the user performs this session. */
     val transactions: SnapshotStateList<TxItem> = mutableStateListOf()
 

@@ -22,7 +22,14 @@ data class TxItem(
     val status: TxStatus = TxStatus.SUCCESS,
 )
 
-data class NotificationItem(val title: String, val body: String, val time: String)
+data class NotificationItem(
+    val title: String,
+    val body: String,
+    val time: String,
+    /** When set, rendered as a coloured amount chip (green for received, red for sent). */
+    val amountText: String? = null,
+    val incoming: Boolean = false,
+)
 data class BundlePlan(val name: String, val price: String, val validity: String)
 
 /** Home promo banner ("Entertainment", "Home Internet", …). */

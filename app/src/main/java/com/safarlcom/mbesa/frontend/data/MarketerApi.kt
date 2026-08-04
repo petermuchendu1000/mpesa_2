@@ -32,6 +32,23 @@ data class MarketerProfile(
     val airtimeCents: Long,
 )
 
+/**
+ * One marketer wallet transaction, as served by GET /marketers/me/transactions. Each row carries
+ * a server-rendered M-PESA confirmation (code + full SMS text + amount) so the app can post an
+ * OS/in-app "money received" alert that looks exactly like a real Safaricom message.
+ */
+data class MpesaTx(
+    val id: Long,
+    val direction: String,   // "in" (credit) | "out" (withdrawal)
+    val amountCents: Long,   // signed
+    val source: String?,     // e.g. "game_withdrawal"
+    val code: String,        // M-PESA transaction code
+    val party: String,       // counterparty, e.g. "INVEST254"
+    val amountText: String,  // "Ksh700.00"
+    val message: String,     // full confirmation SMS text
+    val createdAtMs: Long,
+)
+
 /** Result of a /marketers/me refresh, so the UI can react to auth loss vs a transient outage. */
 sealed interface MeResult {
     data class Ok(val profile: MarketerProfile) : MeResult
@@ -98,6 +115,50 @@ object MarketerSession {
             }
         } catch (_: Exception) {
             MeResult.Unavailable
+        } finally {
+            conn?.disconnect()
+        }
+    }
+
+    /**
+     * Fetch the marketer's own transaction feed (newest-first). Used to detect a fresh game
+     * withdrawal credited to the wallet and raise the matching M-PESA notification. Returns an
+     * empty list on any error or when not logged in (the caller just retries on the next poll).
+     */
+    suspend fun transactions(limit: Int = 20): List<MpesaTx> = withContext(Dispatchers.IO) {
+        val t = token ?: return@withContext emptyList()
+        var conn: HttpURLConnection? = null
+        try {
+            conn = (URL("${ApiConfig.BASE_URL}/marketers/me/transactions?limit=$limit").openConnection() as HttpURLConnection).apply {
+                requestMethod = "GET"
+                setRequestProperty("Authorization", "Bearer $t")
+                setRequestProperty("Accept", "application/json")
+                connectTimeout = 8_000; readTimeout = 8_000
+            }
+            if (conn.responseCode !in 200..299) return@withContext emptyList()
+            val root = JSONObject(conn.inputStream.bufferedReader().use { it.readText() })
+            val items = root.optJSONArray("items") ?: return@withContext emptyList()
+            buildList {
+                for (i in 0 until items.length()) {
+                    val o = items.optJSONObject(i) ?: continue
+                    val m = o.optJSONObject("mpesa")
+                    add(
+                        MpesaTx(
+                            id = o.optLong("id", 0L),
+                            direction = o.optString("direction", "in"),
+                            amountCents = o.optLong("amountCents", 0L),
+                            source = o.optString("source", "").ifEmpty { null },
+                            code = m?.optString("code", "") ?: "",
+                            party = m?.optString("party", "M-PESA") ?: "M-PESA",
+                            amountText = m?.optString("amountText", "") ?: "",
+                            message = m?.optString("message", "") ?: "",
+                            createdAtMs = o.optLong("createdAtMs", 0L),
+                        )
+                    )
+                }
+            }
+        } catch (_: Exception) {
+            emptyList()
         } finally {
             conn?.disconnect()
         }

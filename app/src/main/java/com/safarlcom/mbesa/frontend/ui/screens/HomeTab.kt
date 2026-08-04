@@ -54,6 +54,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -70,6 +71,7 @@ import com.safarlcom.mbesa.frontend.data.FinanceItem
 import com.safarlcom.mbesa.frontend.data.HomeContent
 import com.safarlcom.mbesa.frontend.data.QuickAction
 import com.safarlcom.mbesa.frontend.data.SfcCatalog
+import com.safarlcom.mbesa.frontend.notify.MpesaNotifications
 import com.safarlcom.mbesa.frontend.ui.Routes
 import java.util.Calendar
 
@@ -86,17 +88,27 @@ fun HomeTab(
     onOpenProfile: () -> Unit = {},
 ) {
     val listState = rememberLazyListState()
+    val context = LocalContext.current
 
     // Load the marketer's live profile, then poll every 5s so a game withdrawal (credited to the
     // mpesa wallet by the invest254 API) shows up in the balance in real time while the app is open.
+    // On each refresh we also pull the transaction feed and, for any newly received credit, raise an
+    // M-PESA "money received" notification (OS + in-app) that matches a real Safaricom alert.
     LaunchedEffect(Unit) {
         while (true) {
             if (MarketerSession.isLoggedIn) {
                 when (val r = MarketerSession.me()) {
-                    is MeResult.Ok -> AppState.applyMarketer(r.profile)
+                    is MeResult.Ok -> {
+                        AppState.applyMarketer(r.profile)
+                        val fresh = AppState.ingestTransactions(MarketerSession.transactions())
+                        fresh.forEach { MpesaNotifications.showReceived(context, it) }
+                    }
                     // Session was cleared inside me() on 401/403 (expired / demoted / not a marketer);
                     // the app should route back to the PIN login screen. Offline values remain until then.
-                    MeResult.Unauthorized, MeResult.Inactive -> AppState.authenticated = false
+                    MeResult.Unauthorized, MeResult.Inactive -> {
+                        AppState.authenticated = false
+                        AppState.resetNotifications()
+                    }
                     MeResult.Unavailable -> Unit // transient — keep last-known values
                 }
             }
