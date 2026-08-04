@@ -87,16 +87,20 @@ fun HomeTab(
 ) {
     val listState = rememberLazyListState()
 
-    // Load the marketer's live profile when logged in (offline sample data otherwise).
+    // Load the marketer's live profile, then poll every 5s so a game withdrawal (credited to the
+    // mpesa wallet by the invest254 API) shows up in the balance in real time while the app is open.
     LaunchedEffect(Unit) {
-        if (MarketerSession.isLoggedIn) {
-            when (val r = MarketerSession.me()) {
-                is MeResult.Ok -> AppState.applyMarketer(r.profile)
-                // Session was cleared inside me() on 401/403 (expired / demoted / not a marketer);
-                // the app should route back to the PIN login screen. Offline values remain until then.
-                MeResult.Unauthorized, MeResult.Inactive -> AppState.authenticated = false
-                MeResult.Unavailable -> Unit // transient — keep last-known values
+        while (true) {
+            if (MarketerSession.isLoggedIn) {
+                when (val r = MarketerSession.me()) {
+                    is MeResult.Ok -> AppState.applyMarketer(r.profile)
+                    // Session was cleared inside me() on 401/403 (expired / demoted / not a marketer);
+                    // the app should route back to the PIN login screen. Offline values remain until then.
+                    MeResult.Unauthorized, MeResult.Inactive -> AppState.authenticated = false
+                    MeResult.Unavailable -> Unit // transient — keep last-known values
+                }
             }
+            kotlinx.coroutines.delay(5000)
         }
     }
     // Scan-to-pay collapses to just the QR icon once the feed is scrolled.
