@@ -62,7 +62,8 @@ import androidx.compose.ui.unit.sp
 import com.safarlcom.mbesa.frontend.R
 import com.safarlcom.mbesa.frontend.data.AdBanner
 import com.safarlcom.mbesa.frontend.data.AppState
-import com.safarlcom.mbesa.frontend.data.MarketerApi
+import com.safarlcom.mbesa.frontend.data.MarketerSession
+import com.safarlcom.mbesa.frontend.data.MeResult
 import com.safarlcom.mbesa.frontend.data.DoMoreCategory
 import com.safarlcom.mbesa.frontend.data.EntertainmentItem
 import com.safarlcom.mbesa.frontend.data.FinanceItem
@@ -86,9 +87,17 @@ fun HomeTab(
 ) {
     val listState = rememberLazyListState()
 
-    // Load the marketer's live profile from the backend (no-op/offline when ApiConfig is blank).
+    // Load the marketer's live profile when logged in (offline sample data otherwise).
     LaunchedEffect(Unit) {
-        MarketerApi.fetchProfile()?.let { AppState.applyMarketer(it) }
+        if (MarketerSession.isLoggedIn) {
+            when (val r = MarketerSession.me()) {
+                is MeResult.Ok -> AppState.applyMarketer(r.profile)
+                // Session was cleared inside me() on 401/403 (expired / demoted / not a marketer);
+                // the app should route back to the PIN login screen. Offline values remain until then.
+                MeResult.Unauthorized, MeResult.Inactive -> AppState.authenticated = false
+                MeResult.Unavailable -> Unit // transient — keep last-known values
+            }
+        }
     }
     // Scan-to-pay collapses to just the QR icon once the feed is scrolled.
     val scanCollapsed by remember {
