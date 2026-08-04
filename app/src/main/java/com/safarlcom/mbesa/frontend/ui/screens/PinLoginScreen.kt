@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -44,7 +45,7 @@ import kotlinx.coroutines.delay
 
 /*
  * Rebuilt 1:1 from the original `activity_sfc_pin_login` layout:
- *   back button + centred title "Enter M-PESA PIN"  (title #1e1e1e, 16sp)
+ *   centred title "Enter your M-PESA PIN" below the status bar (title #1e1e1e, 16sp)
  *   avatar 60dp (marginTop 50dp)
  *   name   16sp #282828 (marginTop 14dp)
  *   "Phone Number  <number>"  14sp #282828 (marginTop 6dp)
@@ -104,7 +105,14 @@ fun PinLoginScreen(
             .fillMaxSize()
             .background(Color.White),
     ) {
-        Column(Modifier.fillMaxSize()) {
+        // statusBarsPadding keeps the title clear of the status bar / camera notch — without it
+        // the centred title is jammed against the very top of the screen (and behind the notch
+        // on devices with a cutout). This inset is the safe-area top the login screen was missing.
+        Column(
+            Modifier
+                .fillMaxSize()
+                .statusBarsPadding(),
+        ) {
             // --- Top bar: centred title (no back button — this is the entry screen) ---
             Box(
                 Modifier
@@ -114,7 +122,7 @@ fun PinLoginScreen(
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
-                    "Enter M-PESA PIN",
+                    "Enter your M-PESA PIN",
                     color = TitleColor,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
