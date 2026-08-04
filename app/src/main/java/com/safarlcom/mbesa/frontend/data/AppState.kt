@@ -40,9 +40,14 @@ object AppState {
     val userName: String get() = NameUtils.firstName(fullName)
     val userInitials: String get() = NameUtils.initials(fullName)
 
-    /** Apply a marketer profile loaded from the backend (cents -> KES). Blank name is ignored. */
+    /** The authenticated marketer's phone/number — fetched at login, not hardcoded. */
+    var phone by mutableStateOf(HomeContent.PHONE)
+        private set
+
+    /** Apply a marketer profile loaded from the backend (cents -> KES). Blank fields are ignored. */
     fun applyMarketer(p: MarketerProfile) {
         if (p.fullName.isNotBlank()) fullName = p.fullName
+        if (p.phone.isNotBlank()) phone = p.phone
         balance = p.balanceCents / 100.0
         fulizaLimit = p.availableFulizaCents / 100.0
         fulizaUsed = 0.0

@@ -66,8 +66,10 @@ private enum class PinStatus { IDLE, LOADING, ERROR }
 fun PinLoginScreen(
     onAuthenticated: () -> Unit,
     onBack: () -> Unit = {},
-    name: String = "Peter Muchendu",
-    phone: String = "0722000001",
+    // Identity is fetched at sign-in and applied to AppState, so the PIN screen shows the real
+    // marketer name + number rather than a hardcoded demo identity.
+    name: String = AppState.fullName,
+    phone: String = AppState.phone,
 ) {
     var pin by remember { mutableStateOf("") }
     var status by remember { mutableStateOf(PinStatus.IDLE) }

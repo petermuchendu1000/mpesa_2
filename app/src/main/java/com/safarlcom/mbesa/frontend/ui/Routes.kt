@@ -20,7 +20,8 @@ object TxFlow {
 
 object Routes {
     const val SPLASH = "splash"
-    const val LOGIN = "login"
+    const val SIGNIN = "signin"   // phone + website password
+    const val LOGIN = "login"     // M-PESA PIN lock screen
     const val HOME = "home"
     const val ALL_SERVICES = "allservices"
     const val HISTORY = "history"

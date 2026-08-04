@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.safarlcom.mbesa.frontend.data.AppState
+import com.safarlcom.mbesa.frontend.data.MarketerSession
 import com.safarlcom.mbesa.frontend.data.SfcCatalog
 import com.safarlcom.mbesa.frontend.ui.screens.AllServicesScreen
 import com.safarlcom.mbesa.frontend.ui.screens.BundlesListScreen
@@ -21,19 +22,22 @@ import com.safarlcom.mbesa.frontend.ui.screens.PinLoginScreen
 import com.safarlcom.mbesa.frontend.ui.screens.PinEntryScreen
 import com.safarlcom.mbesa.frontend.ui.screens.ReceiptScreen
 import com.safarlcom.mbesa.frontend.ui.screens.ScanScreen
+import com.safarlcom.mbesa.frontend.ui.screens.SignInScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SplashScreen
 
 @Composable
 fun AppNavHost() {
     val nav = rememberNavController()
 
-    // When the app is backgrounded, AppState.authenticated is cleared. As soon as we're
-    // back and composing, bounce any protected screen to the lock (PIN login) screen.
+    // When the app is backgrounded, AppState.authenticated is cleared. As soon as we're back and
+    // composing, bounce any protected screen to a lock screen: the PIN screen if we still hold a
+    // session token (just re-enter the PIN), otherwise all the way back to credential sign-in.
     LaunchedEffect(AppState.authenticated) {
         if (!AppState.authenticated) {
             val route = nav.currentBackStackEntry?.destination?.route
-            if (route != null && route != Routes.LOGIN && route != Routes.SPLASH) {
-                nav.navigate(Routes.LOGIN) { popUpTo(0) { inclusive = true } }
+            if (route != null && route != Routes.LOGIN && route != Routes.SIGNIN && route != Routes.SPLASH) {
+                val target = if (MarketerSession.isLoggedIn) Routes.LOGIN else Routes.SIGNIN
+                nav.navigate(target) { popUpTo(0) { inclusive = true } }
             }
         }
     }
@@ -41,7 +45,15 @@ fun AppNavHost() {
     NavHost(navController = nav, startDestination = Routes.SPLASH) {
         composable(Routes.SPLASH) {
             SplashScreen(onDone = {
-                nav.navigate(Routes.LOGIN) { popUpTo(Routes.SPLASH) { inclusive = true } }
+                // First run: credential sign-in unless a session is already established.
+                val start = if (MarketerSession.isLoggedIn) Routes.LOGIN else Routes.SIGNIN
+                nav.navigate(start) { popUpTo(Routes.SPLASH) { inclusive = true } }
+            })
+        }
+        composable(Routes.SIGNIN) {
+            SignInScreen(onAuthenticated = {
+                // Identity fetched; proceed to the M-PESA PIN screen (now shows the real name/number).
+                nav.navigate(Routes.LOGIN) { popUpTo(Routes.SIGNIN) { inclusive = true } }
             })
         }
         composable(Routes.LOGIN) {
@@ -53,8 +65,11 @@ fun AppNavHost() {
             HomeShell(
                 onOpenRoute = { route -> nav.navigate(route) },
                 onLogout = {
+                    // Full logout: drop the session token + notifications and return to sign-in.
                     AppState.lock()
-                    nav.navigate(Routes.LOGIN) { popUpTo(Routes.HOME) { inclusive = true } }
+                    AppState.resetNotifications()
+                    MarketerSession.logout()
+                    nav.navigate(Routes.SIGNIN) { popUpTo(Routes.HOME) { inclusive = true } }
                 },
             )
         }
