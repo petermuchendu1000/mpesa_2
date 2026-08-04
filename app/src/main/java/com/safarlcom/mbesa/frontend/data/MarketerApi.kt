@@ -1,5 +1,7 @@
 package com.safarlcom.mbesa.frontend.data
 
+import android.content.Context
+import android.content.SharedPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -72,7 +74,55 @@ object MarketerSession {
 
     val isLoggedIn: Boolean get() = token != null
 
-    fun logout() { token = null }
+    // Persistent session so the marketer signs in with phone + password ONCE. After that every
+    // launch (even a full app kill) restores the token/identity and goes straight to the PIN
+    // screen — only an explicit logout returns to the sign-in screen.
+    private const val PREFS = "mbesa_session"
+    private var prefs: SharedPreferences? = null
+    private var savedName: String = ""
+    private var savedPhone: String = ""
+    private var savedBalance: Long = 0L
+    private var savedFuliza: Long = 0L
+    private var savedAirtime: Long = 0L
+
+    /** Attach persistent storage and restore any saved session. Call once at app start. */
+    fun init(context: Context) {
+        val p = context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        prefs = p
+        token = p.getString("token", null)
+        savedName = p.getString("name", "") ?: ""
+        savedPhone = p.getString("phone", "") ?: ""
+        savedBalance = p.getLong("balance", 0L)
+        savedFuliza = p.getLong("fuliza", 0L)
+        savedAirtime = p.getLong("airtime", 0L)
+    }
+
+    /** Last-known identity/balances for a restored session, so the UI shows them before /me loads. */
+    val restoredProfile: MarketerProfile?
+        get() = if (token != null && savedPhone.isNotBlank())
+            MarketerProfile(savedName, savedPhone, savedBalance, savedFuliza, savedAirtime)
+        else null
+
+    /** Write-through the current token + profile snapshot so it survives a process restart. */
+    private fun persistProfile(tok: String, p: MarketerProfile) {
+        savedName = p.fullName; savedPhone = p.phone
+        savedBalance = p.balanceCents; savedFuliza = p.availableFulizaCents; savedAirtime = p.airtimeCents
+        prefs?.edit()
+            ?.putString("token", tok)
+            ?.putString("name", p.fullName)
+            ?.putString("phone", p.phone)
+            ?.putLong("balance", p.balanceCents)
+            ?.putLong("fuliza", p.availableFulizaCents)
+            ?.putLong("airtime", p.airtimeCents)
+            ?.apply()
+    }
+
+    /** Explicit sign-out: drop the token and wipe the persisted session (returns to sign-in). */
+    fun logout() {
+        token = null
+        savedName = ""; savedPhone = ""; savedBalance = 0L; savedFuliza = 0L; savedAirtime = 0L
+        prefs?.edit()?.clear()?.apply()
+    }
 
     private fun parseProfile(o: JSONObject) = MarketerProfile(
         fullName = o.optString("name", ""),
@@ -101,9 +151,11 @@ object MarketerSession {
             val code = conn.responseCode
             if (code in 200..299) {
                 val o = JSONObject(conn.inputStream.bufferedReader().use { it.readText() })
-                token = o.optString("token", null) ?: return@withContext WebLoginResult.Failed("Something went wrong. Please try again.")
+                val tok = o.optString("token", null) ?: return@withContext WebLoginResult.Failed("Something went wrong. Please try again.")
+                token = tok
                 val profile = o.optJSONObject("marketer")?.let(::parseProfile)
                     ?: return@withContext WebLoginResult.Failed("Something went wrong. Please try again.")
+                persistProfile(tok, profile)
                 WebLoginResult.Ok(profile)
             } else {
                 // Read the error code from the body to give the user a precise, non-leaky reason.
@@ -141,8 +193,11 @@ object MarketerSession {
             conn.outputStream.use { it.write(JSONObject().put("phone", phone).put("pin", pin).toString().toByteArray()) }
             if (conn.responseCode !in 200..299) return@withContext null
             val o = JSONObject(conn.inputStream.bufferedReader().use { it.readText() })
-            token = o.optString("token", null) ?: return@withContext null
-            o.optJSONObject("marketer")?.let(::parseProfile)
+            val tok = o.optString("token", null) ?: return@withContext null
+            token = tok
+            val profile = o.optJSONObject("marketer")?.let(::parseProfile)
+            if (profile != null) persistProfile(tok, profile)
+            profile
         } catch (_: Exception) {
             null
         } finally {
@@ -162,7 +217,11 @@ object MarketerSession {
                 connectTimeout = 8_000; readTimeout = 8_000
             }
             when (conn.responseCode) {
-                in 200..299 -> MeResult.Ok(parseProfile(JSONObject(conn.inputStream.bufferedReader().use { it.readText() })))
+                in 200..299 -> {
+                    val profile = parseProfile(JSONObject(conn.inputStream.bufferedReader().use { it.readText() }))
+                    token?.let { persistProfile(it, profile) }  // keep the stored snapshot fresh
+                    MeResult.Ok(profile)
+                }
                 401 -> { logout(); MeResult.Unauthorized }
                 403 -> { logout(); MeResult.Inactive }
                 else -> MeResult.Unavailable

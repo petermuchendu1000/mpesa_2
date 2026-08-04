@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import com.safarlcom.mbesa.frontend.data.AppState
+import com.safarlcom.mbesa.frontend.data.MarketerSession
 import com.safarlcom.mbesa.frontend.notify.MpesaNotifications
 import com.safarlcom.mbesa.frontend.ui.AppNavHost
 import com.safarlcom.mbesa.frontend.ui.theme.MyOneAppTheme
@@ -25,6 +26,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Restore any persisted session so a signed-in marketer skips the sign-in screen on every
+        // launch (only the PIN is required). The identity is applied up-front so the PIN screen
+        // shows the correct name/number before the first /me refresh.
+        MarketerSession.init(this)
+        MarketerSession.restoredProfile?.let { AppState.applyMarketer(it) }
         // Plain white top: white status bar with dark icons.
         window.statusBarColor = Color.WHITE
         WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = true
