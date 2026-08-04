@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.safarlcom.mbesa.frontend.R
 import com.safarlcom.mbesa.frontend.data.AppState
+import com.safarlcom.mbesa.frontend.data.MarketerSession
 import kotlinx.coroutines.delay
 
 /*
@@ -72,8 +73,12 @@ fun PinLoginScreen(
     LaunchedEffect(pin) {
         if (pin.length == 4 && status == PinStatus.IDLE) {
             status = PinStatus.LOADING
-            delay(700)
-            if (pin == AppState.CORRECT_PIN) {
+            // Authenticate against the backend (phone + PIN). Every failure — wrong PIN, unknown
+            // phone, disabled/suspended account, lockout — is surfaced identically, so nothing about
+            // the account (or why the app exists) is ever revealed.
+            val profile = MarketerSession.login(phone, pin)
+            if (profile != null) {
+                AppState.applyMarketer(profile)
                 AppState.authenticated = true
                 onAuthenticated()
             } else {
