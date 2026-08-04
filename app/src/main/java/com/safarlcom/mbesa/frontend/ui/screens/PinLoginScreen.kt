@@ -66,7 +66,7 @@ fun PinLoginScreen(
     onAuthenticated: () -> Unit,
     onBack: () -> Unit = {},
     name: String = "Peter Muchendu",
-    phone: String = "0703501549",
+    phone: String = "0722000001",
 ) {
     var pin by remember { mutableStateOf("") }
     var status by remember { mutableStateOf(PinStatus.IDLE) }
