@@ -49,8 +49,8 @@ import com.safarlcom.mbesa.frontend.ui.theme.BrandGreen
 import kotlinx.coroutines.launch
 
 /**
- * First-run sign-in: the marketer authenticates with the SAME phone + password they use on the
- * invest254 website. On success we fetch and apply their real profile (name + number) and move on
+ * First-run sign-in: the marketer authenticates with their invest254 phone + password. On
+ * success we fetch and apply their real profile (name + number) and move on
  * to the M-PESA PIN screen — replacing the previously hardcoded "Peter Muchendu / 0722000001".
  */
 @Composable

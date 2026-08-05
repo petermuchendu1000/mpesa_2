@@ -35,7 +35,7 @@ data class MarketerProfile(
     val airtimeCents: Long,
 )
 
-/** Outcome of a website-credential sign-in, so the login screen can show a precise message. */
+/** Outcome of a sign-in, so the login screen can show a precise message. */
 sealed interface WebLoginResult {
     data class Ok(val profile: MarketerProfile) : WebLoginResult
     /** Human-readable reason (bad credentials, not a marketer, inactive, or a transient outage). */
@@ -133,7 +133,7 @@ object MarketerSession {
     )
 
     /**
-     * Sign in with the marketer's invest254 WEBSITE credentials (phone + password) via
+     * Sign in with the marketer's invest254 credentials (phone + password) via
      * POST /marketers/auth/login-web. On success we store the marketer-scoped token and return the
      * fetched profile (real name + number) so the app stops showing a hardcoded identity.
      */
