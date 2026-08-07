@@ -29,9 +29,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.safarlcom.mbesa.frontend.data.AppState
+import com.safarlcom.mbesa.frontend.data.NameUtils
 import com.safarlcom.mbesa.frontend.data.FakeData
 import com.safarlcom.mbesa.frontend.data.FieldKind
 import com.safarlcom.mbesa.frontend.data.SfcCatalog
@@ -100,6 +102,11 @@ fun EntryScreen(
                             else -> KeyboardType.Number
                         }
                     ),
+                    visualTransformation = if (spec.kind == FieldKind.PHONE) {
+                        NameUtils.PhoneMaskTransformation()
+                    } else {
+                        VisualTransformation.None
+                    },
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(Modifier.height(14.dp))

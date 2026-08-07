@@ -45,6 +45,7 @@ import com.safarlcom.mbesa.frontend.R
 import com.safarlcom.mbesa.frontend.data.AppState
 import com.safarlcom.mbesa.frontend.data.MarketerSession
 import com.safarlcom.mbesa.frontend.data.WebLoginResult
+import com.safarlcom.mbesa.frontend.data.NameUtils
 import com.safarlcom.mbesa.frontend.ui.theme.BrandGreen
 import kotlinx.coroutines.launch
 
@@ -120,6 +121,7 @@ fun SignInScreen(onAuthenticated: () -> Unit) {
             singleLine = true,
             isError = error != null,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+            visualTransformation = NameUtils.PhoneMaskTransformation(),
             modifier = Modifier.fillMaxWidth(),
         )
 

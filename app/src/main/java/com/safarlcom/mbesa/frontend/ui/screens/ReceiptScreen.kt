@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.safarlcom.mbesa.frontend.R
 import com.safarlcom.mbesa.frontend.data.AppState
 import com.safarlcom.mbesa.frontend.data.FakeData
+import com.safarlcom.mbesa.frontend.data.NameUtils
 import com.safarlcom.mbesa.frontend.ui.TxFlow
 import com.safarlcom.mbesa.frontend.ui.components.KeyValueRow
 import com.safarlcom.mbesa.frontend.ui.theme.BrandGreen
@@ -57,7 +58,7 @@ fun ReceiptScreen(onDone: () -> Unit) {
         Text("${TxFlow.title} Successful", fontSize = 20.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(4.dp))
         Text(
-            "Ksh $amount" + if (TxFlow.recipient.isNotBlank()) " to ${TxFlow.recipient}" else "",
+            "Ksh $amount" + if (TxFlow.recipient.isNotBlank()) " to ${NameUtils.maskPhone(TxFlow.recipient)}" else "",
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
         )
@@ -73,7 +74,7 @@ fun ReceiptScreen(onDone: () -> Unit) {
             KeyValueRow("Amount", "Ksh $amount", emphasize = true)
             Divider()
             if (TxFlow.recipient.isNotBlank()) {
-                KeyValueRow("Recipient", TxFlow.recipient); Divider()
+                KeyValueRow("Recipient", NameUtils.maskPhone(TxFlow.recipient)); Divider()
             }
             KeyValueRow("Transaction cost", "Ksh 0.00"); Divider()
             KeyValueRow("Date", "01 Jul 2026, 14:35"); Divider()

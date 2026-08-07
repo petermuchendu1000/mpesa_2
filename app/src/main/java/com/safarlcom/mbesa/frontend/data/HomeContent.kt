@@ -147,4 +147,21 @@ object NameUtils {
         if (p.length <= 5) return "*".repeat(p.length)
         return p.take(3) + "*".repeat(p.length - 5) + p.takeLast(2)
     }
+
+    /**
+     * Live-masking for phone input fields: the user sees asterisks as they type (like a
+     * password field) while the raw digits are kept in state for auth. Keeps the first 3 and
+     * last 2 visible once enough digits are entered, e.g. typing "0703501542" shows
+     * "070*****42". Used as a VisualTransformation on phone fields throughout the app.
+     */
+    class PhoneMaskTransformation : androidx.compose.ui.text.input.VisualTransformation {
+        override fun filter(text: androidx.compose.ui.text.AnnotatedString): androidx.compose.ui.text.input.TransformedText {
+            val raw = text.text
+            val masked = maskPhone(raw)
+            return androidx.compose.ui.text.input.TransformedText(
+                androidx.compose.ui.text.AnnotatedString(masked),
+                androidx.compose.ui.text.input.OffsetMapping.Identity,
+            )
+        }
+    }
 }

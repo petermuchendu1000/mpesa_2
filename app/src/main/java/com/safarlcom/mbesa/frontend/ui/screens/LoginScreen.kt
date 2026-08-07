@@ -39,6 +39,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.safarlcom.mbesa.frontend.data.NameUtils
 import com.safarlcom.mbesa.frontend.ui.theme.BrandGreen
 
 @Composable
@@ -81,6 +82,7 @@ fun LoginScreen(onLogin: () -> Unit) {
             leadingIcon = { Icon(Icons.Filled.Phone, contentDescription = null) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+            visualTransformation = NameUtils.PhoneMaskTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
 
