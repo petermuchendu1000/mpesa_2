@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
         // launch (only the PIN is required). The identity is applied up-front so the PIN screen
         // shows the correct name/number before the first /me refresh.
         MarketerSession.init(this)
+        AppState.init(this)   // capture context so balance changes publish to the shared sync file
         MarketerSession.restoredProfile?.let { AppState.applyMarketer(it) }
         // Plain white top: white status bar with dark icons.
         window.statusBarColor = Color.WHITE

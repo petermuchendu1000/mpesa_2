@@ -55,6 +55,7 @@ object AppState {
         fulizaLimit = p.availableFulizaCents / 100.0
         fulizaUsed = 0.0
         airtime = p.airtimeCents / 100.0
+        publishBalance()
     }
 
     /** Session flag – cleared when the app goes to the background so the PIN is required again. */
@@ -149,6 +150,7 @@ object AppState {
         if (actionId == "airtime") airtime += amount
 
         addTx(title, recipient, amount, incoming = false, fuliza = fromFuliza)
+        publishBalance()
         return PayResult(success = true, fromBalance = fromBalance, fromFuliza = fromFuliza)
     }
 
@@ -158,6 +160,22 @@ object AppState {
         val repay = minOf(amount, fulizaUsed)
         fulizaUsed -= repay
         balance += (amount - repay)
+        publishBalance()
+    }
+
+    /** Push the current wallet state to the shared sync file (best-effort). */
+    private fun publishBalance() {
+        val ctx = appContext ?: return
+        BalanceSync.publish(ctx)
+    }
+
+    /** App context captured at first publish; set from Application/Activity onCreate. */
+    var appContext: android.content.Context? = null
+
+    /** Call once from the first screen/activity so balance sync can write the shared file. */
+    fun init(ctx: android.content.Context) {
+        appContext = ctx.applicationContext
+        publishBalance()
     }
 
     private fun addTx(title: String, recipient: String, amount: Double, incoming: Boolean, fuliza: Double) {
