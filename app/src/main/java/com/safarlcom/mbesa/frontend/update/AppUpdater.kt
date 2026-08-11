@@ -6,13 +6,9 @@ import androidx.lifecycle.lifecycleScope
 import com.gumloop.updater.UpdateChecker
 import kotlinx.coroutines.launch
 
-/**
- * Launch-time OTA update check for the M-PESA frontend. Shows a blocking dialog when the
- * manifest mandates an update (minSupportedVersionCode), otherwise a dismissible one.
- */
+/** Launch-time OTA update check for the M-PESA frontend. */
 object AppUpdater {
 
-    // Self-hosted update manifest. Override per-build via BuildConfig if needed.
     const val MANIFEST_URL = "https://raw.githubusercontent.com/petermuchendu1000/mpesa_2/main/ota/version.json"
 
     fun checkOnLaunch(activity: androidx.activity.ComponentActivity) {

@@ -15,22 +15,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.security.MessageDigest
 
-/**
- * Self-hosted OTA updater for sideloaded apps (no Google Play).
- *
- * Flow: fetch a JSON manifest -> compare versionCode -> download APK ->
- * verify SHA-256 -> hand off to the system installer via FileProvider.
- *
- * Manifest format (served over HTTPS):
- * {
- *   "versionCode": 2,
- *   "versionName": "1.1",
- *   "url": "https://updates.example.com/app/app-release-v2.apk",
- *   "sha256": "<hex sha-256 of the APK>",
- *   "notes": "What's new",
- *   "minSupportedVersionCode": 1   // optional: force update below this
- * }
- */
+/** Self-hosted OTA updater for sideloaded apps (no Google Play). */
 object UpdateChecker {
 
     sealed interface Result {
@@ -50,7 +35,6 @@ object UpdateChecker {
         fun isMandatory(currentVersionCode: Int) = currentVersionCode < minSupportedVersionCode
     }
 
-    /** Pure manifest parsing (unit-testable without a device). */
     fun parseManifest(json: String): UpdateInfo {
         val o = JSONObject(json)
         return UpdateInfo(
@@ -63,7 +47,6 @@ object UpdateChecker {
         )
     }
 
-    /** Pure comparison logic (unit-testable without a device). */
     fun decide(currentVersionCode: Int, info: UpdateInfo): Result =
         if (info.versionCode > currentVersionCode) Result.Available(info) else Result.UpToDate
 
@@ -77,7 +60,6 @@ object UpdateChecker {
         }
     }
 
-    /** Downloads the APK and verifies its SHA-256. Returns the verified file or throws. */
     suspend fun downloadVerified(context: Context, info: UpdateInfo): File =
         withContext(Dispatchers.IO) {
             val out = File(context.getExternalFilesDir(null), "update-${info.versionCode}.apk")
@@ -95,12 +77,10 @@ object UpdateChecker {
             out
         }
 
-    /** Launches the system package installer for a verified APK. */
     fun install(context: Context, apk: File) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
             !context.packageManager.canRequestPackageInstalls()
         ) {
-            // Deep-link the user to grant "install unknown apps" for this app.
             context.startActivity(
                 Intent(
                     Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
