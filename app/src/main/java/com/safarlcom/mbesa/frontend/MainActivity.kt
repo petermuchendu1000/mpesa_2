@@ -18,6 +18,7 @@ import com.safarlcom.mbesa.frontend.data.MarketerSession
 import com.safarlcom.mbesa.frontend.notify.MpesaNotifications
 import com.safarlcom.mbesa.frontend.ui.AppNavHost
 import com.safarlcom.mbesa.frontend.ui.theme.MyOneAppTheme
+import com.safarlcom.mbesa.frontend.update.AppUpdater
 
 class MainActivity : ComponentActivity() {
     // Registered before the activity is STARTED so it can be launched from onCreate.
@@ -44,6 +45,8 @@ class MainActivity : ComponentActivity() {
         ) {
             requestNotifPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
+        // Check for a self-hosted OTA update (non-blocking; shows a dialog if one is available).
+        AppUpdater.checkOnLaunch(this)
         setContent {
             MyOneAppTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
