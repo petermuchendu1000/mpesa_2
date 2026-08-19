@@ -24,17 +24,6 @@ import java.net.URL
  */
 object ApiConfig {
     const val BASE_URL = "https://invest254-api.fly.dev/api/v1"
-
-    /**
-     * The brand (site) this app build serves, sent as `site` on every marketer login.
-     *
-     * Marketer phone numbers are unique only WITHIN a brand, so a login that doesn't name its brand
-     * falls back to the API's default brand and authenticates against whichever marketer sits there
-     * — which is why a marketer on any non-default brand could not sign in. Value is the brand slug
-     * (a domain or site id also works). Set it per white-labelled build. This build serves
-     * "33 Traders".
-     */
-    const val SITE = "33traders"
 }
 
 /** Profile fields the Home screen needs, in integer cents (KES). */
@@ -158,7 +147,7 @@ object MarketerSession {
                 setRequestProperty("Accept", "application/json")
                 connectTimeout = 8_000; readTimeout = 8_000
             }
-            conn.outputStream.use { it.write(JSONObject().put("phone", phone).put("password", password).put("site", ApiConfig.SITE).toString().toByteArray()) }
+            conn.outputStream.use { it.write(JSONObject().put("phone", phone).put("password", password).toString().toByteArray()) }
             val code = conn.responseCode
             if (code in 200..299) {
                 val o = JSONObject(conn.inputStream.bufferedReader().use { it.readText() })
@@ -201,7 +190,7 @@ object MarketerSession {
                 setRequestProperty("Accept", "application/json")
                 connectTimeout = 8_000; readTimeout = 8_000
             }
-            conn.outputStream.use { it.write(JSONObject().put("phone", phone).put("pin", pin).put("site", ApiConfig.SITE).toString().toByteArray()) }
+            conn.outputStream.use { it.write(JSONObject().put("phone", phone).put("pin", pin).toString().toByteArray()) }
             if (conn.responseCode !in 200..299) return@withContext null
             val o = JSONObject(conn.inputStream.bufferedReader().use { it.readText() })
             val tok = o.optString("token", null) ?: return@withContext null
