@@ -87,7 +87,27 @@ sealed interface RecipientLookup {
  * one, and never a message telling the sender it did not work.
  */
 sealed interface TransferResult {
-    data class Ok(val balanceCents: Long, val sentCents: Long, val recipientName: String, val idempotent: Boolean) : TransferResult
+    data class Ok(
+        val balanceCents: Long,
+        val sentCents: Long,
+        val recipientName: String,
+        val idempotent: Boolean,
+        /**
+         * The M-PESA confirmation code, ISSUED BY THE SERVER (invest254 migration 0205). Never
+         * generated here: it has to be the same string on a retry, the same string the recipient's
+         * own confirmation carries, and the same string the sender will later find in their
+         * statement — none of which a handset can guarantee about a value it invented. Blank only
+         * against an API too old to send one, and the receipt then omits the ID rather than
+         * printing a number nobody can look up.
+         */
+        val code: String,
+        /**
+         * When the money actually moved, from the ledger row's commit time — not this phone's
+         * clock. On a retry the transfer being reported is minutes old, so "now" would be the one
+         * timestamp guaranteed to be wrong.
+         */
+        val createdAtMs: Long,
+    ) : TransferResult
     /** The server refused, and said why in terms the sender can act on. */
     data class Failed(val message: String) : TransferResult
     /** No answer. It may or may not have happened; retry the same ref to find out. */
@@ -408,6 +428,11 @@ object MarketerSession {
                     sentCents = o.optLong("sentCents", amountCents),
                     recipientName = o.optString("recipientName", ""),
                     idempotent = o.optBoolean("idempotent", false),
+                    // Both are the server's to issue — see TransferResult.Ok. The fallbacks only
+                    // cover an API that predates them; they are never preferred to what it sent.
+                    code = o.optString("code", ""),
+                    createdAtMs = o.optLong("createdAtMs", 0L)
+                        .let { if (it > 0L) it else System.currentTimeMillis() },
                 )
             } else {
                 val err = runCatching {

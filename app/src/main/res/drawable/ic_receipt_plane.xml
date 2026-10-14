@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The paper plane on the printed receipt. Two filled folds rather than one flat triangle, so it
+  reads as folded paper at the 96dp it is drawn at; the darker fold is the same green the rest of
+  the app uses one step down (BrandGreen -> BrandGreenDark).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="96dp"
+    android:width="96dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <path
+        android:fillColor="#43B02A"
+        android:pathData="M61.4,3.1L2.6,27.4a1,1 0 0 0 0.1,1.9l20.6,6.4Z"/>
+    <path
+        android:fillColor="#2E7D1E"
+        android:pathData="M61.4,3.1L23.3,35.7l6.4,20.6a1,1 0 0 0 1.9,0.1Z"/>
+    <path
+        android:fillColor="#7BC95F"
+        android:pathData="M23.3,35.7L61.4,3.1 29.2,45.1 29,56a0.6,0.6 0 0 1 -1.1,0.3l-4.6,-9.5Z"/>
+</vector>

@@ -3,6 +3,7 @@ package com.safarlcom.mbesa.frontend.ui
 import android.net.Uri
 import com.safarlcom.mbesa.frontend.data.ActionKind
 import com.safarlcom.mbesa.frontend.data.SfcAction
+import com.safarlcom.mbesa.frontend.data.TransferResult
 
 /** Holds the in-progress (mock) transaction as the user moves Entry → PIN → Receipt. */
 object TxFlow {
@@ -64,6 +65,69 @@ object SendFlow {
     }
 }
 
+/**
+ * A COMPLETED transfer, kept so the confirmation and the receipt can be re-read after the fact.
+ *
+ * Deliberately separate from [SendFlow]. SendFlow is an intention — it is mutable while the sender
+ * is still deciding, and it is cleared the moment they leave. This is a record of something that
+ * happened, and every field in it is the SERVER's answer: the confirmation code, the time the money
+ * moved, the amount it moved and the name of the marketer it reached. The only field taken from the
+ * app is the recipient's number, because the sender typed it and the server never sends it back
+ * (invest254 docs/58).
+ *
+ * It exists because the receipt is a separate screen. Re-deriving a receipt from SendFlow after the
+ * fact would mean printing a time and an ID the handset made up for a transaction it does not own.
+ */
+object SendReceipt {
+    var code: String = ""
+    var createdAtMs: Long = 0L
+    var amountCents: Long = 0L
+    var recipientName: String = ""
+    var recipientPhone: String = ""
+    var balanceCents: Long = 0L
+    var pochi: Boolean = false
+    /** True when the server reported this as a replay of an earlier send rather than a new one. */
+    var idempotent: Boolean = false
+    /** The [SendFlow.ref] this receipt belongs to — see [matches]. */
+    var ref: String = ""
+
+    val isEmpty: Boolean get() = createdAtMs == 0L
+
+    /**
+     * Is this the receipt for the transfer currently in flight?
+     *
+     * The result screen asks before sending. Navigation recreates a destination when it is popped
+     * back to, so walking to the receipt and pressing back re-enters the result screen and would
+     * otherwise re-run the transfer. The same ref makes that harmless on the server — it answers
+     * "already done" — but it is a pointless round trip that puts "Sending…" back on a screen the
+     * sender has already read, and it would fail visibly when they are offline by then.
+     */
+    fun matches(flowRef: String): Boolean = !isEmpty && ref.isNotBlank() && ref == flowRef
+
+    fun record(ok: TransferResult.Ok, phone: String, isPochi: Boolean, flowRef: String) {
+        code = ok.code
+        createdAtMs = ok.createdAtMs
+        amountCents = ok.sentCents
+        recipientName = ok.recipientName
+        recipientPhone = phone
+        balanceCents = ok.balanceCents
+        idempotent = ok.idempotent
+        pochi = isPochi
+        ref = flowRef
+    }
+
+    fun asOk(): TransferResult.Ok = TransferResult.Ok(
+        balanceCents = balanceCents, sentCents = amountCents, recipientName = recipientName,
+        idempotent = idempotent, code = code, createdAtMs = createdAtMs,
+    )
+
+    fun clear() {
+        code = ""; createdAtMs = 0L; amountCents = 0L
+        recipientName = ""; recipientPhone = ""; balanceCents = 0L
+        pochi = false; idempotent = false; ref = ""
+    }
+}
+
 object Routes {
     const val SPLASH = "splash"
     const val SIGNIN = "signin"   // phone + password
@@ -80,6 +144,7 @@ object Routes {
     const val SEND_CONFIRM = "send/confirm"
     const val SEND_PIN = "send/pin"
     const val SEND_RESULT = "send/result"
+    const val SEND_RECEIPT = "send/receipt"
 
     fun entry(id: String) = "entry/$id"
     fun detail(id: String) = "detail/$id"

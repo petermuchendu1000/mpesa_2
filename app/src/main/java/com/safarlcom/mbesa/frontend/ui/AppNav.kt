@@ -25,6 +25,7 @@ import com.safarlcom.mbesa.frontend.ui.screens.ScanScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SendConfirmScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SendMoneyScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SendPinScreen
+import com.safarlcom.mbesa.frontend.ui.screens.SendReceiptScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SendResultScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SignInScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SplashScreen
@@ -138,7 +139,15 @@ fun AppNavHost() {
         composable(Routes.SEND_RESULT) {
             SendResultScreen(
                 onDone = { nav.popBackStack(Routes.HOME, inclusive = false) },
+                // The receipt is pushed ON TOP of the confirmation rather than replacing it, so
+                // back returns to the confirmation the sender came from. That screen re-reads the
+                // completed transfer from SendReceipt instead of sending again — see
+                // SendReceipt.matches, which is what makes the return trip free.
+                onReceipt = { nav.navigate(Routes.SEND_RECEIPT) },
             )
+        }
+        composable(Routes.SEND_RECEIPT) {
+            SendReceiptScreen(onBack = { nav.popBackStack() })
         }
 
         composable(Routes.HISTORY) { HistoryScreen(onBack = { nav.popBackStack() }) }

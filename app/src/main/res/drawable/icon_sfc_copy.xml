@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copy, for the confirmation-code row. Same construction rules as the icon_sfc_* set it sits beside
+  (18dp viewport here because it renders inline with 14sp text, not in a 40dp tile).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="18dp"
+    android:width="18dp"
+    android:viewportWidth="18"
+    android:viewportHeight="18">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M12,9.675V12.825C12,15.45 10.95,16.5 8.325,16.5H5.175C2.55,16.5 1.5,15.45 1.5,12.825V9.675C1.5,7.05 2.55,6 5.175,6H8.325C10.95,6 12,7.05 12,9.675Z"
+        android:strokeColor="#35a839"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M16.5,5.175V8.325C16.5,10.95 15.45,12 12.825,12H12V9.675C12,7.05 10.95,6 8.325,6H6V5.175C6,2.55 7.05,1.5 9.675,1.5H12.825C15.45,1.5 16.5,2.55 16.5,5.175Z"
+        android:strokeColor="#35a839"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+</vector>

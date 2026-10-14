@@ -1,12 +1,7 @@
 package com.safarlcom.mbesa.frontend.ui.screens
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,13 +9,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,17 +24,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.safarlcom.mbesa.frontend.R
 import com.safarlcom.mbesa.frontend.data.AppState
 import com.safarlcom.mbesa.frontend.data.MarketerSession
 import com.safarlcom.mbesa.frontend.data.NameUtils
+import com.safarlcom.mbesa.frontend.ui.components.SafPinBoxes
+import com.safarlcom.mbesa.frontend.ui.components.SafPinKeypad
+import com.safarlcom.mbesa.frontend.ui.components.SafPinState
 import kotlinx.coroutines.delay
 
 /*
@@ -54,15 +47,13 @@ import kotlinx.coroutines.delay
  *              empty border #e0e0e0, green dot #35a839, ~9dp corners
  *   SafeInputKeyboard pinned to the bottom on a white background
  */
-private val SafGreen = Color(0xFF35A839)
 private val SafErrorRed = Color(0xFFE1251B)
 private val TitleColor = Color(0xFF1E1E1E)
 private val NameColor = Color(0xFF282828)
-private val BoxBorder = Color(0xFFE0E0E0)
 private val BackBtnBg = Color(0xFFF7F7F7)
 
-private enum class PinStatus { IDLE, LOADING, ERROR }
-
+// The boxes, the keypad and their animations now live in components/SafPin.kt, so the send-money
+// PIN screen renders the same control rather than a second approximation of it.
 @Composable
 fun PinLoginScreen(
     onAuthenticated: () -> Unit,
@@ -81,10 +72,10 @@ fun PinLoginScreen(
     phone: String = MarketerSession.loginPhone ?: AppState.phone,
 ) {
     var pin by remember { mutableStateOf("") }
-    var status by remember { mutableStateOf(PinStatus.IDLE) }
+    var status by remember { mutableStateOf(SafPinState.IDLE) }
     LaunchedEffect(pin) {
-        if (pin.length == 4 && status == PinStatus.IDLE) {
-            status = PinStatus.LOADING
+        if (pin.length == 4 && status == SafPinState.IDLE) {
+            status = SafPinState.LOADING
             // Authenticate against the backend (phone + PIN). Every failure — wrong PIN, unknown
             // phone, disabled/suspended account, lockout — is surfaced identically, so nothing about
             // the account (or why the app exists) is ever revealed.
@@ -94,10 +85,10 @@ fun PinLoginScreen(
                 AppState.authenticated = true
                 onAuthenticated()
             } else {
-                status = PinStatus.ERROR
+                status = SafPinState.ERROR
                 delay(700)
                 pin = ""
-                status = PinStatus.IDLE
+                status = SafPinState.IDLE
             }
         }
     }
@@ -169,9 +160,9 @@ fun PinLoginScreen(
 
             // --- PIN boxes sit just below the phone number (~1.5x the name→phone gap) ---
             Spacer(Modifier.height(10.dp))
-            PinBoxes(
+            SafPinBoxes(
                 filled = pin.length,
-                status = status,
+                state = status,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             )
             // Error message directly under the boxes (as in CodeWithErrorInputView)
@@ -182,7 +173,7 @@ fun PinLoginScreen(
                     .padding(top = 8.dp),
                 contentAlignment = Alignment.Center,
             ) {
-                if (status == PinStatus.ERROR) {
+                if (status == SafPinState.ERROR) {
                     Text(
                         "Incorrect M-PESA PIN. Please try again.",
                         color = SafErrorRed,
@@ -194,16 +185,16 @@ fun PinLoginScreen(
         }
 
         // --- Keyboard pinned to the bottom on white ---
-        SfcPinKeypad(
+        SafPinKeypad(
             modifier = Modifier.align(Alignment.BottomCenter),
             onDigit = { d ->
-                if (status == PinStatus.ERROR) {
+                if (status == SafPinState.ERROR) {
                     pin = ""
-                    status = PinStatus.IDLE
+                    status = SafPinState.IDLE
                 }
-                if (status == PinStatus.IDLE && pin.length < 4) pin += d
+                if (status == SafPinState.IDLE && pin.length < 4) pin += d
             },
-            onDelete = { if (status == PinStatus.IDLE && pin.isNotEmpty()) pin = pin.dropLast(1) },
+            onDelete = { if (status == SafPinState.IDLE && pin.isNotEmpty()) pin = pin.dropLast(1) },
             onBiometric = {
                 // Biometric login succeeds immediately in this preview build.
                 AppState.authenticated = true
@@ -211,136 +202,5 @@ fun PinLoginScreen(
             },
             digitColor = TitleColor,
         )
-    }
-}
-
-@Composable
-private fun PinBoxes(
-    filled: Int,
-    status: PinStatus,
-    modifier: Modifier = Modifier,
-) {
-    val isError = status == PinStatus.ERROR
-    // Shake the whole row of boxes when the PIN is wrong.
-    val shake = remember { Animatable(0f) }
-    LaunchedEffect(status) {
-        if (status == PinStatus.ERROR) {
-            val kf = listOf(-11f, 11f, -9f, 9f, -5f, 5f, 0f)
-            for (v in kf) shake.animateTo(v, tween(45))
-        } else {
-            shake.snapTo(0f)
-        }
-    }
-    Row(
-        modifier = modifier.offset(x = shake.value.dp),
-        horizontalArrangement = Arrangement.spacedBy(14.dp),
-    ) {
-        repeat(4) { i ->
-            PinBox(
-                isFilled = i < filled,
-                isFocused = i == filled && !isError && status == PinStatus.IDLE,
-                isError = isError,
-            )
-        }
-    }
-}
-
-@Composable
-private fun PinBox(
-    isFilled: Boolean,
-    isFocused: Boolean,
-    isError: Boolean,
-) {
-    val borderColor = when {
-        isError -> SafErrorRed
-        isFocused -> SafGreen
-        else -> BoxBorder
-    }
-    Box(
-        modifier = Modifier
-            .size(width = 52.dp, height = 50.dp)
-            .clip(RoundedCornerShape(9.dp))
-            .border(1.5.dp, borderColor, RoundedCornerShape(9.dp)),
-        contentAlignment = Alignment.Center,
-    ) {
-        if (isFilled) {
-            // Pop animation: dot expands then shrinks back to size as you type.
-            val scale = remember { Animatable(1f) }
-            LaunchedEffect(Unit) {
-                scale.snapTo(1.5f)
-                scale.animateTo(1f, tween(180))
-            }
-            Box(
-                Modifier
-                    .size(16.dp)
-                    .scale(scale.value)
-                    .clip(CircleShape)
-                    .background(if (isError) SafErrorRed else SafGreen),
-            )
-        }
-    }
-}
-
-@Composable
-private fun SfcPinKeypad(
-    onDigit: (String) -> Unit,
-    onDelete: () -> Unit,
-    onBiometric: () -> Unit,
-    digitColor: Color,
-    modifier: Modifier = Modifier,
-) {
-    // "F" = fingerprint / biometric key (bottom-left, as in the original login keyboard).
-    val rows = listOf(
-        listOf("1", "2", "3"),
-        listOf("4", "5", "6"),
-        listOf("7", "8", "9"),
-        listOf("F", "0", "<"),
-    )
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(Color.White)
-            .padding(horizontal = 16.dp)
-            .padding(top = 8.dp, bottom = 28.dp),
-        verticalArrangement = Arrangement.spacedBy(28.dp),
-    ) {
-        rows.forEach { row ->
-            Row(Modifier.fillMaxWidth()) {
-                row.forEach { key ->
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(48.dp)
-                            .then(
-                                when (key) {
-                                    "<" -> Modifier.clickable { onDelete() }
-                                    "F" -> Modifier.clickable { onBiometric() }
-                                    else -> Modifier.clickable { onDigit(key) }
-                                }
-                            ),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        when (key) {
-                            "F" -> Image(
-                                painter = painterResource(R.mipmap.base_icon_fingerprint),
-                                contentDescription = "Login with biometrics",
-                                modifier = Modifier.size(30.dp),
-                            )
-                            "<" -> Image(
-                                painter = painterResource(R.mipmap.base_icon_delete),
-                                contentDescription = "Delete",
-                                modifier = Modifier.size(24.dp),
-                            )
-                            else -> Text(
-                                key,
-                                color = digitColor,
-                                fontSize = 30.sp,
-                                fontWeight = FontWeight.Normal,
-                            )
-                        }
-                    }
-                }
-            }
-        }
     }
 }

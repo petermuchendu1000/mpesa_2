@@ -3,7 +3,6 @@ package com.safarlcom.mbesa.frontend.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,16 +18,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,14 +33,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.safarlcom.mbesa.frontend.data.AppState
-import com.safarlcom.mbesa.frontend.data.MarketerSession
 import com.safarlcom.mbesa.frontend.data.Msisdn
-import com.safarlcom.mbesa.frontend.data.TransferResult
 import com.safarlcom.mbesa.frontend.ui.SendFlow
 import com.safarlcom.mbesa.frontend.ui.SendMode
 import com.safarlcom.mbesa.frontend.ui.theme.BrandGreen
-import com.safarlcom.mbesa.frontend.ui.theme.Danger
 import com.safarlcom.mbesa.frontend.ui.theme.TextPrimary
 import com.safarlcom.mbesa.frontend.ui.theme.TextSecondary
 
@@ -174,119 +165,7 @@ private fun ConfirmRow(label: String, value: String, emphasise: Boolean = false,
     }
 }
 
-private fun initialsOf(name: String): String =
+/** Shared with the confirmation screen, which draws the same mark on the same person. */
+internal fun initialsOf(name: String): String =
     name.trim().split(Regex("\\s+")).filter { it.isNotBlank() }
         .take(2).joinToString("") { it.first().uppercase() }.ifBlank { "?" }
-
-/**
- * SENDING / RESULT — where the transfer actually happens.
- *
- * It owns the call so the screens before it stay pure: Confirm collects, this one commits. The
- * attempt runs once on arrival, and a retry REUSES [SendFlow.ref] — never a fresh one — so the
- * server's replay path can tell "do this again" from "you already did this".
- *
- * A TIMEOUT IS NOT A FAILURE and is never shown as one. The server may have moved the money and
- * lost the reply, so [TransferResult.Unknown] offers a retry on the same ref, which either
- * completes the transfer or reports the completion that already happened. Telling the sender it
- * failed would invite them to send again — the exact mistake idempotency exists to prevent.
- */
-@Composable
-fun SendResultScreen(onDone: () -> Unit) {
-    var state by remember { mutableStateOf<TransferResult?>(null) }
-    var attempt by remember { mutableStateOf(0) }
-
-    LaunchedEffect(attempt) {
-        state = null
-        state = MarketerSession.transfer(
-            phone = SendFlow.recipientPhone,
-            amountCents = SendFlow.totalCents,
-            chargeCents = SendFlow.chargeCents,
-            ref = SendFlow.ref,
-        )
-        // The wallet figure the server just returned is authoritative; apply it so Home and the
-        // Send screen stop showing the pre-send balance.
-        (state as? TransferResult.Ok)?.let { AppState.applyBalance(it.balanceCents) }
-    }
-
-    Scaffold(containerColor = ScreenBg) { padding ->
-        Column(
-            Modifier.fillMaxSize().padding(padding).padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            when (val s = state) {
-                null -> {
-                    CircularProgressIndicator(color = BrandGreen)
-                    Spacer(Modifier.height(18.dp))
-                    Text("Sending…", color = TextSecondary)
-                }
-                is TransferResult.Ok -> {
-                    Box(
-                        Modifier.size(72.dp).clip(CircleShape).background(BrandGreen),
-                        contentAlignment = Alignment.Center,
-                    ) { Text("✓", color = Color.White, fontSize = 36.sp, fontWeight = FontWeight.Bold) }
-                    Spacer(Modifier.height(20.dp))
-                    Text(
-                        "Ksh ${Msisdn.money(s.sentCents)} sent to ${s.recipientName}",
-                        fontSize = 18.sp, fontWeight = FontWeight.Bold, color = TextPrimary,
-                        textAlign = TextAlign.Center,
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    Text("New M-PESA balance is Ksh ${Msisdn.money(s.balanceCents)}", color = TextSecondary)
-                    if (s.idempotent) {
-                        Spacer(Modifier.height(8.dp))
-                        // The first attempt HAD gone through; this reply is the server telling us so.
-                        // Saying it plainly stops the sender wondering whether they sent twice.
-                        Text("This transfer had already gone through — it was not sent twice.",
-                            color = TextSecondary, fontSize = 13.sp, textAlign = TextAlign.Center)
-                    }
-                    Spacer(Modifier.height(28.dp))
-                    Button(
-                        onClick = { SendFlow.clear(); onDone() },
-                        shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = BrandGreen),
-                        modifier = Modifier.fillMaxWidth().height(52.dp),
-                    ) { Text("Done", fontWeight = FontWeight.SemiBold) }
-                }
-                is TransferResult.Failed -> {
-                    Box(
-                        Modifier.size(72.dp).clip(CircleShape).background(Danger),
-                        contentAlignment = Alignment.Center,
-                    ) { Text("!", color = Color.White, fontSize = 36.sp, fontWeight = FontWeight.Bold) }
-                    Spacer(Modifier.height(20.dp))
-                    Text(s.message, fontSize = 16.sp, color = TextPrimary, textAlign = TextAlign.Center)
-                    Spacer(Modifier.height(28.dp))
-                    Button(
-                        onClick = { SendFlow.clear(); onDone() },
-                        shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = BrandGreen),
-                        modifier = Modifier.fillMaxWidth().height(52.dp),
-                    ) { Text("Close", fontWeight = FontWeight.SemiBold) }
-                }
-                TransferResult.Unknown -> {
-                    Text("Couldn't confirm this transfer", fontSize = 17.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
-                    Spacer(Modifier.height(10.dp))
-                    Text(
-                        "The network dropped before we heard back. It may already have gone through — " +
-                            "check again rather than sending a second time.",
-                        color = TextSecondary, textAlign = TextAlign.Center,
-                    )
-                    Spacer(Modifier.height(24.dp))
-                    Button(
-                        // Same ref. The server settles which of the two it is.
-                        onClick = { attempt++ },
-                        shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = BrandGreen),
-                        modifier = Modifier.fillMaxWidth().height(52.dp),
-                    ) { Text("Check again", fontWeight = FontWeight.SemiBold) }
-                    Spacer(Modifier.height(10.dp))
-                    Text(
-                        "Close",
-                        color = TextSecondary,
-                        modifier = Modifier.clickable { SendFlow.clear(); onDone() }.padding(12.dp),
-                    )
-                }
-            }
-        }
-    }
-}
