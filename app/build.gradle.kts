@@ -45,6 +45,12 @@ dependencies {
     val composeBom = platform("androidx.compose:compose-bom:2024.10.01")
     implementation(composeBom)
 
+    // Plain JVM unit tests (`./gradlew testDebugUnitTest`) for the pure logic that has a right
+    // answer: Kenyan number normalisation, which MUST agree digit-for-digit with the server's own
+    // normalizeMsisdn, and the withdrawal tariff the Send Money screen quotes. No Android, no
+    // emulator, no Compose — those are the parts worth pinning.
+    testImplementation("junit:junit:4.13.2")
+
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.activity:activity-compose:1.9.3")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")

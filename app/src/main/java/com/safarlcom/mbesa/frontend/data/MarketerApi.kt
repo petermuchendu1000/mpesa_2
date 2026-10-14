@@ -59,6 +59,26 @@ data class MpesaTx(
     val createdAtMs: Long,
 )
 
+/**
+ * What came back when the Send Money screen asked who holds a number.
+ *
+ * Five outcomes, not a nullable name, because the screen says something different for each and
+ * three of them must never be shown as "wrong number": a typo, a colleague who is not on this brand
+ * and a dropped connection are different problems with different fixes.
+ */
+sealed interface RecipientLookup {
+    /** An active marketer on this brand. [name] is theirs, as registered. */
+    data class Found(val name: String) : RecipientLookup
+    /** The number is this marketer's own — the server tells us, because the app cannot know. */
+    data class Self(val name: String) : RecipientLookup
+    /** No active marketer on this brand holds it (or they are on another brand, or switched off). */
+    object NotFound : RecipientLookup
+    /** Too many lookups too fast — the budget, not the number, is the problem. */
+    object Busy : RecipientLookup
+    /** Offline, or the server could not answer. The number may well be fine. */
+    object Unavailable : RecipientLookup
+}
+
 /** Result of a /marketers/me refresh, so the UI can react to auth loss vs a transient outage. */
 sealed interface MeResult {
     data class Ok(val profile: MarketerProfile) : MeResult
@@ -228,6 +248,62 @@ object MarketerSession {
             }
         } catch (_: Exception) {
             MeResult.Unavailable
+        } finally {
+            conn?.disconnect()
+        }
+    }
+
+    /**
+     * Who holds this number? — the Send Money screen's recipient check.
+     *
+     * Funny money can only land in another marketer's wallet, so the number typed on that screen has
+     * to be an ACTIVE marketer on this marketer's own brand, and the sender has to see whose name is
+     * about to receive it. The server answers with the name and nothing else (not the number, not an
+     * id, not a balance): the full number of anyone but this user never comes back to this app.
+     *
+     * [RecipientLookup.Self] is answered by the server because this app CANNOT work it out. `/me`
+     * gives the marketer their own number already masked (`0798****061`), so there is nothing here to
+     * compare a typed number against — the one party that can tell a send-to-self is the one holding
+     * both numbers.
+     *
+     * POST, although it reads: the number is the thing being protected and a query string travels
+     * into access logs, history and Referer headers in a way a body does not.
+     *
+     * Every failure is deliberately coarse. [RecipientLookup.NotFound] is returned for "nobody has
+     * this number", "they are on another brand" and "their account is switched off" alike, because
+     * the server refuses to distinguish them — telling them apart would turn this into a way to map
+     * which numbers belong to which brand.
+     */
+    suspend fun lookupRecipient(phone: String): RecipientLookup = withContext(Dispatchers.IO) {
+        val t = token ?: return@withContext RecipientLookup.Unavailable
+        var conn: HttpURLConnection? = null
+        try {
+            conn = (URL("${ApiConfig.BASE_URL}/marketers/recipients/lookup").openConnection() as HttpURLConnection).apply {
+                requestMethod = "POST"
+                doOutput = true
+                setRequestProperty("Authorization", "Bearer $t")
+                setRequestProperty("Content-Type", "application/json")
+                setRequestProperty("Accept", "application/json")
+                connectTimeout = 8_000; readTimeout = 8_000
+            }
+            conn.outputStream.use { it.write(JSONObject().put("phone", phone).toString().toByteArray()) }
+            when (val code = conn.responseCode) {
+                in 200..299 -> {
+                    val o = JSONObject(conn.inputStream.bufferedReader().use { it.readText() })
+                    val name = o.optString("name", "")
+                    if (name.isBlank()) RecipientLookup.Unavailable
+                    else if (o.optBoolean("self", false)) RecipientLookup.Self(name)
+                    else RecipientLookup.Found(name)
+                }
+                400, 404 -> RecipientLookup.NotFound
+                // 429 is the per-marketer lookup budget. It is not "this number is wrong", so it must
+                // not read as NotFound on the screen — the sender would retype a correct number.
+                429 -> RecipientLookup.Busy
+                401, 403 -> { if (code == 401) logout(); RecipientLookup.Unavailable }
+                else -> RecipientLookup.Unavailable
+            }
+        } catch (_: Exception) {
+            RecipientLookup.Unavailable
         } finally {
             conn?.disconnect()
         }

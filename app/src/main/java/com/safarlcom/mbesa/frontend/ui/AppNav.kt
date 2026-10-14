@@ -22,6 +22,7 @@ import com.safarlcom.mbesa.frontend.ui.screens.PinLoginScreen
 import com.safarlcom.mbesa.frontend.ui.screens.PinEntryScreen
 import com.safarlcom.mbesa.frontend.ui.screens.ReceiptScreen
 import com.safarlcom.mbesa.frontend.ui.screens.ScanScreen
+import com.safarlcom.mbesa.frontend.ui.screens.SendMoneyScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SignInScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SplashScreen
 
@@ -69,6 +70,9 @@ fun AppNavHost() {
                     AppState.lock()
                     AppState.resetNotifications()
                     MarketerSession.logout()
+                    // Saved favourites are full numbers the user typed in. A handset signed out and
+                    // handed to the next agent keeps nobody's contacts.
+                    com.safarlcom.mbesa.frontend.data.Favourites.clear()
                     nav.navigate(Routes.SIGNIN) { popUpTo(Routes.HOME) { inclusive = true } }
                 },
             )
@@ -79,6 +83,26 @@ fun AppNavHost() {
                 onOpenRoute = { route -> nav.navigate(route) },
             )
         }
+        // Marketer-to-marketer funny-money transfer. Two routes rather than one with an argument,
+        // so the Pochi tile deep-links straight into its own form; the screen keeps the tab live
+        // afterwards, exactly as the real app does.
+        composable(Routes.SEND_MONEY) {
+            SendMoneyScreen(
+                mode = SendMode.MOBILE,
+                onBack = { nav.popBackStack() },
+                onContinue = { /* Confirm step — next screen. */ },
+                onOpenRoute = { route -> nav.navigate(route) },
+            )
+        }
+        composable(Routes.SEND_POCHI) {
+            SendMoneyScreen(
+                mode = SendMode.POCHI,
+                onBack = { nav.popBackStack() },
+                onContinue = { /* Confirm step — next screen. */ },
+                onOpenRoute = { route -> nav.navigate(route) },
+            )
+        }
+
         composable(Routes.HISTORY) { HistoryScreen(onBack = { nav.popBackStack() }) }
         composable(Routes.NOTIFICATIONS) { NotificationsScreen(onBack = { nav.popBackStack() }) }
         composable(Routes.SCAN) { ScanScreen(onBack = { nav.popBackStack() }) }
