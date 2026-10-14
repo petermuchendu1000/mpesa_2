@@ -156,7 +156,17 @@ fun SendMoneyScreen(
         Msisdn.withdrawalChargeCents(amountCents)
     } else 0L
     val totalCents = (amountCents ?: 0L) + chargeCents
-    val spendableCents = ((AppState.balance + AppState.fulizaAvailable) * 100).toLong()
+    /**
+     * CASH ONLY — Fuliza is deliberately not counted, although the strip below still shows it.
+     *
+     * The overdraft is granted by an operator and repaid by nobody (`available_fuliza_cents` only
+     * goes down on spend and back up when an admin resets it). Spending it on a WITHDRAWAL takes
+     * money out of the system and the story ends; spending it on a TRANSFER would move the borrowed
+     * amount into another live wallet — minting funny money nobody granted. The server refuses it
+     * (migration 0203), so counting it here would only let the sender get as far as Confirm before
+     * being told no.
+     */
+    val spendableCents = (AppState.balance * 100).toLong()
     val overLimit = amountCents != null && amountCents > 0 && totalCents > spendableCents
 
     val recipientName = when (val l = lookup) {
@@ -290,7 +300,9 @@ fun SendMoneyScreen(
             if (overLimit) {
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    "That is more than the balance and Fuliza together.",
+                    // Named precisely, because the strip above it shows a Fuliza figure that this
+                    // screen will not spend: a vaguer message would read as a bug.
+                    "More than your M-PESA balance. Fuliza can't be used to send to another marketer.",
                     color = Danger,
                     fontSize = 12.sp,
                 )

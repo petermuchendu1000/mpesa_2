@@ -22,7 +22,10 @@ import com.safarlcom.mbesa.frontend.ui.screens.PinLoginScreen
 import com.safarlcom.mbesa.frontend.ui.screens.PinEntryScreen
 import com.safarlcom.mbesa.frontend.ui.screens.ReceiptScreen
 import com.safarlcom.mbesa.frontend.ui.screens.ScanScreen
+import com.safarlcom.mbesa.frontend.ui.screens.SendConfirmScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SendMoneyScreen
+import com.safarlcom.mbesa.frontend.ui.screens.SendPinScreen
+import com.safarlcom.mbesa.frontend.ui.screens.SendResultScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SignInScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SplashScreen
 
@@ -37,7 +40,10 @@ fun AppNavHost() {
         if (!AppState.authenticated) {
             val route = nav.currentBackStackEntry?.destination?.route
             if (route != null && route != Routes.LOGIN && route != Routes.SIGNIN && route != Routes.SPLASH) {
-                val target = if (MarketerSession.isLoggedIn) Routes.LOGIN else Routes.SIGNIN
+                // `canPinLogin`, not `isLoggedIn`: a session restored from before #142 holds a token
+                // but only the MASKED phone, so the PIN screen could never succeed. Those go back
+                // through credential sign-in once, which repairs them.
+                val target = if (MarketerSession.canPinLogin) Routes.LOGIN else Routes.SIGNIN
                 nav.navigate(target) { popUpTo(0) { inclusive = true } }
             }
         }
@@ -47,7 +53,7 @@ fun AppNavHost() {
         composable(Routes.SPLASH) {
             SplashScreen(onDone = {
                 // First run: credential sign-in unless a session is already established.
-                val start = if (MarketerSession.isLoggedIn) Routes.LOGIN else Routes.SIGNIN
+                val start = if (MarketerSession.canPinLogin) Routes.LOGIN else Routes.SIGNIN
                 nav.navigate(start) { popUpTo(Routes.SPLASH) { inclusive = true } }
             })
         }
@@ -90,7 +96,7 @@ fun AppNavHost() {
             SendMoneyScreen(
                 mode = SendMode.MOBILE,
                 onBack = { nav.popBackStack() },
-                onContinue = { /* Confirm step — next screen. */ },
+                onContinue = { nav.navigate(Routes.SEND_CONFIRM) },
                 onOpenRoute = { route -> nav.navigate(route) },
             )
         }
@@ -98,8 +104,40 @@ fun AppNavHost() {
             SendMoneyScreen(
                 mode = SendMode.POCHI,
                 onBack = { nav.popBackStack() },
-                onContinue = { /* Confirm step — next screen. */ },
+                onContinue = { nav.navigate(Routes.SEND_CONFIRM) },
                 onOpenRoute = { route -> nav.navigate(route) },
+            )
+        }
+
+        // Confirm -> PIN -> the transfer. Three screens rather than one because each is a different
+        // kind of thing: Confirm restates what the SERVER resolved, the PIN authorises it, and only
+        // the last one calls the API. The idempotency ref is minted at Confirm and reused by every
+        // retry inside the result screen.
+        composable(Routes.SEND_CONFIRM) {
+            SendConfirmScreen(
+                onBack = {
+                    // Abandoning the confirmation ends this attempt-chain: coming back is a new
+                    // decision and must not reuse the old ref, or the server would treat the second
+                    // send as a replay of the first and move nothing.
+                    SendFlow.ref = ""
+                    nav.popBackStack()
+                },
+                onSend = { nav.navigate(Routes.SEND_PIN) },
+            )
+        }
+        composable(Routes.SEND_PIN) {
+            SendPinScreen(
+                onBack = { nav.popBackStack() },
+                onVerified = {
+                    // The PIN screen is popped as the result screen opens: a back press from a
+                    // completed transfer must never land on a PIN prompt that would send again.
+                    nav.navigate(Routes.SEND_RESULT) { popUpTo(Routes.SEND_PIN) { inclusive = true } }
+                },
+            )
+        }
+        composable(Routes.SEND_RESULT) {
+            SendResultScreen(
+                onDone = { nav.popBackStack(Routes.HOME, inclusive = false) },
             )
         }
 

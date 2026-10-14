@@ -40,12 +40,27 @@ object SendFlow {
     /** Simulated agent-withdrawal charge the sender chose to cover; 0 when the box is unticked. */
     var chargeCents: Long = 0L
 
+    /**
+     * The idempotency key for THIS attempt-chain, minted once on Confirm and reused by every retry.
+     *
+     * It is the difference between a timeout costing nothing and a timeout sending twice. A new one
+     * per press would make the retry a second transfer; one per chain makes the server's replay
+     * path do its job. Cleared only when the flow is finished or abandoned.
+     */
+    var ref: String = ""
+
+    /** What actually left the wallet: the amount plus any withdrawal charge the sender covered. */
     val totalCents: Long get() = amountCents + chargeCents
+
+    /** Mint the ref. Called once, when the sender reaches Confirm. */
+    fun beginAttempt() {
+        ref = "snd-" + java.util.UUID.randomUUID().toString().replace("-", "").take(24)
+    }
 
     fun clear() {
         mode = SendMode.MOBILE
         recipientPhone = ""; recipientName = ""
-        amountCents = 0L; chargeCents = 0L
+        amountCents = 0L; chargeCents = 0L; ref = ""
     }
 }
 
@@ -62,6 +77,9 @@ object Routes {
     const val RECEIPT = "receipt"
     const val SEND_MONEY = "send/mobile"
     const val SEND_POCHI = "send/pochi"
+    const val SEND_CONFIRM = "send/confirm"
+    const val SEND_PIN = "send/pin"
+    const val SEND_RESULT = "send/result"
 
     fun entry(id: String) = "entry/$id"
     fun detail(id: String) = "detail/$id"

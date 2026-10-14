@@ -70,7 +70,15 @@ fun PinLoginScreen(
     // Identity is fetched at sign-in and applied to AppState, so the PIN screen shows the real
     // marketer name + number rather than a hardcoded demo identity.
     name: String = AppState.fullName,
-    phone: String = AppState.phone,
+    /**
+     * The number to AUTHENTICATE with — the one the marketer typed at sign-in, not the masked one
+     * the server returns for display. `AppState.phone` is `0798****061` (invest254 docs/58) and
+     * `fn_phone_sig9` of that is 7 digits where every marketer lookup needs 9, so a PIN login sent
+     * with it was refused every single time (BUGLOG #142). Falls back to the display value only so
+     * this screen still compiles for a caller that has neither; `canPinLogin` is what stops a
+     * session without a real number ever reaching here.
+     */
+    phone: String = MarketerSession.loginPhone ?: AppState.phone,
 ) {
     var pin by remember { mutableStateOf("") }
     var status by remember { mutableStateOf(PinStatus.IDLE) }

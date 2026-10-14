@@ -154,6 +154,18 @@ object AppState {
         return PayResult(success = true, fromBalance = fromBalance, fromFuliza = fromFuliza)
     }
 
+    /**
+     * Adopt a balance the SERVER just reported (cents), e.g. straight after a peer transfer.
+     *
+     * Separate from [applyMarketer] because that one rewrites identity and Fuliza too: after a
+     * transfer the only thing known to have changed is the cash balance, and re-deriving the rest
+     * from a stale profile would undo a Fuliza figure the server never sent.
+     */
+    fun applyBalance(cents: Long) {
+        balance = cents / 100.0
+        publishBalance()
+    }
+
     /** Receiving money: repay Fuliza first, then top up the balance. */
     fun receive(amount: Double) {
         if (amount <= 0) return

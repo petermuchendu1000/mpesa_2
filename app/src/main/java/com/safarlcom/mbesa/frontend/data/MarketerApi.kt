@@ -79,6 +79,21 @@ sealed interface RecipientLookup {
     object Unavailable : RecipientLookup
 }
 
+/**
+ * What came back from a transfer attempt.
+ *
+ * [Unknown] is the one that matters: a timeout is NOT a failure. The server may have moved the
+ * money and lost the reply, so the only correct response is a retry on the SAME ref — never a new
+ * one, and never a message telling the sender it did not work.
+ */
+sealed interface TransferResult {
+    data class Ok(val balanceCents: Long, val sentCents: Long, val recipientName: String, val idempotent: Boolean) : TransferResult
+    /** The server refused, and said why in terms the sender can act on. */
+    data class Failed(val message: String) : TransferResult
+    /** No answer. It may or may not have happened; retry the same ref to find out. */
+    object Unknown : TransferResult
+}
+
 /** Result of a /marketers/me refresh, so the UI can react to auth loss vs a transient outage. */
 sealed interface MeResult {
     data class Ok(val profile: MarketerProfile) : MeResult
@@ -101,6 +116,19 @@ object MarketerSession {
     private var prefs: SharedPreferences? = null
     private var savedName: String = ""
     private var savedPhone: String = ""
+    /**
+     * The marketer's OWN number, in the form they typed it — kept because the server will not give
+     * it back.
+     *
+     * `/me` and both login responses mask the phone (invest254 docs/58), so `savedPhone` is
+     * `0798****061`: fine to print, useless to authenticate with. `fn_phone_sig9` of a masked value
+     * is 7 digits and every marketer lookup requires 9, so a PIN login sent with it is refused —
+     * which is exactly what was happening on EVERY app launch and every return from the background
+     * (BUGLOG #142). This is the unmasked value, written only from what the user themselves typed
+     * at sign-in, and used only to re-authenticate them. It is their own number: docs/58 is about
+     * never handing this app ANYBODY ELSE's.
+     */
+    private var savedLoginPhone: String = ""
     private var savedBalance: Long = 0L
     private var savedFuliza: Long = 0L
     private var savedAirtime: Long = 0L
@@ -112,10 +140,29 @@ object MarketerSession {
         token = p.getString("token", null)
         savedName = p.getString("name", "") ?: ""
         savedPhone = p.getString("phone", "") ?: ""
+        savedLoginPhone = p.getString("login_phone", "") ?: ""
         savedBalance = p.getLong("balance", 0L)
         savedFuliza = p.getLong("fuliza", 0L)
         savedAirtime = p.getLong("airtime", 0L)
     }
+
+    /**
+     * The number to re-authenticate with, or null when this install has never seen one.
+     *
+     * Null on an install upgraded from before #142: the masked phone is all that was ever stored,
+     * and there is no way to recover the real one from it. Those sessions must go back through
+     * sign-in once — see [canPinLogin].
+     */
+    val loginPhone: String? get() = savedLoginPhone.ifBlank { null }
+
+    /**
+     * Is the PIN lock screen able to succeed at all?
+     *
+     * A token alone is not enough: without [loginPhone] the PIN screen can only fail, so routing a
+     * marketer there would strand them on a screen that always says the PIN is wrong. Sessions in
+     * that state are sent to credential sign-in instead, which repairs them in one pass.
+     */
+    val canPinLogin: Boolean get() = token != null && loginPhone != null
 
     /** Last-known identity/balances for a restored session, so the UI shows them before /me loads. */
     val restoredProfile: MarketerProfile?
@@ -124,6 +171,13 @@ object MarketerSession {
         else null
 
     /** Write-through the current token + profile snapshot so it survives a process restart. */
+    /** Remember the number the marketer signed in WITH (not the masked one the server returns). */
+    private fun persistLoginPhone(typed: String) {
+        val normalized = Msisdn.normalize(typed) ?: return
+        savedLoginPhone = normalized
+        prefs?.edit()?.putString("login_phone", normalized)?.apply()
+    }
+
     private fun persistProfile(tok: String, p: MarketerProfile) {
         savedName = p.fullName; savedPhone = p.phone
         savedBalance = p.balanceCents; savedFuliza = p.availableFulizaCents; savedAirtime = p.airtimeCents
@@ -140,7 +194,7 @@ object MarketerSession {
     /** Explicit sign-out: drop the token and wipe the persisted session (returns to sign-in). */
     fun logout() {
         token = null
-        savedName = ""; savedPhone = ""; savedBalance = 0L; savedFuliza = 0L; savedAirtime = 0L
+        savedName = ""; savedPhone = ""; savedLoginPhone = ""; savedBalance = 0L; savedFuliza = 0L; savedAirtime = 0L
         prefs?.edit()?.clear()?.apply()
     }
 
@@ -176,6 +230,7 @@ object MarketerSession {
                 val profile = o.optJSONObject("marketer")?.let(::parseProfile)
                     ?: return@withContext WebLoginResult.Failed("Something went wrong. Please try again.")
                 persistProfile(tok, profile)
+                persistLoginPhone(phone)   // #142: the server's copy comes back masked
                 WebLoginResult.Ok(profile)
             } else {
                 // Read the error code from the body to give the user a precise, non-leaky reason.
@@ -216,7 +271,7 @@ object MarketerSession {
             val tok = o.optString("token", null) ?: return@withContext null
             token = tok
             val profile = o.optJSONObject("marketer")?.let(::parseProfile)
-            if (profile != null) persistProfile(tok, profile)
+            if (profile != null) { persistProfile(tok, profile); persistLoginPhone(phone) }
             profile
         } catch (_: Exception) {
             null
@@ -304,6 +359,82 @@ object MarketerSession {
             }
         } catch (_: Exception) {
             RecipientLookup.Unavailable
+        } finally {
+            conn?.disconnect()
+        }
+    }
+
+    /**
+     * Send funny money to a colleague. The second half of the Send Money flow.
+     *
+     * [ref] is the IDEMPOTENCY KEY and the single most important argument here. A phone on Kenyan
+     * mobile data will time out mid-send; without a ref a retry is a second transfer of
+     * real-feeling money. The caller generates ONE ref per attempt-chain and reuses it on every
+     * retry — the server stores it on both ledger rows and a replay returns the original result
+     * having moved nothing, which is why [TransferResult.Ok.idempotent] is surfaced rather than
+     * hidden.
+     *
+     * A timeout or a dropped connection is [TransferResult.Unknown], NOT a failure: the server may
+     * well have completed it. The only safe response is to retry with the SAME ref, which either
+     * completes it or reports the completion that already happened.
+     */
+    suspend fun transfer(phone: String, amountCents: Long, chargeCents: Long, ref: String): TransferResult = withContext(Dispatchers.IO) {
+        val t = token ?: return@withContext TransferResult.Failed("Please sign in again.")
+        var conn: HttpURLConnection? = null
+        try {
+            conn = (URL("${ApiConfig.BASE_URL}/marketers/me/transfer").openConnection() as HttpURLConnection).apply {
+                requestMethod = "POST"
+                doOutput = true
+                setRequestProperty("Authorization", "Bearer $t")
+                setRequestProperty("Content-Type", "application/json")
+                setRequestProperty("Accept", "application/json")
+                // Longer than the other calls: this one moves money, and giving up early on a
+                // request the server is still processing is what turns one send into two.
+                connectTimeout = 10_000; readTimeout = 20_000
+            }
+            conn.outputStream.use {
+                it.write(JSONObject()
+                    .put("phone", phone)
+                    .put("amountCents", amountCents)
+                    .put("chargeCents", chargeCents)
+                    .put("ref", ref)
+                    .toString().toByteArray())
+            }
+            val code = conn.responseCode
+            if (code in 200..299) {
+                val o = JSONObject(conn.inputStream.bufferedReader().use { it.readText() })
+                TransferResult.Ok(
+                    balanceCents = o.optLong("balanceCents", 0L),
+                    sentCents = o.optLong("sentCents", amountCents),
+                    recipientName = o.optString("recipientName", ""),
+                    idempotent = o.optBoolean("idempotent", false),
+                )
+            } else {
+                val err = runCatching {
+                    JSONObject(conn.errorStream?.bufferedReader()?.use { it.readText() } ?: "")
+                        .optJSONObject("error")?.optString("code")
+                }.getOrNull()
+                if (code == 401) logout()
+                // Each of these is a different thing for the sender to DO, so none of them collapse
+                // into "something went wrong".
+                TransferResult.Failed(when (err) {
+                    "INSUFFICIENT_FUNDS" -> "Not enough balance for this transfer."
+                    "TRANSFER_TO_SELF" -> "You can't send to yourself."
+                    "RECIPIENT_NOT_FOUND" -> "No marketer is registered on this number."
+                    "TRANSFER_DAILY_CAP" -> "You've reached today's sending limit."
+                    "AMOUNT_BELOW_MINIMUM" -> "Enter at least Ksh 1."
+                    "MARKETER_INACTIVE", "NOT_MARKETER" -> "Your account isn't active. Contact support."
+                    "SESSION_REVOKED" -> "Your session ended. Please sign in again."
+                    else -> if (code == 429) "Too many attempts. Wait a moment and try again."
+                            else "Couldn't complete the transfer. Please try again."
+                })
+            }
+        } catch (_: java.io.InterruptedIOException) {
+            // Timed out WAITING FOR THE ANSWER: the send may have gone through. Never report this
+            // as a failure — the caller retries on the same ref, which settles it either way.
+            TransferResult.Unknown
+        } catch (_: Exception) {
+            TransferResult.Unknown
         } finally {
             conn?.disconnect()
         }
