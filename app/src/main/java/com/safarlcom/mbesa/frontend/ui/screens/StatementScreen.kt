@@ -1,7 +1,6 @@
 package com.safarlcom.mbesa.frontend.ui.screens
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -32,7 +31,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -61,7 +59,7 @@ private val DocInk = Color(0xFF2B2B2B)
  * the totals are not), so recomputing anything locally would at best duplicate the server and at
  * worst quietly disagree with it.
  *
- * TWO ROWS WILL ALWAYS READ 0.00 — LIPA NA M-PESA (PAY BILL) and (BUY GOODS). Nothing in this
+ * TWO ROWS WILL ALWAYS READ 0.00 — LIPA NA M-PESA (PAYBILL) and (BUY GOODS). Nothing in this
  * system records such a spend: the app's airtime, bundle, pay-bill and buy-goods screens are local
  * only and never reach the server (invest254 docs/65 §4). They are printed because the reference
  * prints them. A zero there means "nothing recorded", not "nothing spent", and the banner below the
@@ -105,7 +103,7 @@ fun StatementScreen(onBack: () -> Unit) {
             ) {
                 Spacer(Modifier.height(28.dp))
                 Text(
-                    "M-PESA STATEMENT",
+                    "MARKETER WALLET STATEMENT",
                     color = DocGreen, fontSize = 15.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.6.sp,
                 )
 
@@ -160,14 +158,12 @@ fun StatementScreen(onBack: () -> Unit) {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Spacer(Modifier.weight(1f))
-                    Image(painterResource(R.drawable.ic_safaricom_mark), null, Modifier.size(width = 34.dp, height = 26.dp))
-                    Spacer(Modifier.width(5.dp))
-                    Text("Safaricom", fontSize = 15.sp, color = DocGreen, fontWeight = FontWeight.Bold)
+                    Text("invest254", fontSize = 15.sp, color = DocGreen, fontWeight = FontWeight.Bold)
                 }
                 Spacer(Modifier.height(10.dp))
                 Text(
-                    "For self-help dial *234# | Web: www.safaricom.co.ke | X: @SafaricomPLC | " +
-                        "@safaricom_care | Facebook: Safaricom PLC | Terms and conditions apply",
+                    "invest254 marketer wallet | Web: invest254.com | " +
+                        "These are simulated marketer funds, not a mobile-money account",
                     color = TextSecondary, fontSize = 8.5.sp, lineHeight = 12.sp, textAlign = TextAlign.Center,
                 )
                 Spacer(Modifier.height(28.dp))
@@ -177,16 +173,22 @@ fun StatementScreen(onBack: () -> Unit) {
 }
 
 /**
- * THE APPROVAL STAMP — the bordered box the printed statement carries between the fields and the QR.
+ * THE ISSUE STAMP — the bordered box the printed statement carries between the fields and the QR.
  *
  * Its two dates are the SERVER's strings (`approvalDate`, `periodOrdinal`), not derived here. The
  * emailed PDF prints the same two, so the stamp on this page and the stamp on the page that gets
  * forwarded cannot say different things — the failure BUGLOG #147 was about, where a mirror of a
  * server rule quietly stopped agreeing with it.
  *
+ * WHAT IT ATTESTS. invest254 issued this, and says so. The printed reference this layout is drawn
+ * from carries a mobile-money operator's approval mark and a short code to verify the statement
+ * with them; these balances are invest254's own simulated marketer wallet and no operator can
+ * confirm them, so repeating that mark here would be a false claim about who stands behind the
+ * document. Wording must stay in step with `marketers.statement.pdf.ts` — see docs/67 §3.
+ *
  * ONE DEPARTURE FROM THE PRINTED LAYOUT: there it sits BESIDE the fields and the QR, three columns
  * across an A4 page. Three columns across a phone is three unreadable columns, so here it spans the
- * width below them. The content, its order and its wording are the printed page's.
+ * width below them. The content and its order are the printed page's.
  */
 @Composable
 private fun ApprovalStamp(s: Statement) {
@@ -196,26 +198,22 @@ private fun ApprovalStamp(s: Statement) {
             .padding(horizontal = 12.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("Approved - ${s.approvalDate}", color = DocGreen, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+        Text("Issued - ${s.approvalDate}", color = DocGreen, fontSize = 11.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(3.dp))
-        Text("SAFARICOM CUSTOMER CARE", color = DocInk, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+        Text("INVEST254 MARKETER WALLET", color = DocInk, fontSize = 9.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(2.dp))
-        Text("M-PESA Statement Period:", color = DocInk, fontSize = 9.sp)
+        Text("Statement Period:", color = DocInk, fontSize = 9.sp)
         Spacer(Modifier.height(1.dp))
         Text(s.periodOrdinal, color = DocInk, fontSize = 9.5.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(2.dp))
-        Text("www.safaricom.co.ke", color = DocGreen, fontSize = 9.sp)
+        Text("invest254.com", color = DocGreen, fontSize = 9.sp)
         Spacer(Modifier.height(1.dp))
-        Text("P.O BOX 66827 - 00800, NAIROBI", color = DocInk, fontSize = 8.5.sp)
+        Text("SIMULATED MARKETER FUNDS", color = DocInk, fontSize = 8.5.sp)
         Spacer(Modifier.height(3.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("Simple · Transparent · Honest", color = DocGreen, fontSize = 8.5.sp, fontWeight = FontWeight.Bold)
-            Spacer(Modifier.width(6.dp))
-            Text("FOR YOU", color = DocInk, fontSize = 8.5.sp, fontWeight = FontWeight.Bold)
+            Text("Not a mobile-money statement", color = DocGreen, fontSize = 8.5.sp, fontWeight = FontWeight.Bold)
             Spacer(Modifier.width(10.dp))
-            Image(painterResource(R.drawable.ic_safaricom_mark), null, Modifier.size(width = 22.dp, height = 17.dp))
-            Spacer(Modifier.width(3.dp))
-            Text("Safaricom", color = DocGreen, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+            Text("invest254", color = DocGreen, fontSize = 10.sp, fontWeight = FontWeight.Bold)
         }
     }
 }
