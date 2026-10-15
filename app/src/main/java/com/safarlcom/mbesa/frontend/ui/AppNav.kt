@@ -2,14 +2,18 @@ package com.safarlcom.mbesa.frontend.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.safarlcom.mbesa.frontend.data.AirtimeResult
 import com.safarlcom.mbesa.frontend.data.AppState
+import com.safarlcom.mbesa.frontend.data.MarketerAccount
 import com.safarlcom.mbesa.frontend.data.MarketerSession
 import com.safarlcom.mbesa.frontend.data.SfcCatalog
+import com.safarlcom.mbesa.frontend.ui.screens.AccountEmailScreen
 import com.safarlcom.mbesa.frontend.ui.screens.AllServicesScreen
 import com.safarlcom.mbesa.frontend.ui.screens.BundlesListScreen
 import com.safarlcom.mbesa.frontend.ui.screens.DetailScreen
@@ -29,6 +33,7 @@ import com.safarlcom.mbesa.frontend.ui.screens.SendPinScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SendReceiptScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SendResultScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SignInScreen
+import kotlinx.coroutines.launch
 import com.safarlcom.mbesa.frontend.ui.screens.SplashScreen
 import com.safarlcom.mbesa.frontend.ui.screens.StatementScreen
 
@@ -167,6 +172,7 @@ fun AppNavHost() {
             )
         }
         composable(Routes.STATEMENT) { StatementScreen(onBack = { nav.popBackStack() }) }
+        composable(Routes.ACCOUNT_EMAIL) { AccountEmailScreen(onBack = { nav.popBackStack() }) }
         composable(Routes.NOTIFICATIONS) { NotificationsScreen(onBack = { nav.popBackStack() }) }
         composable(Routes.SCAN) { ScanScreen(onBack = { nav.popBackStack() }) }
 
@@ -213,18 +219,59 @@ fun AppNavHost() {
             )
         }
         composable(Routes.PIN) {
+            val scope = rememberCoroutineScope()
             PinEntryScreen(
                 onBack = { nav.popBackStack() },
                 onDone = {
-                    // Charge the wallet (balance first, Fuliza covers any shortfall).
                     val amt = TxFlow.amount.toDoubleOrNull() ?: 0.0
-                    val res = AppState.performTransaction(
-                        TxFlow.actionId, TxFlow.title, amt, TxFlow.recipient,
-                    )
-                    TxFlow.success = res.success
-                    TxFlow.fulizaUsed = res.fromFuliza
-                    TxFlow.newBalance = AppState.balanceStr
-                    nav.navigate(Routes.RECEIPT) { popUpTo(Routes.HOME) }
+                    // AIRTIME IS THE ONE ACTION HERE THAT REACHES THE SERVER (invest254 0207). It
+                    // really debits the marketer's wallet and really writes a ledger row, which is
+                    // what makes it show up on a statement. Every other action on this screen is
+                    // still a local simulation; an offline session falls back to one too, rather
+                    // than refusing, because the sample flows are the point of an offline session.
+                    val realAirtime = TxFlow.actionId == "airtime" &&
+                        MarketerSession.token != null && TxFlow.airtimeRef.isNotBlank()
+                    if (realAirtime) {
+                        scope.launch {
+                            val cents = Math.round(amt * 100.0)
+                            when (val r = MarketerAccount.buyAirtime(cents, TxFlow.airtimeRef, TxFlow.recipient)) {
+                                is AirtimeResult.Ok -> {
+                                    AppState.applyAirtimePurchase(r.balanceCents, r.airtimeBalanceCents)
+                                    TxFlow.success = true
+                                    TxFlow.failure = ""
+                                    TxFlow.fulizaUsed = 0.0          // cash only; Fuliza cannot buy airtime
+                                    // The SERVER's confirmation code, so the receipt and the
+                                    // statement name this purchase the same thing.
+                                    if (r.code.isNotBlank()) TxFlow.reference = r.code
+                                    TxFlow.newBalance = AppState.balanceStr
+                                }
+                                is AirtimeResult.Failed -> {
+                                    TxFlow.success = false
+                                    TxFlow.failure = r.message
+                                    TxFlow.newBalance = AppState.balanceStr
+                                }
+                                // Not reported as a failure: the server may have bought it, and the
+                                // same ref is what settles which. Saying "failed" invites a second buy.
+                                AirtimeResult.Unknown -> {
+                                    TxFlow.success = false
+                                    TxFlow.failure = "We didn't hear back. The airtime may already " +
+                                        "have been bought — check your balance before trying again."
+                                    TxFlow.newBalance = AppState.balanceStr
+                                }
+                            }
+                            nav.navigate(Routes.RECEIPT) { popUpTo(Routes.HOME) }
+                        }
+                    } else {
+                        // Charge the local wallet (balance first, Fuliza covers any shortfall).
+                        val res = AppState.performTransaction(
+                            TxFlow.actionId, TxFlow.title, amt, TxFlow.recipient,
+                        )
+                        TxFlow.success = res.success
+                        TxFlow.failure = if (res.success) "" else "There isn't enough in the wallet for this."
+                        TxFlow.fulizaUsed = res.fromFuliza
+                        TxFlow.newBalance = AppState.balanceStr
+                        nav.navigate(Routes.RECEIPT) { popUpTo(Routes.HOME) }
+                    }
                 },
             )
         }

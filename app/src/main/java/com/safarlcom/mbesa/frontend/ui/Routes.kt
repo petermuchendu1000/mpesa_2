@@ -13,6 +13,18 @@ object TxFlow {
     var amount: String = ""
     var reference: String = ""
 
+    /**
+     * The idempotency key for a REAL purchase — currently only airtime (invest254 0207).
+     *
+     * Separate from [reference], which is a display string the sample flows invent. Minted once
+     * when the marketer commits to the purchase and reused by every retry, so a timeout costs
+     * nothing instead of buying twice. Blank for every flow that is still a local simulation.
+     */
+    var airtimeRef: String = ""
+
+    /** Why the last attempt failed, when [success] is false. Blank when it did not. */
+    var failure: String = ""
+
     // Result populated after the PIN is confirmed and the wallet is charged.
     var fulizaUsed: Double = 0.0
     var newBalance: String = ""
@@ -147,6 +159,7 @@ object Routes {
     const val SEND_RECEIPT = "send/receipt"
     const val EXPORT_STATEMENTS = "statements/export"
     const val STATEMENT = "statements/view"
+    const val ACCOUNT_EMAIL = "account/email"
 
     fun entry(id: String) = "entry/$id"
     fun detail(id: String) = "detail/$id"

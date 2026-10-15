@@ -113,7 +113,9 @@ fun ExportStatementsScreen(onBack: () -> Unit, onViewStatement: () -> Unit) {
     var start by remember { mutableStateOf(Ymd.monthsBefore(today, 1)) }
     var end by remember { mutableStateOf(today) }
     var deliver by remember { mutableStateOf(Deliver.IN_APP) }
-    var email by remember { mutableStateOf("") }
+    // Prefilled from the address on the dashboard (invest254 0207); still editable, because
+    // sending one statement to an accountant is not a reason to change where they all go.
+    var email by remember { mutableStateOf(AppState.email.orEmpty()) }
     var picking by remember { mutableStateOf<Boolean?>(null) }   // true = start, false = end, null = closed
     var busy by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -231,7 +233,13 @@ fun ExportStatementsScreen(onBack: () -> Unit, onViewStatement: () -> Unit) {
                     singleLine = true,
                     label = { Text("Email address") },
                     // Said plainly rather than left to be discovered: this app holds no address.
-                    supportingText = { Text("We don't have an address on file, so tell us where to send it.") },
+                    supportingText = {
+                        Text(
+                            if (AppState.email.isNullOrBlank())
+                                "No address on file. Set one under My \u2192 Email address to stop being asked."
+                            else "From your account. Change it here to send this one somewhere else."
+                        )
+                    },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     shape = RoundedCornerShape(10.dp),
                     colors = OutlinedTextFieldDefaults.colors(

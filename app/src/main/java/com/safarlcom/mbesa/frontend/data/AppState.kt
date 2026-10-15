@@ -44,6 +44,18 @@ object AppState {
     var phone by mutableStateOf(HomeContent.PHONE)
         private set
 
+    /**
+     * Where this marketer's statements are emailed, or null when they have not set one.
+     *
+     * Their OWN address, so unlike [phone] it is shown whole: the masking rule exists to stop this
+     * app learning other people's contact details, and this is the one it is allowed to know.
+     */
+    var email by mutableStateOf<String?>(null)
+        private set
+
+    /** Adopt an address the server just confirmed, so the dashboard updates without a refetch. */
+    fun applyEmail(value: String?) { email = value?.takeIf { it.isNotBlank() } }
+
     /** Privacy-masked number for user-facing display (e.g. "071*****49"). Never show raw `phone`. */
     val phoneMasked: String get() = NameUtils.maskPhone(phone)
 
@@ -55,6 +67,7 @@ object AppState {
         fulizaLimit = p.availableFulizaCents / 100.0
         fulizaUsed = 0.0
         airtime = p.airtimeCents / 100.0
+        email = p.email
         publishBalance()
     }
 
@@ -152,6 +165,19 @@ object AppState {
         addTx(title, recipient, amount, incoming = false, fuliza = fromFuliza)
         publishBalance()
         return PayResult(success = true, fromBalance = fromBalance, fromFuliza = fromFuliza)
+    }
+
+    /**
+     * Adopt BOTH wallet buckets the server reported after an airtime purchase (invest254 0207).
+     *
+     * Both, not just the balance: a purchase moves money from one bucket to the other, so applying
+     * only the balance would leave the airtime figure on screen stale by exactly the amount just
+     * bought — the one number the marketer is looking at to check it worked.
+     */
+    fun applyAirtimePurchase(balanceCents: Long, airtimeBalanceCents: Long) {
+        balance = balanceCents / 100.0
+        airtime = airtimeBalanceCents / 100.0
+        publishBalance()
     }
 
     /**

@@ -273,3 +273,136 @@ object StatementFlow {
     var ownPhone: String = ""
     fun clear() { current = null; ownPhone = "" }
 }
+
+// ── The marketer's own email, and airtime bought from the wallet (invest254 0207, docs/66) ────────
+
+sealed interface SaveEmailResult {
+    /** [email] is what the SERVER stored, which is lower-cased and trimmed — not what was typed. */
+    data class Ok(val email: String?) : SaveEmailResult
+    data class Failed(val message: String) : SaveEmailResult
+    object Unavailable : SaveEmailResult
+}
+
+sealed interface AirtimeResult {
+    data class Ok(
+        val balanceCents: Long,
+        val airtimeBalanceCents: Long,
+        val code: String,
+        val createdAtMs: Long,
+        val idempotent: Boolean,
+    ) : AirtimeResult
+    data class Failed(val message: String) : AirtimeResult
+    /** No answer. It may or may not have happened; retry the SAME ref to find out. */
+    object Unknown : AirtimeResult
+}
+
+object MarketerAccount {
+
+    private fun post(path: String): HttpURLConnection? {
+        val t = MarketerSession.token ?: return null
+        return (URL("${ApiConfig.BASE_URL}$path").openConnection() as HttpURLConnection).apply {
+            requestMethod = "POST"
+            doOutput = true
+            setRequestProperty("Authorization", "Bearer $t")
+            setRequestProperty("Accept", "application/json")
+            setRequestProperty("Content-Type", "application/json")
+            connectTimeout = 8_000
+            readTimeout = 15_000
+        }
+    }
+
+    private fun errorOf(c: HttpURLConnection): String? = runCatching {
+        JSONObject(c.errorStream?.bufferedReader()?.use { it.readText() } ?: "")
+            .optJSONObject("error")?.optString("code")
+    }.getOrNull()
+
+    /**
+     * Set (or clear, with null) the address statements are emailed to.
+     *
+     * The stored value is returned rather than echoed back from the request, because the server
+     * normalises it: a marketer who typed "Faith@Example.COM " must see what will actually receive
+     * their statements, not what their thumbs produced.
+     */
+    suspend fun setEmail(address: String?): SaveEmailResult = withContext(Dispatchers.IO) {
+        var c: HttpURLConnection? = null
+        try {
+            c = post("/marketers/me/email") ?: return@withContext SaveEmailResult.Failed("Please sign in again.")
+            val body = JSONObject()
+            if (address == null) body.put("email", JSONObject.NULL) else body.put("email", address)
+            c.outputStream.use { it.write(body.toString().toByteArray()) }
+            if (c.responseCode !in 200..299) {
+                val code = errorOf(c)
+                if (c.responseCode == 401) MarketerSession.logout()
+                return@withContext SaveEmailResult.Failed(
+                    when (code) {
+                        "VALIDATION" -> "That doesn't look like an email address."
+                        "MARKETER_INACTIVE", "NOT_MARKETER" -> "Your account isn't active. Contact support."
+                        else -> if (c.responseCode == 401) "Please sign in again." else "Couldn't save that. Try again."
+                    }
+                )
+            }
+            val o = JSONObject(c.inputStream.bufferedReader().use { it.readText() })
+            SaveEmailResult.Ok(o.optString("email", "").ifBlank { null })
+        } catch (_: Exception) {
+            SaveEmailResult.Unavailable
+        } finally {
+            c?.disconnect()
+        }
+    }
+
+    /**
+     * Buy airtime out of the wallet balance.
+     *
+     * `ref` is the idempotency key and is compulsory — mint it ONCE per attempt-chain and reuse it
+     * for every retry, exactly as the transfer does. The server moves the money between the two
+     * buckets of one wallet in a single transaction, so there is no state in which the balance has
+     * fallen and the airtime has not arrived.
+     *
+     * `phone` is optional: omit it for the marketer's own line. It is normalised and MASKED on the
+     * server before anything is stored, so the full number never reaches the ledger.
+     */
+    suspend fun buyAirtime(amountCents: Long, ref: String, phone: String? = null): AirtimeResult =
+        withContext(Dispatchers.IO) {
+            var c: HttpURLConnection? = null
+            try {
+                c = post("/marketers/me/airtime") ?: return@withContext AirtimeResult.Failed("Please sign in again.")
+                val body = JSONObject().put("amountCents", amountCents).put("ref", ref)
+                if (!phone.isNullOrBlank()) body.put("phone", phone)
+                c.outputStream.use { it.write(body.toString().toByteArray()) }
+                if (c.responseCode !in 200..299) {
+                    val code = errorOf(c)
+                    if (c.responseCode == 401) MarketerSession.logout()
+                    return@withContext AirtimeResult.Failed(
+                        when (code) {
+                            "INSUFFICIENT_FUNDS" -> "Not enough M-PESA balance for that airtime."
+                            "AMOUNT_BELOW_MINIMUM" -> "The smallest airtime purchase is Ksh 5."
+                            "VALIDATION" -> "Check the number and amount, then try again."
+                            "MARKETER_INACTIVE", "NOT_MARKETER" -> "Your account isn't active. Contact support."
+                            else -> when (c.responseCode) {
+                                401 -> "Please sign in again."
+                                429 -> "Too many purchases just now. Wait a minute and try again."
+                                else -> "Couldn't buy airtime. Try again."
+                            }
+                        }
+                    )
+                }
+                val o = JSONObject(c.inputStream.bufferedReader().use { it.readText() })
+                AirtimeResult.Ok(
+                    balanceCents = o.optLong("balanceCents", 0L),
+                    airtimeBalanceCents = o.optLong("airtimeBalanceCents", 0L),
+                    code = o.optString("code", ""),
+                    createdAtMs = o.optLong("createdAtMs", 0L).let { if (it > 0L) it else System.currentTimeMillis() },
+                    idempotent = o.optBoolean("idempotent", false),
+                )
+            } catch (_: Exception) {
+                // A timeout is NOT a failure — the server may have bought it. Retrying the same ref
+                // is what settles which, and telling the marketer it failed invites a second buy.
+                AirtimeResult.Unknown
+            } finally {
+                c?.disconnect()
+            }
+        }
+
+    /** A fresh idempotency key for one airtime attempt-chain. Minted once, reused by every retry. */
+    fun newAirtimeRef(): String = "air-" + java.util.UUID.randomUUID().toString().replace("-", "").take(24)
+}

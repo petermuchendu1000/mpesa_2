@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import com.safarlcom.mbesa.frontend.data.AppState
 import com.safarlcom.mbesa.frontend.data.NameUtils
 import com.safarlcom.mbesa.frontend.data.FakeData
+import com.safarlcom.mbesa.frontend.data.MarketerAccount
 import com.safarlcom.mbesa.frontend.data.FieldKind
 import com.safarlcom.mbesa.frontend.data.SfcCatalog
 import com.safarlcom.mbesa.frontend.ui.TxFlow
@@ -136,6 +137,12 @@ fun EntryScreen(
                     TxFlow.amount = if (amountIndex >= 0) values[amountIndex] else ""
                     TxFlow.recipient = values.getOrNull(0).takeIf { amountIndex != 0 } ?: ""
                     TxFlow.reference = FakeData.newReference()
+                    TxFlow.failure = ""
+                    // AIRTIME IS REAL: it debits the marketer's wallet on the server (invest254
+                    // 0207), so it gets an idempotency key minted ONCE here — the moment the
+                    // marketer commits — and reused by every retry. Every other action on this
+                    // screen is still a local simulation and needs none.
+                    TxFlow.airtimeRef = if (action.id == "airtime") MarketerAccount.newAirtimeRef() else ""
                     onContinue()
                 },
                 enabled = allFilled && !overLimit,

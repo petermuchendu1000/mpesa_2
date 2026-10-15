@@ -33,6 +33,8 @@ data class MarketerProfile(
     val balanceCents: Long,
     val availableFulizaCents: Long,
     val airtimeCents: Long,
+    /** Where this marketer's statements are emailed (invest254 0207). null until they set one. */
+    val email: String? = null,
 )
 
 /** Outcome of a sign-in, so the login screen can show a precise message. */
@@ -224,6 +226,8 @@ object MarketerSession {
         balanceCents = o.optLong("balance_cents", 0L),
         availableFulizaCents = o.optLong("available_fuliza_cents", 0L),
         airtimeCents = o.optLong("airtime_balance_cents", 0L),
+        // optString returns "" for JSON null, which is not the same thing as "no address".
+        email = o.optString("email", "").ifBlank { null },
     )
 
     /**

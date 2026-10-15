@@ -40,9 +40,11 @@ import androidx.compose.ui.unit.sp
 import com.safarlcom.mbesa.frontend.R
 import com.safarlcom.mbesa.frontend.data.FakeData
 import com.safarlcom.mbesa.frontend.data.MenuItem
+import com.safarlcom.mbesa.frontend.data.AppState
 import com.safarlcom.mbesa.frontend.data.SfcCatalog
 import com.safarlcom.mbesa.frontend.ui.Routes
 import com.safarlcom.mbesa.frontend.ui.theme.BrandGreenDark
+import com.safarlcom.mbesa.frontend.ui.theme.BrandGreen
 import com.safarlcom.mbesa.frontend.ui.theme.Danger
 import com.safarlcom.mbesa.frontend.ui.theme.TextSecondary
 import java.util.Calendar
@@ -69,6 +71,38 @@ fun MyTab(
         )
 
         Column(Modifier.padding(16.dp)) {
+            // The marketer's own account settings, above the catalogue menu because this is the one
+            // card on the screen that changes something real on the server.
+            Text(
+                "Account",
+                fontSize = 13.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = TextSecondary,
+                modifier = Modifier.padding(start = 4.dp, bottom = 8.dp, top = 4.dp),
+            )
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color.White)
+                    .clickable { onOpenRoute(Routes.ACCOUNT_EMAIL) }
+                    .padding(horizontal = 16.dp, vertical = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text("Email address", fontSize = 15.sp, fontWeight = FontWeight.Medium)
+                    Text(
+                        // Said plainly when unset, because the export screen will otherwise ask for
+                        // it every single time and the marketer will not know why.
+                        AppState.email ?: "Not set — statements will ask for one",
+                        color = if (AppState.email == null) TextSecondary else BrandGreen,
+                        fontSize = 13.sp,
+                    )
+                }
+                Text("›", color = TextSecondary, fontSize = 22.sp)
+            }
+            Spacer(Modifier.height(20.dp))
+
             SfcCatalog.myMenu.forEach { group ->
                 Text(
                     group.header,

@@ -49,22 +49,33 @@ fun ReceiptScreen(onDone: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(Modifier.height(24.dp))
+        // TxFlow.success has always been set and was never read here, so a refused transaction
+        // still announced itself as "Successful" — including a real airtime purchase the server
+        // declined. BUGLOG #148.
+        val ok = TxFlow.success
         Image(
-            painterResource(R.drawable.history_transaction_icon_success),
+            painterResource(
+                if (ok) R.drawable.history_transaction_icon_success
+                else R.drawable.history_transaction_icon_error
+            ),
             contentDescription = null,
             modifier = Modifier.size(84.dp),
         )
         Spacer(Modifier.height(16.dp))
-        Text("${TxFlow.title} Successful", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        Text(
+            if (ok) "${TxFlow.title} Successful" else "${TxFlow.title} Not Completed",
+            fontSize = 20.sp, fontWeight = FontWeight.Bold,
+        )
         Spacer(Modifier.height(4.dp))
         Text(
-            "Ksh $amount" + if (TxFlow.recipient.isNotBlank()) " to ${NameUtils.maskPhone(TxFlow.recipient)}" else "",
+            if (!ok) TxFlow.failure.ifBlank { "The transaction did not go through." }
+            else "Ksh $amount" + if (TxFlow.recipient.isNotBlank()) " to ${NameUtils.maskPhone(TxFlow.recipient)}" else "",
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
         )
         Spacer(Modifier.height(24.dp))
 
-        Column(
+        if (ok) Column(
             Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(16.dp))
@@ -83,7 +94,7 @@ fun ReceiptScreen(onDone: () -> Unit) {
         }
 
         Spacer(Modifier.height(24.dp))
-        OutlinedButton(
+        if (ok) OutlinedButton(
             onClick = onDone,
             modifier = Modifier
                 .fillMaxWidth()
@@ -97,7 +108,7 @@ fun ReceiptScreen(onDone: () -> Unit) {
             Spacer(Modifier.size(8.dp))
             Text("Download Receipt", color = BrandGreen, fontWeight = FontWeight.SemiBold)
         }
-        Spacer(Modifier.height(12.dp))
+        if (ok) Spacer(Modifier.height(12.dp))
         Button(
             onClick = onDone,
             modifier = Modifier
@@ -105,7 +116,7 @@ fun ReceiptScreen(onDone: () -> Unit) {
                 .height(52.dp),
             colors = ButtonDefaults.buttonColors(containerColor = BrandGreen),
         ) {
-            Text("Done", fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+            Text(if (ok) "Done" else "Close", fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
         }
         Spacer(Modifier.height(16.dp))
     }
