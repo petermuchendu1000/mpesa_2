@@ -30,6 +30,8 @@ node_modules/
 # ---- Frontend-only Gradle app (buildable reconstruction) ----
 .gradle/
 build/
+# Kotlin compiler session/error scratch (Gradle 8 + Kotlin 2.x write this at the repo root).
+.kotlin/
 app/build/
 captures/
 local.properties

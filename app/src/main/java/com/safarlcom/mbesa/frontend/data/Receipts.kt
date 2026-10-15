@@ -91,6 +91,19 @@ object Receipts {
         return if (d.length == 10) "${d.take(4)} ${d.substring(4, 7)} ${d.takeLast(3)}" else phone
     }
 
+    /**
+     * "1" for a whole shilling, "1,234.50" when there are cents.
+     *
+     * The printed receipt drops a trailing ".00" — the reference prints "KES 1", not "KES 1.00" —
+     * while every in-app figure keeps two decimals. Two renderings on purpose: the app is a ledger
+     * view, where a column of aligned decimals is the point, and the receipt is a document, where
+     * nobody writes the cents they do not have.
+     */
+    fun kes(cents: Long): String {
+        val whole = cents % 100L == 0L
+        return if (whole) "%,d".format(cents / 100) else Msisdn.money(cents)
+    }
+
     /** "Faith" — the first word of a name, for the receipt's greeting. */
     fun firstName(full: String): String =
         full.trim().split(Regex("\\s+")).firstOrNull { it.isNotBlank() }?.replaceFirstChar { it.uppercase() } ?: ""

@@ -102,6 +102,24 @@ class ReceiptsTest {
     }
 
     @Test
+    fun `the printed amount drops a trailing double zero, as the reference page does`() {
+        // The reference prints "KES 1", not "KES 1.00".
+        assertEquals("1", Receipts.kes(100))
+        assertEquals("0", Receipts.kes(0))
+        assertEquals("250", Receipts.kes(25_000))
+        assertEquals("1,234", Receipts.kes(123_400))
+        assertEquals("100,000", Receipts.kes(10_000_000))
+    }
+
+    @Test
+    fun `cents are kept whenever there are any`() {
+        assertEquals("1.50", Receipts.kes(150))
+        assertEquals("0.01", Receipts.kes(1))
+        assertEquals("1,234.56", Receipts.kes(123_456))
+        assertEquals("99.99", Receipts.kes(9_999))
+    }
+
+    @Test
     fun `the greeting takes the first name`() {
         assertEquals("Faith", Receipts.firstName("Faith Wanjiru"))
         assertEquals("Peter", Receipts.firstName("  peter muchendu "))
