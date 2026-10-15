@@ -89,6 +89,8 @@ data class StatementDetailRow(
     val atMs: Long,
     val entryType: String,
     val details: String,
+    /** Always "Completed" today — the ledger records settled movements only. See invest254 docs/66. */
+    val status: String,
     val paidInCents: Long,
     val withdrawnCents: Long,
     val balanceCents: Long,
@@ -105,6 +107,8 @@ data class Statement(
     val customerName: String,
     /** MASKED by the server (invest254 docs/58). The screen prints the real one it signed in with. */
     val mobileNumber: String,
+    /** The address on file (invest254 0207), printed in the header. null when none is set. */
+    val emailAddress: String?,
     val periodLabel: String,
     val generatedAtMs: Long,
     val summary: List<StatementSummaryRow>,
@@ -232,6 +236,7 @@ object Statements {
                         atMs = r.optLong("atMs", 0L),
                         entryType = r.optString("entryType", ""),
                         details = r.optString("details", ""),
+                        status = r.optString("status", "Completed"),
                         paidInCents = r.optLong("paidInCents", 0L),
                         withdrawnCents = r.optLong("withdrawnCents", 0L),
                         balanceCents = r.optLong("balanceCents", 0L),
@@ -244,6 +249,7 @@ object Statements {
             ref = o.optString("ref", ""),
             customerName = o.optString("customerName", ""),
             mobileNumber = o.optString("mobileNumber", ""),
+            emailAddress = o.optString("emailAddress", "").ifBlank { null },
             periodLabel = o.optString("periodLabel", ""),
             generatedAtMs = o.optLong("generatedAtMs", 0L),
             summary = summary,

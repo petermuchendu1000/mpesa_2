@@ -50,6 +50,22 @@ object Receipts {
     }
 
     /**
+     * "2026-10-14 21:24:50" — the statement table's completion-time form, in EAT.
+     *
+     * Sortable, 24-hour, seconds included, and deliberately NOT [stampUpper]'s friendlier shape:
+     * this is a column of timestamps in a table that can run to dozens of pages, where "9:24 PM"
+     * beside "10:14 AM" is unreadable and two rows a second apart look identical. It matches the
+     * server's eatTimestamp character for character, so the screen and the emailed PDF agree.
+     */
+    fun timestamp(ms: Long): String {
+        val c = eat(ms)
+        return "%04d-%02d-%02d %02d:%02d:%02d".format(
+            c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH),
+            c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND),
+        )
+    }
+
+    /**
      * "15 Oct 2026" — no ordinal, zero-padded.
      *
      * The statement's own date form, and deliberately not [date]'s. A receipt is addressed to a

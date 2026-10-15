@@ -77,6 +77,18 @@ class ReceiptsTest {
     }
 
     @Test
+    fun `the statement table stamps a sortable 24-hour timestamp`() {
+        // 14 Oct 2026, 18:24:50 UTC == 21:24:50 EAT — the first row of the reference statement.
+        val ms = utc(2026, 10, 14, 18, 24) + 50_000L
+        assertEquals("2026-10-14 21:24:50", Receipts.timestamp(ms))
+        // Midnight is 00, not 12: this column is sorted, not read aloud.
+        assertEquals("2026-10-15 00:00:00", Receipts.timestamp(utc(2026, 10, 14, 21, 0)))
+        assertEquals("2026-10-14 12:00:00", Receipts.timestamp(utc(2026, 10, 14, 9, 0)))
+        // Same zone rule as everything else on the page.
+        assertEquals("2026-10-15 01:30:00", Receipts.timestamp(utc(2026, 10, 14, 22, 30)))
+    }
+
+    @Test
     fun `the printed receipt masks the party who was paid`() {
         assertEquals("079866***061", Receipts.maskForPrint("0798661061"))
         assertEquals("011234***678", Receipts.maskForPrint("0112345678"))

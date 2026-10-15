@@ -115,6 +115,7 @@ fun StatementScreen(onBack: () -> Unit) {
                         // this is the one it signed in with. Falls back to the masked copy when the
                         // session has no real number — never prints nothing.
                         HeadField("Mobile Number:", Msisdn.normalize(StatementFlow.ownPhone) ?: s.mobileNumber)
+                        HeadField("Email Address:", s.emailAddress ?: "Not set")
                         HeadField("Statement Period:", s.periodLabel)
                         HeadField("Request Date:", Receipts.dayPlain(s.generatedAtMs))
                     }
@@ -217,26 +218,28 @@ private fun DetailTable(s: Statement) {
     }
     // Six columns do not fit a phone at a readable size, so the table scrolls rather than shrinks.
     Column(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState())) {
-        Row(Modifier.width(720.dp).background(HeaderGreen).padding(vertical = 5.dp, horizontal = 6.dp)) {
+        Row(Modifier.width(786.dp).background(HeaderGreen).padding(vertical = 5.dp, horizontal = 6.dp)) {
             Cell("RECEIPT NO.", Modifier.width(100.dp), Color.White, bold = true)
             Cell("COMPLETION TIME", Modifier.width(150.dp), Color.White, bold = true)
-            Cell("DETAILS", Modifier.width(230.dp), Color.White, bold = true)
+            Cell("DETAILS", Modifier.width(210.dp), Color.White, bold = true)
+            Cell("TRANSACTION STATUS", Modifier.width(86.dp), Color.White, bold = true)
             Cell("PAID IN", Modifier.width(80.dp), Color.White, bold = true, end = true)
             Cell("WITHDRAWN", Modifier.width(90.dp), Color.White, bold = true, end = true)
             Cell("BALANCE", Modifier.width(70.dp), Color.White, bold = true, end = true)
         }
         for (r in s.detail) {
-            Row(Modifier.width(720.dp).padding(vertical = 4.dp, horizontal = 6.dp)) {
+            Row(Modifier.width(786.dp).padding(vertical = 4.dp, horizontal = 6.dp)) {
                 Cell(r.code, Modifier.width(100.dp), DocInk)
-                Cell(Receipts.stampUpper(r.atMs), Modifier.width(150.dp), DocInk)
-                Cell(r.details, Modifier.width(230.dp), DocInk)
+                Cell(Receipts.timestamp(r.atMs), Modifier.width(150.dp), DocInk)
+                Cell(r.details, Modifier.width(210.dp), DocInk)
+                Cell(r.status, Modifier.width(86.dp), DocInk)
                 // An empty cell rather than 0.00: a statement line is either a credit or a debit,
                 // and printing both every row makes the column impossible to scan.
                 Cell(if (r.paidInCents > 0) Msisdn.money(r.paidInCents) else "", Modifier.width(80.dp), DocInk, end = true)
                 Cell(if (r.withdrawnCents > 0) Msisdn.money(r.withdrawnCents) else "", Modifier.width(90.dp), DocInk, end = true)
                 Cell(Msisdn.money(r.balanceCents), Modifier.width(70.dp), DocInk, end = true)
             }
-            Box(Modifier.width(720.dp).height(0.6.dp).background(GridLine))
+            Box(Modifier.width(786.dp).height(0.6.dp).background(GridLine))
         }
     }
     if (s.truncated) {
