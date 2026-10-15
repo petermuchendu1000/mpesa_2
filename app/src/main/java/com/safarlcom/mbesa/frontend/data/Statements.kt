@@ -110,6 +110,10 @@ data class Statement(
     /** The address on file (invest254 0207), printed in the header. null when none is set. */
     val emailAddress: String?,
     val periodLabel: String,
+    /** "15th October 2026" — the approval stamp's date, FORMATTED BY THE SERVER. */
+    val approvalDate: String,
+    /** "1st Jan 2024 - 15th Oct 2026" — the stamp's restatement of the period, in ordinals. */
+    val periodOrdinal: String,
     val generatedAtMs: Long,
     val summary: List<StatementSummaryRow>,
     val totalPaidInCents: Long,
@@ -251,6 +255,10 @@ object Statements {
             mobileNumber = o.optString("mobileNumber", ""),
             emailAddress = o.optString("emailAddress", "").ifBlank { null },
             periodLabel = o.optString("periodLabel", ""),
+            // Server-formatted on purpose: the printed PDF reads the SAME two strings, so the
+            // stamp on this page and the stamp on the page that gets emailed cannot drift apart.
+            approvalDate = o.optString("approvalDate", ""),
+            periodOrdinal = o.optString("periodOrdinal", ""),
             generatedAtMs = o.optLong("generatedAtMs", 0L),
             summary = summary,
             totalPaidInCents = o.optLong("totalPaidInCents", 0L),

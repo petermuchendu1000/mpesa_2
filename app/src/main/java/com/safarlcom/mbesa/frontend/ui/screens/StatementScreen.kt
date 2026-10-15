@@ -3,6 +3,7 @@ package com.safarlcom.mbesa.frontend.ui.screens
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -123,6 +125,9 @@ fun StatementScreen(onBack: () -> Unit) {
                     QrBlock(s.qr, 88.dp)
                 }
 
+                Spacer(Modifier.height(16.dp))
+                ApprovalStamp(s)
+
                 Spacer(Modifier.height(24.dp))
                 Text("SUMMARY", color = DocGreen, fontSize = 13.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.5.sp)
                 Spacer(Modifier.height(8.dp))
@@ -167,6 +172,50 @@ fun StatementScreen(onBack: () -> Unit) {
                 )
                 Spacer(Modifier.height(28.dp))
             }
+        }
+    }
+}
+
+/**
+ * THE APPROVAL STAMP — the bordered box the printed statement carries between the fields and the QR.
+ *
+ * Its two dates are the SERVER's strings (`approvalDate`, `periodOrdinal`), not derived here. The
+ * emailed PDF prints the same two, so the stamp on this page and the stamp on the page that gets
+ * forwarded cannot say different things — the failure BUGLOG #147 was about, where a mirror of a
+ * server rule quietly stopped agreeing with it.
+ *
+ * ONE DEPARTURE FROM THE PRINTED LAYOUT: there it sits BESIDE the fields and the QR, three columns
+ * across an A4 page. Three columns across a phone is three unreadable columns, so here it spans the
+ * width below them. The content, its order and its wording are the printed page's.
+ */
+@Composable
+private fun ApprovalStamp(s: Statement) {
+    Column(
+        Modifier.fillMaxWidth()
+            .border(0.8.dp, GridLine, RoundedCornerShape(3.dp))
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text("Approved - ${s.approvalDate}", color = DocGreen, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(3.dp))
+        Text("SAFARICOM CUSTOMER CARE", color = DocInk, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(2.dp))
+        Text("M-PESA Statement Period:", color = DocInk, fontSize = 9.sp)
+        Spacer(Modifier.height(1.dp))
+        Text(s.periodOrdinal, color = DocInk, fontSize = 9.5.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(2.dp))
+        Text("www.safaricom.co.ke", color = DocGreen, fontSize = 9.sp)
+        Spacer(Modifier.height(1.dp))
+        Text("P.O BOX 66827 - 00800, NAIROBI", color = DocInk, fontSize = 8.5.sp)
+        Spacer(Modifier.height(3.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text("Simple · Transparent · Honest", color = DocGreen, fontSize = 8.5.sp, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.width(6.dp))
+            Text("FOR YOU", color = DocInk, fontSize = 8.5.sp, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.width(10.dp))
+            Image(painterResource(R.drawable.ic_safaricom_mark), null, Modifier.size(width = 22.dp, height = 17.dp))
+            Spacer(Modifier.width(3.dp))
+            Text("Safaricom", color = DocGreen, fontSize = 10.sp, fontWeight = FontWeight.Bold)
         }
     }
 }
