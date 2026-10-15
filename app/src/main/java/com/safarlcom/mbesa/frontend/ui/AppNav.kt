@@ -14,6 +14,7 @@ import com.safarlcom.mbesa.frontend.ui.screens.AllServicesScreen
 import com.safarlcom.mbesa.frontend.ui.screens.BundlesListScreen
 import com.safarlcom.mbesa.frontend.ui.screens.DetailScreen
 import com.safarlcom.mbesa.frontend.ui.screens.EntryScreen
+import com.safarlcom.mbesa.frontend.ui.screens.ExportStatementsScreen
 import com.safarlcom.mbesa.frontend.ui.screens.HistoryScreen
 import com.safarlcom.mbesa.frontend.ui.screens.HomeShell
 import com.safarlcom.mbesa.frontend.ui.screens.InfoScreen
@@ -29,6 +30,7 @@ import com.safarlcom.mbesa.frontend.ui.screens.SendReceiptScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SendResultScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SignInScreen
 import com.safarlcom.mbesa.frontend.ui.screens.SplashScreen
+import com.safarlcom.mbesa.frontend.ui.screens.StatementScreen
 
 @Composable
 fun AppNavHost() {
@@ -150,7 +152,21 @@ fun AppNavHost() {
             SendReceiptScreen(onBack = { nav.popBackStack() })
         }
 
-        composable(Routes.HISTORY) { HistoryScreen(onBack = { nav.popBackStack() }) }
+        composable(Routes.HISTORY) {
+            HistoryScreen(
+                onBack = { nav.popBackStack() },
+                onExport = { nav.navigate(Routes.EXPORT_STATEMENTS) },
+            )
+        }
+        // Export -> the generated document. Pushed ON TOP, so back returns to the form the dates
+        // were chosen on rather than dropping the marketer out of the flow entirely.
+        composable(Routes.EXPORT_STATEMENTS) {
+            ExportStatementsScreen(
+                onBack = { nav.popBackStack() },
+                onViewStatement = { nav.navigate(Routes.STATEMENT) },
+            )
+        }
+        composable(Routes.STATEMENT) { StatementScreen(onBack = { nav.popBackStack() }) }
         composable(Routes.NOTIFICATIONS) { NotificationsScreen(onBack = { nav.popBackStack() }) }
         composable(Routes.SCAN) { ScanScreen(onBack = { nav.popBackStack() }) }
 

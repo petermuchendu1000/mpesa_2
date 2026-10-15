@@ -145,6 +145,8 @@ object Routes {
     const val SEND_PIN = "send/pin"
     const val SEND_RESULT = "send/result"
     const val SEND_RECEIPT = "send/receipt"
+    const val EXPORT_STATEMENTS = "statements/export"
+    const val STATEMENT = "statements/view"
 
     fun entry(id: String) = "entry/$id"
     fun detail(id: String) = "detail/$id"

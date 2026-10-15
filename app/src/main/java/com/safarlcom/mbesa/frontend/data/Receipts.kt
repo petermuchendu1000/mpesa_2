@@ -49,6 +49,18 @@ object Receipts {
         return "%d:%02d".format(h12, c.get(Calendar.MINUTE))
     }
 
+    /**
+     * "15 Oct 2026" — no ordinal, zero-padded.
+     *
+     * The statement's own date form, and deliberately not [date]'s. A receipt is addressed to a
+     * person and reads like a sentence ("14th Oct"); a statement is a document whose dates sit in a
+     * column beside each other, where an ordinal is noise and a ragged first digit is worse.
+     */
+    fun dayPlain(ms: Long): String {
+        val c = eat(ms)
+        return "%02d %s %d".format(c.get(Calendar.DAY_OF_MONTH), MONTHS[c.get(Calendar.MONTH)], c.get(Calendar.YEAR))
+    }
+
     /** "14th Oct 2026 | 9:03 pm" — the confirmation screen. */
     fun stampLower(ms: Long): String {
         val c = eat(ms)
@@ -102,6 +114,17 @@ object Receipts {
     fun kes(cents: Long): String {
         val whole = cents % 100L == 0L
         return if (whole) "%,d".format(cents / 100) else Msisdn.money(cents)
+    }
+
+    /**
+     * "254748057157" — the international form without a plus, as the export screen heads the page.
+     *
+     * Normalised first for the same reason [grouped] is: the marketer typed whatever they typed at
+     * sign-in, and the page should not be the one place that shows it back in a different shape.
+     */
+    fun intl(phone: String): String {
+        val d = Msisdn.normalize(phone) ?: return phone
+        return if (d.length == 10 && d.startsWith("0")) "254" + d.drop(1) else d
     }
 
     /** "Faith" — the first word of a name, for the receipt's greeting. */

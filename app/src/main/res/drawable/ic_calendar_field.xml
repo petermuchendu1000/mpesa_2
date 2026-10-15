@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The date-field affordance. Neutral grey rather than the green icon_sfc_* family: it sits
+     inside an input, where a brand-coloured glyph reads as a button. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="22dp"
+    android:width="22dp"
+    android:viewportWidth="22"
+    android:viewportHeight="22">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M7.333,2.75V4.583M14.667,2.75V4.583M3.208,8.021H18.792M19.25,7.333V15.583C19.25,18.333 17.875,20.167 14.667,20.167H7.333C4.125,20.167 2.75,18.333 2.75,15.583V7.333C2.75,4.583 4.125,2.75 7.333,2.75H14.667C17.875,2.75 19.25,4.583 19.25,7.333Z"
+        android:strokeColor="#8A8F98"
+        android:strokeWidth="1.375"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M7.558,12.558H7.566M10.996,12.558H11.004M14.433,12.558H14.441M7.558,15.308H7.566M10.996,15.308H11.004"
+        android:strokeColor="#8A8F98"
+        android:strokeWidth="2.1"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+</vector>
